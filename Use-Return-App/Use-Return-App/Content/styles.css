@@ -1,0 +1,8 @@
+﻿body {
+}
+
+.nav-link.active {
+    text-decoration: underline;
+    text-decoration-color: var(--bs-primary) ;
+    font-weight: bold;
+}
