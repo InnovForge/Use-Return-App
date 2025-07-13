@@ -10,7 +10,7 @@ namespace Use_Return_App.Models
     {
         public AppDbContext() : base("DefaultConnection") { }
 
-        // Các bảng tương ứng với class model
+        // thử nghiệm Entity Framework (https://learn.microsoft.com/en-us/ef/ef6/get-started?redirectedfrom=MSDN)
         public DbSet<User> Users { get; set; }
         public DbSet<Wallet> Wallets { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
