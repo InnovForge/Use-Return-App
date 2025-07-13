@@ -1,33 +1,45 @@
 ﻿using System;
 using System.Data;
-using System.Data.SQLite;
+using System.Data.SqlClient;
 using System.IO;
 using System.Web;
 
-public static class SqliteHelper
+public static class SqlHelper
 {
-    /// <summary>
-    /// Trả về chuỗi kết nối SQLite từ đường dẫn ~/App_Data/database.db.
-    /// </summary>
-    private static string GetDbPath()
+    private static string GetConnectionString()
     {
-        var dbFile = HttpContext.Current.Server.MapPath("~/App_Data/database.db");
-        return $"Data Source={dbFile}";
+        string dbFile = HttpContext.Current.Server.MapPath("~/App_Data/Database.mdf");
+        return $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={dbFile};Integrated Security=True;Connect Timeout=30;";
     }
 
     public static void EnsureDatabaseExists()
     {
         string folderPath = HttpContext.Current.Server.MapPath("~/App_Data");
-        string dbPath = Path.Combine(folderPath, "database.db");
-        string schemaPath = Path.Combine(folderPath, "schema.sql");
+        string dbPath = Path.Combine(folderPath, "Database.mdf");
 
         if (!Directory.Exists(folderPath))
             Directory.CreateDirectory(folderPath);
 
         if (!File.Exists(dbPath))
         {
-            SQLiteConnection.CreateFile(dbPath);
-            ExecuteScriptFromFile(dbPath, schemaPath);
+            CreateDatabase(dbPath);
+            ExecuteScriptFromFile(dbPath, Path.Combine(folderPath, "schema.sql"));
+        }
+    }
+
+    private static void CreateDatabase(string dbPath)
+    {
+        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Integrated Security=True";
+        string dbName = Path.GetFileNameWithoutExtension(dbPath);
+
+        using (var connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            string cmdText = $@"CREATE DATABASE [{dbName}] ON (NAME = N'{dbName}', FILENAME = '{dbPath}') LOG ON (NAME = N'{dbName}_log', FILENAME = '{dbPath.Replace(".mdf", "_log.ldf")}')";
+            using (var command = new SqlCommand(cmdText, connection))
+            {
+                command.ExecuteNonQuery();
+            }
         }
     }
 
@@ -37,19 +49,19 @@ public static class SqliteHelper
             throw new FileNotFoundException("File schema.sql not exists", scriptFilePath);
 
         string script = File.ReadAllText(scriptFilePath);
+        string connStr = GetConnectionString();
 
-        using (var connection = new SQLiteConnection($"Data Source={dbPath}"))
+        using (var connection = new SqlConnection(connStr))
         {
             connection.Open();
-
-            var commands = script.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            var commands = script.Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var cmd in commands)
             {
                 var trimmedCmd = cmd.Trim();
                 if (!string.IsNullOrWhiteSpace(trimmedCmd))
                 {
-                    using (var command = new SQLiteCommand(trimmedCmd, connection))
+                    using (var command = new SqlCommand(trimmedCmd, connection))
                     {
                         command.ExecuteNonQuery();
                     }
@@ -64,14 +76,12 @@ public static class SqliteHelper
     /// <param name="sql">Chuỗi SQL</param>
     /// <param name="parameters">Danh sách tham số (tuỳ chọn)</param>
     /// <returns>Số dòng bị ảnh hưởng</returns>
-    public static int ExecuteNonQuery(string sql, params SQLiteParameter[] parameters)
+    public static int ExecuteNonQuery(string sql, params SqlParameter[] parameters)
     {
-        string dbPath = GetDbPath();
-
-        using (var connection = new SQLiteConnection(dbPath))
+        using (var connection = new SqlConnection(GetConnectionString()))
         {
             connection.Open();
-            using (var command = new SQLiteCommand(sql, connection))
+            using (var command = new SqlCommand(sql, connection))
             {
                 if (parameters != null)
                     command.Parameters.AddRange(parameters);
@@ -88,23 +98,20 @@ public static class SqliteHelper
     /// <param name="sql">Chuỗi SQL</param>
     /// <param name="parameters">Danh sách tham số (tuỳ chọn)</param>
     /// <returns>Giá trị đơn (hoặc mặc định nếu không có)</returns>
-    public static T ExecuteScalar<T>(string sql, params SQLiteParameter[] parameters)
+    public static T ExecuteScalar<T>(string sql, params SqlParameter[] parameters)
     {
-        string dbPath = GetDbPath();
-
-        using (var connection = new SQLiteConnection(dbPath))
+        using (var connection = new SqlConnection(GetConnectionString()))
         {
             connection.Open();
-            using (var command = new SQLiteCommand(sql, connection))
+            using (var command = new SqlCommand(sql, connection))
             {
                 if (parameters != null)
                     command.Parameters.AddRange(parameters);
 
                 object result = command.ExecuteScalar();
                 return (result != null && result != DBNull.Value)
-      ? (T)Convert.ChangeType(result, typeof(T))
-      : default(T);
-
+                    ? (T)Convert.ChangeType(result, typeof(T))
+                    : default(T);
             }
         }
     }
@@ -116,19 +123,17 @@ public static class SqliteHelper
     /// <param name="sql">Chuỗi SQL SELECT</param>
     /// <param name="parameters">Danh sách tham số (tuỳ chọn)</param>
     /// <returns>DataTable chứa dữ liệu</returns>
-    public static DataTable ExecuteDataTable(string sql, params SQLiteParameter[] parameters)
+    public static DataTable ExecuteDataTable(string sql, params SqlParameter[] parameters)
     {
-        string dbPath = GetDbPath();
-
-        using (var connection = new SQLiteConnection(dbPath))
+        using (var connection = new SqlConnection(GetConnectionString()))
         {
             connection.Open();
-            using (var command = new SQLiteCommand(sql, connection))
+            using (var command = new SqlCommand(sql, connection))
             {
                 if (parameters != null)
                     command.Parameters.AddRange(parameters);
 
-                using (var adapter = new SQLiteDataAdapter(command))
+                using (var adapter = new SqlDataAdapter(command))
                 {
                     DataTable table = new DataTable();
                     adapter.Fill(table);
@@ -137,5 +142,4 @@ public static class SqliteHelper
             }
         }
     }
-
 }

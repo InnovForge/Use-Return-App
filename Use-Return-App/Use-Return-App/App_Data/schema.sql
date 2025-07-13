@@ -1,67 +1,69 @@
-﻿-- ========================
--- SCHEMA (UUID VERSION) – SQLite
--- ========================
-
--- 1. USERS
+﻿-- 1. USERS
 CREATE TABLE Users (
-    UserID TEXT PRIMARY KEY, -- UUID
-    FullName TEXT NOT NULL,
-	UserName TEXT UNIQUE NOT NULL,
-    Email TEXT UNIQUE NOT NULL,
-    PasswordHash TEXT NOT NULL,
-    Phone TEXT,
-    RegisteredDate DATETIME DEFAULT CURRENT_TIMESTAMP
+    UserID UNIQUEIDENTIFIER PRIMARY KEY,
+    FullName NVARCHAR(100) NOT NULL,
+    UserName NVARCHAR(100) UNIQUE NOT NULL,
+    Email NVARCHAR(100) UNIQUE NOT NULL,
+    PasswordHash NVARCHAR(100) NOT NULL,
+    Phone NVARCHAR(20),
+    RegisteredDate DATETIME DEFAULT GETDATE()
 );
+GO
 
 -- 2. WALLETS
 CREATE TABLE Wallets (
-    UserID TEXT PRIMARY KEY, -- UUID
-    Balance REAL DEFAULT 0,
+    UserID UNIQUEIDENTIFIER PRIMARY KEY,
+    Balance FLOAT DEFAULT 0,
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
+GO
 
 -- 3. TRANSACTIONS
 CREATE TABLE Transactions (
-    TransactionID TEXT PRIMARY KEY, -- UUID
-    UserID TEXT NOT NULL,
-    Type TEXT NOT NULL, -- 'Deposit', 'Withdraw', 'Hold', 'Refund', 'Deduct'
-    Amount REAL NOT NULL,
-    Description TEXT,
-    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    TransactionID UNIQUEIDENTIFIER PRIMARY KEY,
+    UserID UNIQUEIDENTIFIER NOT NULL,
+    Type NVARCHAR(20) NOT NULL CHECK (Type IN ('Deposit', 'Withdraw', 'Hold', 'Refund', 'Deduct')),
+    Amount FLOAT NOT NULL,
+    Description NVARCHAR(MAX),
+    CreatedAt DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
+GO
 
 -- 4. CATEGORIES
 CREATE TABLE Categories (
-    CategoryID TEXT PRIMARY KEY, -- UUID
-    CategoryName TEXT NOT NULL
+    CategoryID UNIQUEIDENTIFIER PRIMARY KEY,
+    CategoryName NVARCHAR(100) NOT NULL
 );
+GO
 
 -- 5. ITEMS
 CREATE TABLE Items (
-    ItemID TEXT PRIMARY KEY, -- UUID
-    OwnerID TEXT NOT NULL,
-    ItemName TEXT NOT NULL,
-    Description TEXT,
-    Quantity INTEGER NOT NULL CHECK (Quantity >= 0),
-    DepositAmount REAL DEFAULT 0,
-    CategoryID TEXT,
-    IsAvailable INTEGER DEFAULT 1, -- 1 = available
+    ItemID UNIQUEIDENTIFIER PRIMARY KEY,
+    OwnerID UNIQUEIDENTIFIER NOT NULL,
+    ItemName NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(MAX),
+    Quantity INT NOT NULL CHECK (Quantity >= 0),
+    DepositAmount FLOAT DEFAULT 0,
+    CategoryID UNIQUEIDENTIFIER,
+    IsAvailable BIT DEFAULT 1,
     FOREIGN KEY (OwnerID) REFERENCES Users(UserID),
     FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
 );
+GO
 
 -- 6. RENTALS
 CREATE TABLE Rentals (
-    RentalID TEXT PRIMARY KEY, -- UUID
-    ItemID TEXT NOT NULL,
-    BorrowerID TEXT NOT NULL,
-    RentDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    RentalID UNIQUEIDENTIFIER PRIMARY KEY,
+    ItemID UNIQUEIDENTIFIER NOT NULL,
+    BorrowerID UNIQUEIDENTIFIER NOT NULL,
+    RentDate DATETIME DEFAULT GETDATE(),
     ReturnDate DATETIME,
-    Status TEXT CHECK (Status IN ('Pending', 'Approved', 'Borrowed', 'Returned', 'Rejected')) NOT NULL,
-    DepositAmount REAL,
-    DepositStatus TEXT CHECK (DepositStatus IN ('Held', 'Refunded', 'Deducted')),
-    Notes TEXT,
+    Status NVARCHAR(20) NOT NULL CHECK (Status IN ('Pending', 'Approved', 'Borrowed', 'Returned', 'Rejected')),
+    DepositAmount FLOAT,
+    DepositStatus NVARCHAR(20) CHECK (DepositStatus IN ('Held', 'Refunded', 'Deducted')),
+    Notes NVARCHAR(MAX),
     FOREIGN KEY (ItemID) REFERENCES Items(ItemID),
     FOREIGN KEY (BorrowerID) REFERENCES Users(UserID)
 );
+GO
