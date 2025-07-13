@@ -18,13 +18,17 @@ namespace Use_Return_App
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             SqliteHelper.EnsureDatabaseExists();
 
+      //      string hashed = BCrypt.Net.BCrypt.HashPassword("123456");
+      //      bool matched = BCrypt.Net.BCrypt.Verify("123456", hashed);
+
       //      SqliteHelper.ExecuteNonQuery(
-      //          @"INSERT INTO Users (UserID, FullName, Email, PasswordHash, Phone)
-      //VALUES (@id, @name, @email, @password, @phone)",
+      //          @"INSERT INTO Users (UserID, UserName, FullName, Email, PasswordHash, Phone)
+      //VALUES (@id,@username, @name, @email, @password, @phone)",
       //          new SQLiteParameter("@id", Guid.NewGuid().ToString()), // UUID
+      //          new SQLiteParameter("@username","ngtuonghy"),
       //          new SQLiteParameter("@name", "Nguyen Hy"),
-      //          new SQLiteParameter("@email", "hy@example.com"),
-      //          new SQLiteParameter("@password", "123456hash"),
+      //          new SQLiteParameter("@email", "hy1@example.com"),
+      //          new SQLiteParameter("@password",hashed),
       //          new SQLiteParameter("@phone", "0909090909")
       //      );
 
