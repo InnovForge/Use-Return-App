@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Use_Return_App.Helpers;
 
 namespace Use_Return_App
 {
@@ -23,6 +24,8 @@ namespace Use_Return_App
                 {
                     liAbout.Attributes["class"] += " active";
                 }
+
+                CartBadge.InnerText = CookieCartHelper.LoadCartFromCookie(Request).Count.ToString();
             }
         }
     }

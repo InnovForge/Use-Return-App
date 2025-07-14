@@ -31,7 +31,7 @@ namespace Use_Return_App
                     Title = $"Card {i}",
                     Description = $"Description {i}",
                     ImageUrl = $"https://placehold.co/600x400/png?text={i}",
-                    LinkUrl = "#"
+                    LinkUrl = "ItemDetail.aspx"
                 });
             }
             return data;

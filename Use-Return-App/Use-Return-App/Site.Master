@@ -16,17 +16,19 @@
 
     <script src="Scripts/bootstrap.bundle.min.js"></script>
 
-    <link rel="stylesheet"href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+
 </head>
 
 <body>
     <form id="form1" runat="server">
         <div>
+
             <nav class="navbar navbar-expand-lg px-2 sticky-top shadow-sm bg-body" data-bs-theme="light">
                 <div class="container-fluid">
                     <a class="navbar-brand fs-4" runat="server" href="~/">
@@ -42,7 +44,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" id="liAbout" runat="server" href="~/About">About</a>
+                                <a class="nav-link" id="liAbout" runat="server" href="~/About.aspx">About</a>
                             </li>
 
                             <%--  <li class="nav-item">
@@ -58,15 +60,26 @@
                             <input type="text" class="form-control d-none" placeholder="Hidden input" aria-label="Hidden input" aria-describedby="visible-addon">
                             <button class="input-group-text"><i class="bi bi-search"></i></button>
                         </div>
+                        <div class="d-flex gap-4 align-items-center justify-content-center">
+                            <button type="button" class="btn position-relative btn-sm btn-">
+                                <i class="bi bi-bag fs-4"></i>
+                                <span id="CartBadge" runat="server" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0
+    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            </button>
 
-                        <div class="d-flex gap-2 py-2">
-                            <button type="button" class="btn btn-outline-primary btn-sm">Đăng nhập</button>
-                            <button type="button" class="btn btn-primary btn-sm">Đăng kí</button>
+
+                            <div class="d-flex gap-2 py-2">
+                                <button type="button" class="btn btn-outline-primary btn-sm">Đăng nhập</button>
+                                <button type="button" class="btn btn-primary btn-sm">Đăng kí</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </nav>
-            <div class="px-2 py-2" style="max-width: 1280px; margin: 0 auto">
+
+            <div class="py-2" style="max-width: 1280px; margin: 0 auto">
+                
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                 </asp:ContentPlaceHolder>
             </div>
