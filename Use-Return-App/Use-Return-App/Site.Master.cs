@@ -27,6 +27,16 @@ namespace Use_Return_App
 
                 CartBadge.InnerText = CookieCartHelper.LoadCartFromCookie(Request).Count.ToString();
             }
+            if (Session["UserID"] != null)
+            {
+                phGuest.Visible = false;
+                phUser.Visible = true;
+            }
+            else
+            {
+                phGuest.Visible = true;
+                phUser.Visible = false;
+            }
         }
     }
 }

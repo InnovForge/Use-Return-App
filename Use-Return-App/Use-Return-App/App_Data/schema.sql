@@ -4,6 +4,7 @@ CREATE TABLE VaiTro (
     MaVaiTro          INT IDENTITY PRIMARY KEY,
     TenVaiTro         NVARCHAR(50) NOT NULL UNIQUE,
     MoTa              NVARCHAR(255)
+
 );
 
 CREATE TABLE DanhMuc (
