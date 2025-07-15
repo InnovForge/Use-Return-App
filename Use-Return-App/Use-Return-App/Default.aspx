@@ -71,7 +71,7 @@
     </div>
     <div id="loading" style="text-align: center; margin: 1rem; font-weight: bold;">Đang tải...</div>
 
-    <script>
+       <script>
 
     var swiper = new Swiper(".bannerSwiper", {
         slidesPerView: 1,
@@ -109,14 +109,22 @@
 
                 cards.forEach(card => {
                     container.insertAdjacentHTML("beforeend", `
-                        <div class="card">
+<a class="text-decoration-none text-reset" href="${card.LinkUrl}" >
+                        <div class="card position-relative d-flex flex-cloumn">
                             <img src="${card.ImageUrl}" class="card-img-top" alt="${card.Title}" />
-                            <div class="card-body">
+                            <div class="card-body gap-2 p-2">
+
                                 <h5 class="card-title">${card.Title}</h5>
                                 <p class="card-text">${card.Description}</p>
-                                <a href="${card.LinkUrl}" class="btn btn-primary">Go</a>
+<p class="card-text" style="font-size: .675rem"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+<div class="d-flex justify-content-end gap-2 position-absolute" style="top: .4rem; left: .4rem;">
+                                <button onclick="event.stopPropagation(); event.preventDefault();" type="button" class="btn btn-light btn-sm">  <i class="bi bi-bookmark-plus"></i> </button>       
+                                
+</div>
                             </div>
+
                         </div>
+</a>
                     `);
                 });
 

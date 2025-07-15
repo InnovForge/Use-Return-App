@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Owin;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
@@ -9,14 +10,16 @@ using System.Web.Security;
 using System.Web.SessionState;
 using Use_Return_App.Models;
 
+[assembly: OwinStartup(typeof(Use_Return_App.App_Start.Startup))]
 namespace Use_Return_App
 {
+
     public class Global : System.Web.HttpApplication
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-          //  RouteConfig.RegisterRoutes(RouteTable.Routes);
-         // DbSeeder.Run();
+         //  RouteConfig.RegisterRoutes(RouteTable.Routes);
+        //DbSeeder.Run();
             SqlHelper.EnsureDatabaseExists();
 
             //string hashed = BCrypt.Net.BCrypt.HashPassword("123456");
