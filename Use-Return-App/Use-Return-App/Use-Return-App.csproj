@@ -116,7 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
-    <Content Include="Admin\Admin.aspx" />
+    <Content Include="Admin\AdminHome.aspx" />
     <Content Include="Admin\QuanLyDonHang.aspx" />
     <Content Include="Admin\QuanLyNguoiDung.aspx" />
     <Content Include="Admin\QuanLySanPham.aspx" />
@@ -167,12 +167,12 @@
     <Compile Include="About.aspx.designer.cs">
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Admin.aspx.cs">
-      <DependentUpon>Admin.aspx</DependentUpon>
+    <Compile Include="Admin\AdminHome.aspx.cs">
+      <DependentUpon>AdminHome.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Admin.aspx.designer.cs">
-      <DependentUpon>Admin.aspx</DependentUpon>
+    <Compile Include="Admin\AdminHome.aspx.designer.cs">
+      <DependentUpon>AdminHome.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Dashboard.Master.cs">
       <DependentUpon>Dashboard.Master</DependentUpon>

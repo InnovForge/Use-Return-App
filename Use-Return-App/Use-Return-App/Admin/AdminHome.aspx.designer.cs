@@ -11,7 +11,7 @@ namespace Use_Return_App.Admin
 {
 
 
-    public partial class Admin
+    public partial class AdminHome
     {
     }
 }
