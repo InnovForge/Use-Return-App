@@ -7,6 +7,7 @@
             height: 330px;
             width: auto;
             position: relative;
+      
             
             
         .swiper {
@@ -29,6 +30,7 @@
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+                      border-radius:6px;
         }
 
         .swiper {
@@ -52,7 +54,7 @@
                         <div class="swiper-slide">
                              <img src="https://placehold.co/600x400/red/white?text=name" />
                         </div>
-                        <div class="swiper-slide">
+                        <div class="swiper-slide ">
                              <img src="https://placehold.co/600x400/blue/white?text=banner-quảng-cáo" />
                         </div>
                     <%--    <div class="swiper-slide">Slide 4</div>
@@ -109,14 +111,22 @@
 
                 cards.forEach(card => {
                     container.insertAdjacentHTML("beforeend", `
-                        <div class="card">
+<a class="text-decoration-none text-reset" href="${card.LinkUrl}" >
+                        <div class="card position-relative d-flex flex-cloumn">
                             <img src="${card.ImageUrl}" class="card-img-top" alt="${card.Title}" />
-                            <div class="card-body">
+                            <div class="card-body gap-2 p-2">
+
                                 <h5 class="card-title">${card.Title}</h5>
                                 <p class="card-text">${card.Description}</p>
-                                <a href="${card.LinkUrl}" class="btn btn-primary">Go</a>
+<p class="card-text" style="font-size: .675rem"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+<div class="d-flex justify-content-end gap-2 position-absolute" style="top: .4rem; left: .4rem;">
+                                <button onclick="event.stopPropagation(); event.preventDefault();" type="button" class="btn btn-light btn-sm">  <i class="bi bi-bookmark-plus"></i> </button>       
+                                
+</div>
                             </div>
+
                         </div>
+</a>
                     `);
                 });
 
