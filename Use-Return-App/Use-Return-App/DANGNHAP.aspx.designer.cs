@@ -10,7 +10,16 @@
 namespace Use_Return_App {
     
     
-    public partial class login {
+    public partial class DANGNHAP {
+        
+        /// <summary>
+        /// form1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
         /// lblMessage control.
@@ -22,13 +31,13 @@ namespace Use_Return_App {
         protected global::System.Web.UI.WebControls.Label lblMessage;
         
         /// <summary>
-        /// txtEmail control.
+        /// txtTenDangNhap control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEmail;
+        protected global::System.Web.UI.WebControls.TextBox txtTenDangNhap;
         
         /// <summary>
         /// txtMatKhau control.

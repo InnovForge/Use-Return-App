@@ -1,28 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Use_Return_App
 {
-    public partial class login : System.Web.UI.Page
+    public partial class DANGNHAP : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                txtTenDangNhap.Attributes["autocomplete"] = "off";
+                txtMatKhau.Attributes["autocomplete"] = "new-password";
+            }
         }
+
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             try
             {
-                string email = txtEmail.Text.Trim();
+                string tenDangNhap = txtTenDangNhap.Text.Trim();
                 string password = txtMatKhau.Text.Trim();
 
-                string sql = "SELECT MaNguoiDung, HoTen, MatKhauHash FROM NguoiDung WHERE Email = @email AND DangHoatDong = 1";
-                var table = SqlHelper.ExecuteDataTable(sql, new SqlParameter("@email", email));
+                string sql = "SELECT MaNguoiDung, HoTen, MatKhauHash FROM NguoiDung WHERE HoTen = @username AND DangHoatDong = 1";
+                var table = SqlHelper.ExecuteDataTable(sql, new SqlParameter("@username", tenDangNhap));
 
                 if (table.Rows.Count > 0)
                 {
@@ -38,7 +39,7 @@ namespace Use_Return_App
                     }
                 }
 
-                lblMessage.Text = "Email hoặc mật khẩu không đúng.";
+                lblMessage.Text = "Tên đăng nhập hoặc mật khẩu không đúng.";
             }
             catch (Exception ex)
             {

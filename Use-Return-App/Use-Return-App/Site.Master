@@ -75,8 +75,9 @@
                             <div class="d-flex gap-2 py-2">
                                 <asp:PlaceHolder ID="phGuest" runat="server" Visible="true">
                                     <div class="d-flex gap-2 py-2">
-                                        <asp:HyperLink ID="lnkLogin" runat="server" NavigateUrl="~/login.aspx" CssClass="btn btn-outline-primary btn-sm">Đăng nhập</asp:HyperLink>
-                                        <asp:HyperLink ID="lnkRegister" runat="server" NavigateUrl="~/dangky.aspx" CssClass="btn btn-primary btn-sm">Đăng ký</asp:HyperLink>
+                                        <asp:HyperLink ID="lnkLogin" runat="server" NavigateUrl="~/DANGNHAP.aspx" CssClass="btn btn-outline-primary btn-sm">Đăng nhập</asp:HyperLink>
+                                      <asp:HyperLink ID="lnkRegister" runat="server" NavigateUrl="~/DANGKYY.aspx" CssClass="btn btn-primary btn-sm">Đăng ký</asp:HyperLink>
+
                                     </div>
                                 </asp:PlaceHolder>
 

@@ -144,11 +144,11 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\styles.css" />
-    <Content Include="dangky.aspx" />
+    <Content Include="DANGKYY.aspx" />
+    <Content Include="DANGNHAP.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="ItemDetail.aspx" />
-    <Content Include="login.aspx" />
     <Content Include="logout.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -223,12 +223,19 @@
     <Compile Include="Cart.aspx.designer.cs">
       <DependentUpon>Cart.aspx</DependentUpon>
     </Compile>
-    <Compile Include="dangky.aspx.cs">
-      <DependentUpon>dangky.aspx</DependentUpon>
+    <Compile Include="DANGKYY.aspx.cs">
+      <DependentUpon>DANGKYY.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="dangky.aspx.designer.cs">
-      <DependentUpon>dangky.aspx</DependentUpon>
+    <Compile Include="DANGKYY.aspx.designer.cs">
+      <DependentUpon>DANGKYY.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DANGNHAP.aspx.cs">
+      <DependentUpon>DANGNHAP.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DANGNHAP.aspx.designer.cs">
+      <DependentUpon>DANGNHAP.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -249,13 +256,6 @@
     </Compile>
     <Compile Include="ItemDetail.aspx.designer.cs">
       <DependentUpon>ItemDetail.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="login.aspx.cs">
-      <DependentUpon>login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="login.aspx.designer.cs">
-      <DependentUpon>login.aspx</DependentUpon>
     </Compile>
     <Compile Include="logout.aspx.cs">
       <DependentUpon>logout.aspx</DependentUpon>
