@@ -49,7 +49,7 @@ public static class DbSeeder
 
         ExecuteScriptFromFile(dbPath, schemaPath);
 
-       // SeedData(dbPath);
+       SeedData(dbPath);
     }
 
     private static void ExecuteScriptFromFile(string dbPath, string scriptFilePath)
@@ -73,25 +73,65 @@ public static class DbSeeder
         }
     }
 
-    private static void SeedData(string dbPath)
+    public static void SeedData(string dbPath)
     {
         string connStr = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={dbPath};Integrated Security=True";
         using (var connection = new SqlConnection(connStr))
         {
             connection.Open();
+            var roleCmd = new SqlCommand(@"
+    IF NOT EXISTS (SELECT 1 FROM VaiTro WHERE TenVaiTro = N'Người dùng')
+    BEGIN
+        INSERT INTO VaiTro (TenVaiTro, MoTa)
+        VALUES (N'Người dùng', N'Người sử dụng thông thường');
+    END
+    IF NOT EXISTS (SELECT 1 FROM VaiTro WHERE TenVaiTro = N'Quản trị')
+    BEGIN
+        INSERT INTO VaiTro (TenVaiTro, MoTa)
+        VALUES (N'Quản trị', N'Tài khoản quản trị hệ thống');
+    END", connection);
+            roleCmd.ExecuteNonQuery();
 
-            var cmd = new SqlCommand(@"
-                INSERT INTO Users (UserID, UserName, FullName, Email, PasswordHash, Phone)
-                VALUES (@id, @username, @name, @email, @password, @phone)", connection);
+            var getRoleCmd = new SqlCommand("SELECT MaVaiTro FROM VaiTro WHERE TenVaiTro = N'Quản trị'", connection);
+            var maVaiTro = (int)getRoleCmd.ExecuteScalar();
 
-            cmd.Parameters.AddWithValue("@id", Guid.NewGuid());
-            cmd.Parameters.AddWithValue("@username", "admin");
-            cmd.Parameters.AddWithValue("@name", "Admin User");
-            cmd.Parameters.AddWithValue("@email", "admin@example.com");
-            cmd.Parameters.AddWithValue("@password", "hashed-password");
-            cmd.Parameters.AddWithValue("@phone", "0123456789");
+            string matKhau = "admin123";
+            string matKhauHash = BCrypt.Net.BCrypt.HashPassword(matKhau);
 
-            cmd.ExecuteNonQuery();
+            var checkUserCmd = new SqlCommand("SELECT COUNT(*) FROM NguoiDung WHERE Email = @Email", connection);
+            checkUserCmd.Parameters.AddWithValue("@Email", "admin@example.com");
+            int userExists = (int)checkUserCmd.ExecuteScalar();
+
+            if (userExists == 0)
+            {
+                var userCmd = new SqlCommand(@"
+        INSERT INTO NguoiDung 
+            (MaNguoiDung, MaVaiTro, HoTen, Email, SoDienThoai, MatKhauHash, AnhDaiDien)
+        VALUES 
+            (@id, @maVaiTro, @hoTen, @email, @soDienThoai, @matKhauHash, @anhDaiDien)", connection);
+
+                userCmd.Parameters.AddWithValue("@id", Guid.NewGuid());
+                userCmd.Parameters.AddWithValue("@maVaiTro", maVaiTro);
+                userCmd.Parameters.AddWithValue("@hoTen", "admin"); 
+                userCmd.Parameters.AddWithValue("@email", "admin@example.com");
+                userCmd.Parameters.AddWithValue("@soDienThoai", "0123456789");
+                userCmd.Parameters.AddWithValue("@matKhauHash", matKhauHash);
+                userCmd.Parameters.AddWithValue("@anhDaiDien", DBNull.Value);
+
+                userCmd.ExecuteNonQuery();
+            }
+
+            var danhMucCmd = new SqlCommand(@"
+    IF NOT EXISTS (SELECT 1 FROM DanhMuc WHERE TenDanhMuc = N'Điện tử')
+        INSERT INTO DanhMuc (TenDanhMuc) VALUES (N'Điện tử');
+
+    IF NOT EXISTS (SELECT 1 FROM DanhMuc WHERE TenDanhMuc = N'Sách')
+        INSERT INTO DanhMuc (TenDanhMuc) VALUES (N'Sách');
+
+    IF NOT EXISTS (SELECT 1 FROM DanhMuc WHERE TenDanhMuc = N'Trang phục')
+        INSERT INTO DanhMuc (TenDanhMuc) VALUES (N'Trang phục');", connection);
+            danhMucCmd.ExecuteNonQuery();
+
         }
     }
 }

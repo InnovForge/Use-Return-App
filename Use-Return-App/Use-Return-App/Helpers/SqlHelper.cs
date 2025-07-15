@@ -22,26 +22,27 @@ public static class SqlHelper
 
         if (!File.Exists(dbPath))
         {
-            CreateDatabase(dbPath);
-            ExecuteScriptFromFile(dbPath, Path.Combine(folderPath, "schema.sql"));
+            DbSeeder.Run();
+            DbSeeder.SeedData(dbPath);
+          //  ExecuteScriptFromFile(dbPath, Path.Combine(folderPath, "schema.sql"));
         }
     }
 
-    private static void CreateDatabase(string dbPath)
-    {
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Integrated Security=True";
-        string dbName = Path.GetFileNameWithoutExtension(dbPath);
+    //private static void CreateDatabase(string dbPath)
+    //{
+    //    string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Integrated Security=True";
+    //    string dbName = Path.GetFileNameWithoutExtension(dbPath);
 
-        using (var connection = new SqlConnection(connectionString))
-        {
-            connection.Open();
-            string cmdText = $@"CREATE DATABASE [{dbName}] ON (NAME = N'{dbName}', FILENAME = '{dbPath}') LOG ON (NAME = N'{dbName}_log', FILENAME = '{dbPath.Replace(".mdf", "_log.ldf")}')";
-            using (var command = new SqlCommand(cmdText, connection))
-            {
-                command.ExecuteNonQuery();
-            }
-        }
-    }
+    //    using (var connection = new SqlConnection(connectionString))
+    //    {
+    //        connection.Open();
+    //        string cmdText = $@"CREATE DATABASE [{dbName}] ON (NAME = N'{dbName}', FILENAME = '{dbPath}') LOG ON (NAME = N'{dbName}_log', FILENAME = '{dbPath.Replace(".mdf", "_log.ldf")}')";
+    //        using (var command = new SqlCommand(cmdText, connection))
+    //        {
+    //            command.ExecuteNonQuery();
+    //        }
+    //    }
+    //}
 
     private static void ExecuteScriptFromFile(string dbPath, string scriptFilePath)
     {

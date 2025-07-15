@@ -83,8 +83,9 @@
 
                                 <asp:PlaceHolder ID="phUser" runat="server" Visible="false">
                                     <div class="dropdown">
-                                        <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="bi bi-person-circle"></i><%= Session["HoTen"] %>
+                                        <button class="btn btn-outline-primary dropdown-toggle gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-person-circle">
+                                            </i><%= Session["HoTen"] %>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li><a class="dropdown-item" href="ThongTin.aspx">Thông tin cá nhân</a></li>
