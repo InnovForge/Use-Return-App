@@ -5,7 +5,7 @@
         .container-swiper {
             position: relative;
             aspect-ratio: 4 / 5;
-            max-width: 500px;
+            max-width: 480px;
             width: 100%;
         }
 

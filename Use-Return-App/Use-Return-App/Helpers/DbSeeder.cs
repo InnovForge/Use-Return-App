@@ -49,7 +49,7 @@ public static class DbSeeder
 
         ExecuteScriptFromFile(dbPath, schemaPath);
 
-        SeedData(dbPath);
+       // SeedData(dbPath);
     }
 
     private static void ExecuteScriptFromFile(string dbPath, string scriptFilePath)

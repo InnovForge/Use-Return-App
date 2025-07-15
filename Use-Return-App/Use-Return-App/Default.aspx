@@ -12,6 +12,7 @@
         .swiper {
             width: 100%;
             height: 100%;
+              border-radius: 7px;
         }
 
         .swiper-slide {
@@ -22,6 +23,7 @@
             justify-content: center;
             align-items: center;
             border-radius:6px;
+           
         }
 
         .swiper-slide img {
@@ -29,6 +31,7 @@
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+               
         }
 
         .swiper {
