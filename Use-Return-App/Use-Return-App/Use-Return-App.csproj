@@ -122,10 +122,6 @@
     <Content Include="Admin\QuanLySanPham.aspx" />
     <Content Include="Admin\ThongKe.aspx" />
     <Content Include="App_Data\schema.sql" />
-    <Content Include="App_Data\ThueDoDung.mdf" />
-    <Content Include="App_Data\ThueDoDung_log.ldf">
-      <DependentUpon>ThueDoDung.mdf</DependentUpon>
-    </Content>
     <Content Include="Cart.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
