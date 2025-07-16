@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bogus;
+using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
@@ -110,7 +111,7 @@ public static class DbSeeder
         VALUES 
             (@id, @maVaiTro, @hoTen, @email, @soDienThoai, @matKhauHash, @anhDaiDien)", connection);
 
-                userCmd.Parameters.AddWithValue("@id", Guid.NewGuid());
+                userCmd.Parameters.AddWithValue("@id", "8ead7e11-07e3-401b-b36d-1daebc4ef028");
                 userCmd.Parameters.AddWithValue("@maVaiTro", maVaiTro);
                 userCmd.Parameters.AddWithValue("@hoTen", "admin"); 
                 userCmd.Parameters.AddWithValue("@email", "admin@example.com");
@@ -128,9 +129,67 @@ public static class DbSeeder
     IF NOT EXISTS (SELECT 1 FROM DanhMuc WHERE TenDanhMuc = N'Sách')
         INSERT INTO DanhMuc (TenDanhMuc) VALUES (N'Sách');
 
-    IF NOT EXISTS (SELECT 1 FROM DanhMuc WHERE TenDanhMuc = N'Trang phục')
-        INSERT INTO DanhMuc (TenDanhMuc) VALUES (N'Trang phục');", connection);
+    IF NOT EXISTS (SELECT 1 FROM DanhMuc WHERE TenDanhMuc = N'Tổng hợp')
+        INSERT INTO DanhMuc (TenDanhMuc) VALUES (N'Tổng hợp');", connection);
             danhMucCmd.ExecuteNonQuery();
+
+            var getDanhMucCmd = new SqlCommand("SELECT MaDanhMuc FROM DanhMuc WHERE TenDanhMuc = N'Tổng hợp'", connection);
+            var maDanhMuc = (int)getDanhMucCmd.ExecuteScalar();
+
+            var faker = new Faker("vi");
+
+            var insertDoDungCmd = new SqlCommand(@"
+    INSERT INTO DoDung 
+        (MaDoDung, MaNguoiSoHuu, MaDanhMuc, TieuDe, MoTa, GiaMoiNgay, SoLuong, TinhTrang, TrangThai, NgayTao, TienCoc)
+    OUTPUT INSERTED.MaDoDung
+    VALUES 
+        (@id, @nguoiSoHuu, @danhMuc, @tieuDe, @moTa, @giaMoiNgay, @soLuong, @tinhTrang, @trangThai, GETDATE(), @tienCoc)", connection);
+
+
+            var insertAnhCmd = new SqlCommand(@"
+    INSERT INTO HinhAnhDoDung 
+        (MaHinh, MaDoDung, DuongDanAnh, ThuTuHienThi)
+    VALUES 
+        (@maHinh, @maDoDung, @duongDan, @thuTu)", connection);
+
+            for (int i = 0; i < 100; i++)
+            {
+                decimal gia = faker.Random.Decimal(10000, 500000);
+                decimal heSoTienCoc = faker.Random.Decimal(7m, 10m);
+                decimal tienCoc = gia * heSoTienCoc;
+                Guid maDoDung = Guid.NewGuid();
+
+                insertDoDungCmd.Parameters.Clear();
+                insertDoDungCmd.Parameters.AddWithValue("@id", maDoDung);
+                insertDoDungCmd.Parameters.AddWithValue("@nguoiSoHuu", Guid.Parse("8ead7e11-07e3-401b-b36d-1daebc4ef028"));
+                insertDoDungCmd.Parameters.AddWithValue("@danhMuc", maDanhMuc);
+                insertDoDungCmd.Parameters.AddWithValue("@tieuDe", faker.Commerce.ProductName());
+                insertDoDungCmd.Parameters.AddWithValue("@moTa", faker.Commerce.ProductDescription());
+                insertDoDungCmd.Parameters.AddWithValue("@giaMoiNgay", gia);
+                insertDoDungCmd.Parameters.AddWithValue("@soLuong", faker.Random.Int(1, 10));
+                insertDoDungCmd.Parameters.AddWithValue("@tinhTrang", faker.PickRandom("Mới", "Như mới", "Đã qua sử dụng", "Cũ"));
+                insertDoDungCmd.Parameters.AddWithValue("@trangThai", "Available");
+                insertDoDungCmd.Parameters.AddWithValue("@tienCoc", tienCoc);
+
+                var insertedId = (Guid)insertDoDungCmd.ExecuteScalar();
+
+                int soAnh = faker.Random.Int(1, 10);
+                for (int j = 0; j < soAnh; j++)
+                {
+                    insertAnhCmd.Parameters.Clear();
+                    insertAnhCmd.Parameters.AddWithValue("@maHinh", Guid.NewGuid());
+                    insertAnhCmd.Parameters.AddWithValue("@maDoDung", insertedId);
+
+                    var fakeUrl = faker.Image.PicsumUrl(600, 400); // ví dụ: https://picsum.photos/id/237/600/400
+
+                    insertAnhCmd.Parameters.AddWithValue("@duongDan", fakeUrl);
+                    insertAnhCmd.Parameters.AddWithValue("@thuTu", j);
+
+                    insertAnhCmd.ExecuteNonQuery();
+                }
+            }
+
+
 
         }
     }

@@ -22,6 +22,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            border-radius: 7px;
         }
 
             .swiper-slide img {
@@ -29,6 +30,7 @@
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+                border-radius: 7px;
             }
 
 
@@ -37,6 +39,7 @@
             height: 300px;
             margin-left: auto;
             margin-right: auto;
+            border-radius: 7px;
         }
 
         .swiper-slide {
@@ -71,6 +74,11 @@
             height: 100%;
             object-fit: cover;
         }
+
+        .text-price {
+            color: rgb(255, 66, 78);
+            font-weight: bold;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -82,72 +90,26 @@
         <div class="container-swiper">
             <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
-                    </div>
+                    <asp:Repeater ID="rptMainImages" runat="server">
+                        <ItemTemplate>
+                            <div class="swiper-slide">
+                                <img src='<%# Eval("DuongDanAnh") %>' />
+                            </div>
+                        </ItemTemplate>
+                    </asp:Repeater>
                 </div>
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
             </div>
             <div thumbsslider="" class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
-                    </div>
+                    <asp:Repeater ID="rptThumbImages" runat="server">
+                        <ItemTemplate>
+                            <div class="swiper-slide">
+                                <img src='<%# Eval("DuongDanAnh") %>' />
+                            </div>
+                        </ItemTemplate>
+                    </asp:Repeater>
                 </div>
             </div>
 
@@ -155,21 +117,29 @@
             <p>
                 <span class="fw-bold fs-4">Mô tả: </span>
                 <br />
-                Tivi Samsung QLED 4K 65 inch QA65Q70D là sự kết hợp hoàn hảo giữa thiết kế tinh tế và công nghệ tiên tiến, mang đến cho người dùng trải nghiệm giải trí đỉnh cao. Với màn hình 65 inch rộng lớn và độ phân giải 4K sắc nét, tivi này không chỉ đáp ứng nhu cầu xem phim, chơi game mà còn làm nổi bật không gian sống. Được tích hợp nhiều tiện ích thông minh như tìm kiếm bằng giọng nói, điều khiển qua ứng dụng di động,... Smart Tivi Samsung chắc chắn sẽ là sự lựa chọn tuyệt vời cho những ai yêu thích công nghệ hiện đại và tiện nghi.
-
-Viền màn hình mỏng với trải nghiệm xem mở rộng
-Smart Tivi Samsung QLED 4K 65 inch QA65Q70D nổi bật với thiết kế đơn giản, thanh lịch, tạo điểm nhấn cho không gian sống. Với viền màn hình mỏng, tivi mang đến trải nghiệm xem mở rộng, giúp người dùng tận hưởng trọn vẹn nội dung mà không bị xao nhãng bởi các yếu tố xung quanh.
-
-Kích thước 65 inch rất lý tưởng cho những không gian có diện tích vừa và lớn như phòng khách, phòng họp hay phòng làm việc, tạo cảm giác hiện đại và phong cách.
-
-Chân đế tivi được chế tác từ kim loại chắc chắn, đảm bảo độ bền và ổn định khi đặt trên các mặt phẳng khác nhau. Đặc biệt, người dùng có thể tháo rời chân đế để dễ dàng treo tivi lên tường, tiết kiệm không gian và tạo ra một góc nhìn tối ưu hơn.
+                <asp:Literal ID="litMoTa" runat="server" />
             </p>
         </div>
         <div class="ms-5 flex-fill">
-            <h3 class="fs-4 m-0 p-0">Samsung Smart TV QLED 65 inch 4K QA65Q70D</h3>
-            <p class="text-primary fw-bold fs-5 m-0 p-0"><i class="bi bi-clock"></i> Thời gian thuê: <span>1 Ngày</span></p>
-            <p class="text-danger fw-bold fs-3 m-0 p-0">10.000 đ</p>
-            <div class="border p-2 rounded-2 d-flex justify-content-between align-items-lg-center mb-2">
+            <asp:Label ID="lblTieuDe" runat="server" CssClass="fw-bold fs-4" />
+            <div class="d-flex gap-3 bg-body-tertiary p-2 rounded-2">
+
+
+                <div class="hstack gap-2 ">
+                    <span>Giá thuê</span>
+                    <div>
+                        <asp:Label ID="lblGiaMoiNgay" runat="server" CssClass="text-price fw-bold fs-3" />
+                        <span class="text-price">/ngày</span>
+                    </div>
+                </div>
+                <div class="hstack gap-2">
+                    <span>Tiền cọc</span>
+                    <asp:Label ID="lblTienCoc" runat="server" CssClass="text-success fw-bold fs-4" />
+                </div>
+            </div>
+
+
+            <%--   <div class="border p-2 rounded-2 d-flex justify-content-between align-items-lg-center mb-2">
                 <div class="d-flex gap-3 justify-content-center">
                     <div class="" style="width: 48px; height: 48px">
                         <img class="w-100 h-100 object-fit-cover rounded-circle" src="https://placehold.co/600x400/green/white?text=avatar" />
@@ -179,23 +149,43 @@ Chân đế tivi được chế tác từ kim loại chắc chắn, đảm bảo
                         <p class="p-0 m-0 text-secondary fs-6">5 bài đăng</p>
                     </div>
                 </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-warning">
-                          <i class="bi bi-telephone"></i>  Gọi điện
-                        </button>
-                             <button class="btn btn-info">
-                         <i class="bi bi-chat"></i>   Nhắn tin
-                        </button>
-                    </div>
+                <div class="d-flex gap-2 align-items-center justify-content-center">
+                    <button class="btn btn-warning d-flex gap-2 align-items-center justify-content-center">
+                        <i class="bi bi-telephone"></i>
+                        <div>Gọi điện</div>
+                    </button>
+                    <button class="btn btn-info d-flex gap-2 align-items-center justify-content-center">
+                        <i class="bi bi-chat"></i>
+                        <div>Nhắn tin</div>
+                    </button>
+                </div>
+            </div>--%>
+            <div class="d-flex gap-2 align-items-center justify-content-start mt-2">
+                <button class="btn btn-warning d-flex gap-2 align-items-center justify-content-center">
+                    <i class="bi bi-telephone"></i>
+                    <div>Gọi điện</div>
+                </button>
+                <button class="btn btn-info d-flex gap-2 align-items-center justify-content-center">
+                    <i class="bi bi-chat"></i>
+                    <div>Nhắn tin</div>
+                </button>
             </div>
-
+            <hr />
             <div class="d-flex gap-2 justify-content-end">
                 <button onclick="addToCart('P001')" class="btn btn-outline-primary  btn-lg" type="button">
                     <i class="bi bi-bookmark-plus"></i>
                 </button>
 
+                <asp:LinkButton
+                    ID="btnThueNgay"
+                    runat="server"
+                    CssClass="btn btn-primary btn-lg"
+                    OnClick="btnThueNgay_Click">
+    Thuê Ngay
+                </asp:LinkButton>
 
-                <button type="button" class="btn btn-primary btn-lg">Mua Ngay</button>
+
+
             </div>
         </div>
 

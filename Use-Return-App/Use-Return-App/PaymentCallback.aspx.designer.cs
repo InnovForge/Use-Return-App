@@ -10,78 +10,69 @@
 namespace Use_Return_App {
     
     
-    public partial class Item {
+    public partial class PaymentCallback {
         
         /// <summary>
-        /// ScriptManager1 control.
+        /// form1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// rptMainImages control.
+        /// displayMsg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptMainImages;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl displayMsg;
         
         /// <summary>
-        /// rptThumbImages control.
+        /// displayTmnCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptThumbImages;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl displayTmnCode;
         
         /// <summary>
-        /// litMoTa control.
+        /// displayTxnRef control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litMoTa;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl displayTxnRef;
         
         /// <summary>
-        /// lblTieuDe control.
+        /// displayVnpayTranNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTieuDe;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl displayVnpayTranNo;
         
         /// <summary>
-        /// lblGiaMoiNgay control.
+        /// displayAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblGiaMoiNgay;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl displayAmount;
         
         /// <summary>
-        /// lblTienCoc control.
+        /// displayBankCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTienCoc;
-        
-        /// <summary>
-        /// btnThueNgay control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnThueNgay;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl displayBankCode;
     }
 }
