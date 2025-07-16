@@ -21,7 +21,7 @@ namespace Use_Return_App.Admin
 
         protected void lnkProducts_Click(object sender, EventArgs e)
         {
-            Server.Transfer("QuanLySanPham.aspx");
+            Server.Transfer("AdminDanhMuc.aspx");
 
         }
 
