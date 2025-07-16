@@ -56,9 +56,13 @@
                         </ul>
 
                         <div class="input-group" style="max-width: 500px">
-                            <input type="text" class="form-control" placeholder="Tìm kiếm" aria-label="search" aria-describedby="visible-addon">
+                            <%--<input type="text" class="form-control" placeholder="Tìm kiếm" aria-label="search" aria-describedby="visible-addon">
                             <input type="text" class="form-control d-none" placeholder="Hidden input" aria-label="Hidden input" aria-describedby="visible-addon">
-                            <button class="input-group-text"><i class="bi bi-search"></i></button>
+                            <button class="input-group-text"><i class="bi bi-search"></i></button>--%>
+                            <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Tìm kiếm"></asp:TextBox>
+                            <asp:LinkButton ID="btnSearch" runat="server" CssClass="input-group-text" OnClick="btnSearch_Click">
+                                <i class="bi bi-search"></i>
+                            </asp:LinkButton>
                         </div>
                         <div class="d-flex gap-4 align-items-center justify-content-center">
                           <a href="/Cart.aspx">
