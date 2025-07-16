@@ -1,29 +1,140 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Dashboard.Master" AutoEventWireup="true" CodeBehind="QuanLyNguoiDung.aspx.cs" Inherits="Use_Return_App.Admin.QuanLyNguoiDung" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+    /* Khung cuộn cho GridView */
+    .grid-scroll {
+        max-height: 400px;      /* cao tối đa, sẽ có thanh cuộn dọc */
+        overflow-y: auto;       /* cuộn dọc */
+        overflow-x: auto;       /* cuộn ngang nếu nhiều cột */
+        border: 1px solid #999; /* đường viền mảnh cho khung */
+    }
+
+    /* Để header/row khớp chiều rộng khi có scroll ngang */
+    .grid-scroll table {
+        width: 100%;            /* bảng tự dãn ngang */
+    }
+</style>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" Height="262px" OnRowCommand="GridView1_RowCommand" Width="904px">
+        <div class="grid-scroll">
+
+    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCancelingEdit="GridView1_RowCancelingEdit" OnRowDeleting="GridView1_RowDeleting" OnRowEditing="GridView1_RowEditing" OnRowUpdating="GridView1_RowUpdating" ShowFooter="True" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="4" CellSpacing="2" ForeColor="Black">
         <Columns>
-            <asp:BoundField DataField="MaNguoiDung" HeaderText="Mã Người Dùng" />
-            <asp:BoundField DataField="HoTen" HeaderText="HoTen" />
+            <asp:TemplateField HeaderText="Mã Người Dùng">
+             
+               <%-- <EditItemTemplate>
+                    <asp:TextBox ID="EditMaNguoiDung" runat="server" Text='<%# Bind("MaNguoiDung") %>'></asp:TextBox>
+                </EditItemTemplate>--%>
+                <FooterTemplate>
+                    <asp:TextBox ID="txtMaNguoiDung" runat="server" Visible="False"></asp:TextBox>
+                </FooterTemplate>
+                <ItemTemplate>
+                    <asp:Label ID="LabelMaNguoiDung" runat="server" Text='<%# Bind("MaNguoiDung") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Họ Tên">
+             
+                <EditItemTemplate>
+                    <asp:TextBox ID="EditHoTen" runat="server" Text='<%# Bind("HoTen") %>'></asp:TextBox>
+                </EditItemTemplate>
+                <FooterTemplate>
+                    <asp:TextBox ID="txtHoTen" runat="server"></asp:TextBox>
+                </FooterTemplate>
+                <ItemTemplate>
+                    <asp:Label ID="LabelHoTen" runat="server" Text='<%# Bind("HoTen") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
             <asp:TemplateField HeaderText="Ảnh Đại Diện">
                 <ItemTemplate>
-                    <asp:Image ID="Image1" runat="server" Height="150px" ImageUrl='<%# Eval("AnhDaiDien" %>' Width="130px" />
+                    <asp:Image ID="Image1" runat="server" Height="150px" ImageUrl='<%# Eval("AnhDaiDien") %>' Width="130px" />
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:BoundField DataField="Email" HeaderText="Email" />
-            <asp:BoundField DataField="MatKhauHash" HeaderText="Password" />
-            <asp:BoundField DataField="SoDienThoa" HeaderText="Phone" />
+            <asp:TemplateField HeaderText="Email">
+                <EditItemTemplate>
+                    <asp:TextBox ID="EditEmail" runat="server" Text='<%# Bind("Email") %>'></asp:TextBox>
+                </EditItemTemplate>
+                <FooterTemplate>
+                    <asp:TextBox ID="txtEmail" runat="server"></asp:TextBox>
+                </FooterTemplate>
+                <ItemTemplate>
+                    <asp:Label ID="LabelEmail" runat="server" Text='<%# Bind("Email") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Password">
+              
+               <%-- <EditItemTemplate>
+                    <asp:TextBox ID="EditMatKhau" runat="server" Text='<%# Bind("MatKhauHash") %>'></asp:TextBox>
+                </EditItemTemplate>--%>
+                <FooterTemplate>
+                    <asp:TextBox ID="txtPassword" runat="server"></asp:TextBox>
+                </FooterTemplate>
+                <ItemTemplate>
+                    <span title='<%# Eval("MatKhauHash") %>'>
+                        <%# ShortHash(Eval("MatKhauHash")) %>
+                    </span>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Phone">
+                <EditItemTemplate>
+                    <asp:TextBox ID="EditPhone" runat="server" Text='<%# Bind("SoDienThoai") %>'></asp:TextBox>
+                </EditItemTemplate>
+                <FooterTemplate>
+                    <asp:TextBox ID="txtPhone" runat="server"></asp:TextBox>
+                </FooterTemplate>
+                <ItemTemplate>
+                    <asp:Label ID="LabelPhone" runat="server" Text='<%# Bind("SoDienThoai") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
             <asp:BoundField DataField="NgayTao" HeaderText="Ngày Đăng Ký" />
             <asp:BoundField DataField="DangHoatDong" HeaderText="Hoạt Động" />
-            <asp:TemplateField HeaderText="Action">
+
+            <asp:TemplateField HeaderText="Vai Trò">
+                <EditItemTemplate>
+                    <asp:DropDownList ID="ddlRole" runat="server"
+                        SelectedValue='<%# Bind("MaVaiTro") %>'
+                        DataTextField="TenVaiTro"
+                        DataValueField="MaVaiTro" AutoPostBack="True" >
+                        <asp:ListItem Value="1">Người Dùng</asp:ListItem>
+                        <asp:ListItem Value="2">Quản Trị</asp:ListItem>
+                    </asp:DropDownList>
+                </EditItemTemplate>
+                <FooterTemplate>
+                    <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
+                        <asp:ListItem Value="1">Người Dùng</asp:ListItem>
+                        <asp:ListItem Value="2">Quản Trị</asp:ListItem>
+                    </asp:DropDownList>
+                </FooterTemplate>
                 <ItemTemplate>
-                    <asp:Button ID="Button2" runat="server" Text="Sửa" CommandName="Sua" CommandArgument='<%# Eval("UserID") %>' />
-                    &nbsp;
-                    <asp:Button ID="Button3" runat="server" Text="Xóa" CommandName="Xoa" CommandArgument='<%# Eval("UserID") %>'   />
-                    <br />
+                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("TenVaiTro") %>'></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
+
+            <asp:TemplateField HeaderText="Tùy Chọn" ShowHeader="False">
+                <EditItemTemplate>
+                    <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="True" CommandName="Update" Text="Update"></asp:LinkButton>
+                    &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel"></asp:LinkButton>
+                </EditItemTemplate>
+                <FooterTemplate>
+                    <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Thêm" />
+                </FooterTemplate>
+                <ItemTemplate>
+                    <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit"></asp:LinkButton>
+                    &nbsp;<asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" CommandName="Delete" Text="Delete"></asp:LinkButton>
+                </ItemTemplate>
+            </asp:TemplateField>
+
         </Columns>
+        <FooterStyle BackColor="#CCCCCC" />
+        <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
+        <PagerStyle BackColor="#CCCCCC" ForeColor="Black" HorizontalAlign="Left" />
+        <RowStyle BackColor="White" />
+        <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
+        <SortedAscendingCellStyle BackColor="#F1F1F1" />
+        <SortedAscendingHeaderStyle BackColor="Gray" />
+        <SortedDescendingCellStyle BackColor="#CAC9C9" />
+        <SortedDescendingHeaderStyle BackColor="#383838" />
     </asp:GridView>
+            </div>
 </asp:Content>

@@ -40,6 +40,8 @@ App_Code/
 App_GlobalResources/
 App_LocalResources/
 _ReSharper*/
+ImageUsers/*
+!.gitkeep
 
 ## Rider
 .idea/

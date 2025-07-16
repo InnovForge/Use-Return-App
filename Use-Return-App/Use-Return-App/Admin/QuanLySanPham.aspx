@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" Height="262px" OnRowCommand="GridView1_RowCommand" Width="904px">
+    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False">
      <Columns>
          <asp:BoundField DataField="MaDoDung" HeaderText="Mã Đồ Dùng" />
          <asp:BoundField DataField="MaDanhMuc" HeaderText="Mã Danh Mục" />
