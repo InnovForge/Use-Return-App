@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Routing;
@@ -10,9 +10,24 @@ namespace Use_Return_App
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            var settings = new FriendlyUrlSettings();
-            settings.AutoRedirectMode = RedirectMode.Off;
-            routes.EnableFriendlyUrls(settings);
+            //var settings = new FriendlyUrlSettings();
+            //settings.AutoRedirectMode = RedirectMode.Off;
+            //routes.EnableFriendlyUrls(settings);
+            routes.MapPageRoute(
+            routeName: "thanhtoan",
+            routeUrl: "checkout",
+            physicalFile: "~/Checkout.aspx");
+
+            routes.MapPageRoute(
+         routeName: "paymentcallback",
+         routeUrl: "checkout/paymentcallback/{slug}",
+         physicalFile: "~/PaymentCallback.aspx");
+
+            routes.MapPageRoute(
+            routeName: "ChiTietDoDung",
+            routeUrl: "{slug}",
+            physicalFile: "~/ItemDetail.aspx"  // tên file .aspx nhận
+        );
         }
     }
 }

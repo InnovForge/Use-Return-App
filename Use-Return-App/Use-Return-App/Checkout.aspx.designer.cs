@@ -10,43 +10,25 @@
 namespace Use_Return_App {
     
     
-    public partial class Item {
+    public partial class Checkout {
         
         /// <summary>
-        /// ScriptManager1 control.
+        /// form1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// rptMainImages control.
+        /// img control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptMainImages;
-        
-        /// <summary>
-        /// rptThumbImages control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptThumbImages;
-        
-        /// <summary>
-        /// litMoTa control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litMoTa;
+        protected global::System.Web.UI.WebControls.Image img;
         
         /// <summary>
         /// lblTieuDe control.
@@ -76,12 +58,30 @@ namespace Use_Return_App {
         protected global::System.Web.UI.WebControls.Label lblTienCoc;
         
         /// <summary>
-        /// btnThueNgay control.
+        /// rptPaymentMethods control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnThueNgay;
+        protected global::System.Web.UI.WebControls.Repeater rptPaymentMethods;
+        
+        /// <summary>
+        /// txtSoNgayThue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSoNgayThue;
+        
+        /// <summary>
+        /// Button1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button1;
     }
 }

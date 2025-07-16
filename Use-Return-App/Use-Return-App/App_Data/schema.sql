@@ -36,6 +36,7 @@ CREATE TABLE DoDung (
     GiaMoiNgay        DECIMAL(12,2) NOT NULL,
     SoLuong           INT DEFAULT 1,
     TinhTrang         NVARCHAR(255),
+	TienCoc           DECIMAL(12,2) NOT NULL,
     TrangThai         NVARCHAR(20) DEFAULT 'Available' CHECK (TrangThai IN ('Available','Unavailable','Deleted')),
     NgayTao           DATETIME DEFAULT GETDATE()
 );

@@ -4,7 +4,7 @@
         <style>
 
         .container-banner {
-            height: 330px;
+            height: 310px;
             width: auto;
             position: relative;
             
@@ -41,6 +41,51 @@
 
         }
 
+            .lazy-img {
+    background-color: #eee;
+    min-height: 160px;
+    display: block;
+    object-fit: cover;
+    border-radius: 6px 6px 0 0;
+    transition: opacity 0.3s ease;
+}
+        
+
+                .card {
+    height: 100%; 
+    display: flex;
+    flex-direction: column;
+}
+
+.card-body.item {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Cắt tiêu đề và mô tả */
+.card-title.item {
+   font-size: 1rem;
+    font-weight: bold;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* ✅ Hiển thị tối đa 2 dòng */
+    line-height: 1.2;
+    max-height: calc(1.2em * 2); /* giới hạn chiều cao dòng */
+}
+
+.card-text.description {
+    flex-grow: 1;
+    font-size: 0.875rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* giới hạn 2 dòng */
+    -webkit-box-orient: vertical;
+}
+            
     </style>
 </asp:Content>
 
@@ -112,14 +157,20 @@
 
                 cards.forEach(card => {
                     container.insertAdjacentHTML("beforeend", `
-<a class="text-decoration-none text-reset" href="${card.LinkUrl}" >
-                        <div class="card position-relative d-flex flex-cloumn">
-                            <img src="${card.ImageUrl}" class="card-img-top" alt="${card.Title}" />
-                            <div class="card-body gap-2 p-2">
+<a class="text-decoration-none text-reset" href="${card.LinkItemDetail}" >
+                        <div class="card-item card position-relative d-flex flex-cloumn">
+                            <img src="${card.DuongDanAnh}" class="card-img-top lazy-img" alt="${card.TieuDe}" />
+                            <div class="card-body item p-2">
 
-                                <h5 class="card-title">${card.Title}</h5>
-                                <p class="card-text">${card.Description}</p>
-<p class="card-text" style="font-size: .675rem"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                                <h5 class="card-title item">${card.TieuDe}</h5>
+                                <p class="card-text description">${card.MoTa}</p>
+<p style="color: rgb(255, 66, 78);" class="card-text fw-bold">${Number(card.GiaMoiNgay).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
+<div class="card-footer-meta text-end mt-auto">
+  <p class="card-text" style="font-size: .675rem">
+    <small class="text-body-secondary">${card.NgayTaoText}</small>
+  </p>
+</div>
+
 <div class="d-flex justify-content-end gap-2 position-absolute" style="top: .4rem; left: .4rem;">
                                 <button onclick="event.stopPropagation(); event.preventDefault();" type="button" class="btn btn-light btn-sm">  <i class="bi bi-bookmark-plus"></i> </button>       
                                 

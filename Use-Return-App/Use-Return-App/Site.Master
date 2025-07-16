@@ -104,7 +104,7 @@
                 </div>
             </nav>
 
-            <div class="py-2" style="max-width: 1280px; margin: 0 auto">
+            <div class="py-2 px-2" style="max-width: 1280px; margin: 0 auto">
 
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                 </asp:ContentPlaceHolder>

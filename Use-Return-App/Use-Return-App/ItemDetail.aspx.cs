@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
@@ -13,8 +16,96 @@ namespace Use_Return_App
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                string id = Request.QueryString["itid"];
 
+                if (Guid.TryParse(id, out Guid itemId))
+                {
+                   
+                    var images = getImages(itemId); 
+
+                    rptMainImages.DataSource = images;
+                    rptMainImages.DataBind();
+
+                    rptThumbImages.DataSource = images;
+                    rptThumbImages.DataBind();
+
+                    var row = GetChiTietDoDung(itemId);
+    
+                    if (row != null)
+                    {
+                        lblTieuDe.Text = row["TieuDe"].ToString();
+                        litMoTa.Text = row["MoTa"].ToString();
+                        lblGiaMoiNgay.Text = Convert.ToDecimal(row["GiaMoiNgay"]).ToString("N0", new System.Globalization.CultureInfo("vi-VN") { NumberFormat = { NumberGroupSeparator = "." } }) + " đ";
+                        lblTienCoc.Text = Convert.ToDecimal(row["TienCoc"]).ToString("N0", new System.Globalization.CultureInfo("vi-VN") { NumberFormat = { NumberGroupSeparator = "." } }) + " đ";
+                        //lblTinhTrang.Text = row["TinhTrang"].ToString();
+                        //lblTrangThai.Text = row["TrangThai"].ToString();
+                        //lblNgayTao.Text = ((DateTime)row["NgayTao"]).ToString("dd/MM/yyyy");
+
+                        //lblNguoiSoHuu.Text = row["TenNguoiSoHuu"].ToString();
+                        //lblEmail.Text = row["Email"].ToString();
+                        //imgDaiDienNguoiDung.ImageUrl = row["AnhDaiDien"].ToString();
+                        //lblTenDanhMuc.Text = row["TenDanhMuc"].ToString();
+                    }
+                    else
+                    {
+                        Response.Redirect("~/404.aspx");
+                    }
+                }
+                else
+                {
+                    Response.Redirect("~/404.aspx");
+                }
+         
+            }
         }
+        private DataTable getImages(Guid maDoDung)
+        {
+            string sql = "SELECT DuongDanAnh FROM HinhAnhDoDung WHERE MaDoDung = @id ORDER BY ThuTuHienThi";
+            return SqlHelper.ExecuteDataTable(sql, new SqlParameter("@id", maDoDung));
+        }
+
+        private DataRow GetChiTietDoDung(Guid id)
+        {
+            string sql = @"
+        SELECT 
+            dd.MaDoDung,
+            dd.TieuDe,
+            dd.MoTa,
+            dd.GiaMoiNgay,
+            dd.TienCoc,
+            dd.SoLuong,
+            dd.TinhTrang,
+            dd.NgayTao,
+            dd.TrangThai,
+            nd.HoTen AS TenNguoiSoHuu,
+            nd.Email,
+            nd.AnhDaiDien,
+            dm.TenDanhMuc
+        FROM DoDung dd
+        JOIN NguoiDung nd ON dd.MaNguoiSoHuu = nd.MaNguoiDung
+        JOIN DanhMuc dm ON dd.MaDanhMuc = dm.MaDanhMuc
+        WHERE dd.MaDoDung = @id";
+
+            var table = SqlHelper.ExecuteDataTable(sql, new SqlParameter("@id", id));
+            return table.Rows.Count > 0 ? table.Rows[0] : null;
+        }
+
+
+        protected void btnThueNgay_Click(object sender, EventArgs e)
+        {
+            string id = Request.QueryString["itid"];
+            if (!string.IsNullOrEmpty(id))
+            {
+                Response.Redirect($"checkout?itid={id}");
+            }
+            else
+            {
+                Response.Redirect("~/404.aspx");
+            }
+        }
+
         protected void btnAddToCart_onClick(object sender, EventArgs e)
         {
             var cart = CookieCartHelper.LoadCartFromCookie(Request);
