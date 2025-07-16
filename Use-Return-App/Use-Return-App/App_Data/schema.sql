@@ -55,27 +55,43 @@ CREATE TABLE PhieuThue (
     NgayBatDau        DATE NOT NULL,
     NgayKetThuc       DATE NOT NULL,
     SoNgay            AS (DATEDIFF(day, NgayBatDau, NgayKetThuc) + 1) PERSISTED,
+    
     TongTien          DECIMAL(12,2) NOT NULL,
-    TrangThai         NVARCHAR(20) DEFAULT 'Pending' CHECK (TrangThai IN ('Pending','Confirmed','PickedUp','Returned','Cancelled')),
+    TienCoc           DECIMAL(12,2) NOT NULL,
+
+    TrangThai         NVARCHAR(20) DEFAULT 'Pending' 
+        CHECK (TrangThai IN ('Pending','Confirmed','PickedUp','Returned','Cancelled','Expired')),
+
+    ThoiGianHetHan    DATETIME NULL, 
     NgayTao           DATETIME DEFAULT GETDATE()
 );
 
 CREATE TABLE ThanhToan (
-    MaThanhToan       UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY,
+    MaThanhToan       NVARCHAR(18) PRIMARY KEY,
     MaPhieuThue       UNIQUEIDENTIFIER NOT NULL REFERENCES PhieuThue(MaPhieuThue) ON DELETE CASCADE,
+
     SoTien            DECIMAL(12,2) NOT NULL,
-    PhuongThuc        NVARCHAR(30) NOT NULL CHECK (PhuongThuc IN ('COD','Bank','E-Wallet','CreditCard')),
+    PhuongThuc        NVARCHAR(30) NOT NULL 
+        CHECK (PhuongThuc IN ('COD','Bank','E-Wallet','CreditCard')),
+
     ThoiGianThanhToan DATETIME DEFAULT GETDATE(),
-    TrangThai         NVARCHAR(20) DEFAULT 'Success' CHECK (TrangThai IN ('Success','Failed','Refunded','Pending'))
+
+    TrangThai         NVARCHAR(20) DEFAULT 'Pending' 
+        CHECK (TrangThai IN ('Success','Failed','Refunded','Pending')),
+
+    TenNganHang       NVARCHAR(255) NULL,
+    MaGiaoDichNgoai   NVARCHAR(50) NULL, 
+    GhiChu            NVARCHAR(255) NULL
 );
 
-CREATE TABLE GiaoDich (
-    MaGiaoDich        UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY,
-    MaNguoiDung       UNIQUEIDENTIFIER NOT NULL REFERENCES NguoiDung(MaNguoiDung) ON DELETE CASCADE,
-    LoaiGiaoDich      NVARCHAR(20) NOT NULL CHECK (LoaiGiaoDich IN ('Deposit','Withdraw','Hold','Refund','Deduct')),
-    SoTien            DECIMAL(12,2) NOT NULL,
-    MoTa              NVARCHAR(MAX),
-    NgayTao           DATETIME DEFAULT GETDATE()
-);
+
+--CREATE TABLE GiaoDich (
+--    MaGiaoDich        UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY,
+--    MaNguoiDung       UNIQUEIDENTIFIER NOT NULL REFERENCES NguoiDung(MaNguoiDung) ON DELETE CASCADE,
+--    LoaiGiaoDich      NVARCHAR(20) NOT NULL CHECK (LoaiGiaoDich IN ('Deposit','Withdraw','Hold','Refund','Deduct')),
+--    SoTien            DECIMAL(12,2) NOT NULL,
+--    MoTa              NVARCHAR(MAX),
+--    NgayTao           DATETIME DEFAULT GETDATE()
+--);
 
 

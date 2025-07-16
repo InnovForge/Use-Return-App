@@ -45,21 +45,8 @@ namespace Use_Return_App.Payments.VNPay
             return paymentUrl;
         }
 
-        public static string GetVnpResponseDescription(string code)
-        {
-            switch (code)
-            {
-                case "00": return "Giao dịch thanh toán thành công.";
-                case "01": return "Giao dịch chưa hoàn tất.";
-                case "02": return "Giao dịch bị lỗi.";
-                case "04": return "Giao dịch đảo – Khách hàng đã bị trừ tiền tại Ngân hàng nhưng chưa thành công tại VNPAY.";
-                case "05": return "VNPAY đang xử lý giao dịch này (hoàn tiền).";
-                case "06": return "VNPAY đã gửi yêu cầu hoàn tiền sang Ngân hàng.";
-                case "07": return "Giao dịch bị nghi ngờ gian lận.";
-                case "09": return "Giao dịch hoàn trả bị từ chối.";
-                default: return "Không rõ trạng thái giao dịch.";
-            }
-        }
+   
+
 
 
         public static PaymentResponse ProcessReturn(NameValueCollection queryString)
@@ -76,25 +63,26 @@ namespace Use_Return_App.Payments.VNPay
             }
 
             string vnp_SecureHash = queryString["vnp_SecureHash"];
+
             bool isValidSignature = vnpay.ValidateSignature(vnp_SecureHash, VNPay.HashSecret);
 
             var response = new PaymentResponse
             {
-                TransactionId = vnpay.GetResponseData("vnp_TransactionNo"),
                 OrderId = vnpay.GetResponseData("vnp_TxnRef"),
-                PaymentMethod = queryString["vnp_BankCode"],
-                PaymentId = vnpay.GetResponseData("vnp_TransactionNo"),
+                TransactionId = vnpay.GetResponseData("vnp_TransactionNo"),
                 VnPayResponseCode = vnpay.GetResponseData("vnp_ResponseCode"),
-                Token = vnp_SecureHash,
                 VnpayTransactionStatus = vnpay.GetResponseData("vnp_TransactionStatus"),
-                responseDescription = GetVnpResponseDescription(vnpay.GetResponseData("vnp_ResponseCode"))
+                PaymentMethod = queryString["vnp_BankCode"],
+                Amount = Convert.ToInt64(vnpay.GetResponseData("vnp_Amount")) / 100,
+
+                Token = vnp_SecureHash,
+  
+           
         };
 
             response.Success = isValidSignature &&
                                vnpay.GetResponseData("vnp_ResponseCode") == "00" &&
                                vnpay.GetResponseData("vnp_TransactionStatus") == "00";
-
-            
 
             return response;
         }

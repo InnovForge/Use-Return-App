@@ -17,6 +17,11 @@ namespace Use_Return_App
         {
             if (!IsPostBack)
             {
+                if (Session["userId"] == null)
+                {
+                    
+                    Response.Redirect("~/DANGNHAP.aspx");
+                }
                 txtSoNgayThue.Attributes["type"] = "number";
                 txtSoNgayThue.Attributes["min"] = "1"; 
                 string id = Request.QueryString["itid"];
@@ -32,7 +37,7 @@ namespace Use_Return_App
 
                     var paymentMethods = new List<PaymentMethod>
         {
-            new PaymentMethod { Id = "vnpay", Name = "Ví VNPay", ImageUrl = "/Assets/IconVNPAY.png" },
+            new PaymentMethod { Id = "vnpay", Name = "Ví VNPay", ImageUrl = "/Assets/IconVNPay.png" },
             new PaymentMethod { Id = "cash", Name = "Thanh toán tiền mặt", ImageUrl = "/Assets/iconCash.png" },
 
         };
@@ -74,16 +79,16 @@ namespace Use_Return_App
         protected void Button1_Click(object sender, EventArgs e)
         {
             string selectedPaymentId = Request.Form["paymentMethod"];
+            string id = Request.QueryString["itid"];
 
             int soNgayThue = int.Parse(txtSoNgayThue.Text);
-            string id = Request.QueryString["itid"];
             string sql = "SELECT GiaMoiNgay, TienCoc FROM DoDung WHERE MaDoDung = @id";
             var parameters = new[] { new SqlParameter("@id", id) };
 
             DataTable table = SqlHelper.ExecuteDataTable(sql, parameters);
+
             if (table.Rows.Count == 0)
             {
-      
                 Response.Write("Không tìm thấy đồ dùng");
                 return;
             }
@@ -91,34 +96,61 @@ namespace Use_Return_App
             decimal giaMoiNgay = Convert.ToDecimal(table.Rows[0]["GiaMoiNgay"]);
             decimal tienCoc = Convert.ToDecimal(table.Rows[0]["TienCoc"]);
             decimal tongTien = soNgayThue * (giaMoiNgay + tienCoc);
-            if (!string.IsNullOrEmpty(selectedPaymentId))
+
+        
+            Guid maPhieuThue = Guid.NewGuid();
+            SqlHelper.ExecuteNonQuery(@"
+        INSERT INTO PhieuThue (MaPhieuThue, MaDoDung, MaNguoiThue, NgayBatDau, NgayKetThuc, TongTien, TienCoc, ThoiGianHetHan)
+        VALUES (@maPhieuThue, @maDoDung, @maNguoiThue, @batDau, @ketThuc, @tongTien, @tienCoc, @hetHan)
+    ", new SqlParameter("@maPhieuThue", maPhieuThue),
+               new SqlParameter("@maDoDung", id),
+               new SqlParameter("@maNguoiThue", Session["userId"]),
+               new SqlParameter("@batDau", DateTime.Today),
+               new SqlParameter("@ketThuc", DateTime.Today.AddDays(soNgayThue - 1)),
+               new SqlParameter("@tongTien", tongTien),
+               new SqlParameter("@tienCoc", tienCoc),
+               new SqlParameter("@hetHan", DateTime.Now.AddMinutes(15))
+            );
+
+            string maThanhToan = DateTime.Now.Ticks.ToString();
+
+            SqlHelper.ExecuteNonQuery(@"
+        INSERT INTO ThanhToan (MaThanhToan, MaPhieuThue, SoTien, PhuongThuc)
+        VALUES (@maThanhToan, @maPhieuThue, @soTien, @phuongThuc)
+    ", new SqlParameter("@maThanhToan", maThanhToan),
+               new SqlParameter("@maPhieuThue", maPhieuThue),
+               new SqlParameter("@soTien", tongTien),
+               new SqlParameter("@phuongThuc", "E-Wallet")
+            );
+
+          
+            if (selectedPaymentId == "vnpay")
             {
-                if(selectedPaymentId == "vnpay")
+                OrderInfo order = new OrderInfo
                 {
-                    OrderInfo order = new OrderInfo
-                    {
-                        OrderId = DateTime.Now.Ticks,
-                        Amount = (long)tongTien,
-                        Status = "0",
-                        CreatedDate = DateTime.Now
-                    };
+                    OrderId = long.Parse(maThanhToan),
+                    Amount = (long)tongTien,
+                    Status = "0",
+                    CreatedDate = DateTime.Now
+                };
 
 
-                    string bankCode = null; 
-                    string locale = "vn";
+                string bankCode = null;
+                string locale = "vn";
 
-                    string paymentUrl = VNPay.BuildPaymentUrl(order, bankCode, locale);
-                    Response.Redirect(paymentUrl);
-                }
+                string paymentUrl = VNPay.BuildPaymentUrl(order, bankCode, locale);
+                Response.Redirect(paymentUrl);
             }
+
             else
             {
-               
-           
+
+
             }
         }
-    }
-    public class PaymentMethod
+        }
+
+        public class PaymentMethod
     {
         public string Id { get; set; }
         public string Name { get; set; }

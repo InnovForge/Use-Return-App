@@ -22,22 +22,67 @@ namespace Use_Return_App {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// displayMsg control.
+        /// iconSuccess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl displayMsg;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl iconSuccess;
         
         /// <summary>
-        /// displayTmnCode control.
+        /// iconFail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl displayTmnCode;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl iconFail;
+        
+        /// <summary>
+        /// lbMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbMessage;
+        
+        /// <summary>
+        /// errMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl errMsg;
+        
+        /// <summary>
+        /// containerTb control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl containerTb;
+        
+        /// <summary>
+        /// displayBankCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl displayBankCode;
+        
+        /// <summary>
+        /// displayOrderId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl displayOrderId;
         
         /// <summary>
         /// displayTxnRef control.
@@ -49,15 +94,6 @@ namespace Use_Return_App {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl displayTxnRef;
         
         /// <summary>
-        /// displayVnpayTranNo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl displayVnpayTranNo;
-        
-        /// <summary>
         /// displayAmount control.
         /// </summary>
         /// <remarks>
@@ -65,14 +101,5 @@ namespace Use_Return_App {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl displayAmount;
-        
-        /// <summary>
-        /// displayBankCode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl displayBankCode;
     }
 }
