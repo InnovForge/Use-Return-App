@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -80,13 +81,45 @@ namespace Use_Return_App.Admin
 
         protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
+            GridViewRow row = GridView1.Rows[e.RowIndex];
             string maND = e.NewValues["MaNguoiDung"].ToString();
 
-            TextBox txtHoTen = (TextBox)GridView1.Rows[e.RowIndex].FindControl("EditHoTen"); ;
-            TextBox txtEmail = (TextBox)GridView1.Rows[e.RowIndex].FindControl("EditEmail");
-            TextBox txtSoDienThoai = (TextBox)GridView1.Rows[e.RowIndex].FindControl("EditPhone");
+            TextBox txtHoTen = (TextBox)row.FindControl("EditHoTen"); ;
+            TextBox txtEmail = (TextBox)row.FindControl("EditEmail");
+            TextBox txtSoDienThoai = (TextBox)row.FindControl("EditPhone");
       //      TextBox txtMaKhau = (TextBox)GridView1.FooterRow.FindControl("EditPass");
-            DropDownList ddlRole = (DropDownList)GridView1.FooterRow.FindControl("DropDownList1");
+            DropDownList ddlRole = (DropDownList)GridView1.FooterRow.FindControl("ddlRole");
+            FileUpload fuAvatar = (FileUpload)row.FindControl("fuAvatarEdit");
+            HiddenField hfOld = (HiddenField)row.FindControl("hfOldAvatar");
+            string oldFileName = hfOld.Value;     // ảnh hiện tại trong DB
+            string newFileName = oldFileName;     // mặc định: giữ nguyên
+
+            if (fuAvatar.HasFile)
+            {
+                string fileName = Path.GetFileName(fuAvatar.FileName);
+                string folder = Server.MapPath("~/ImageUsers/");
+                string path = Path.Combine(folder, fileName);
+                int counter = 1;
+                string name = Path.GetFileNameWithoutExtension(fileName);
+                string ext = Path.GetExtension(fileName);
+
+                while (File.Exists(path))
+                {
+                    fileName = $"{name}-{counter}{ext}";
+                    path = Path.Combine(folder, fileName);
+                    counter++;
+                }
+
+                fuAvatar.SaveAs(path);
+                newFileName = fileName;
+
+                if (!string.IsNullOrEmpty(oldFileName))
+                {
+                    string oldPath = Path.Combine(folder, oldFileName);
+                    if (File.Exists(oldPath)) File.Delete(oldPath);
+                }
+            }
+
 
             string tenND = txtHoTen.Text.Trim();
             string email = txtEmail.Text.Trim();
@@ -94,7 +127,7 @@ namespace Use_Return_App.Admin
          //   string pass = txtMaKhau.Text.Trim();
             int roleId = int.Parse(ddlRole.SelectedValue);
 
-            string sql = "UPDATE NguoiDung SET HoTen = N'" + tenND + "', Email = N'"+ email + "', SoDienThoai = '"+ phone + "',MaVaiTro = '"+roleId+"'  WHERE MaNguoiDung = '" + maND + "'";
+            string sql = "UPDATE NguoiDung SET HoTen = N'" + tenND + "', Email = N'"+ email + "',AnhDaiDien = '"+(object)newFileName+"', SoDienThoai = '"+ phone + "',MaVaiTro = '"+roleId+"'  WHERE MaNguoiDung = '" + maND + "'";
 
             int kq = SqlHelper.ExecuteNonQuery(sql);
             if (kq > 0)
@@ -127,7 +160,25 @@ namespace Use_Return_App.Admin
             TextBox txtEmail = (TextBox)GridView1.FooterRow.FindControl("txtEmail");
             TextBox txtSoDienThoai = (TextBox)GridView1.FooterRow.FindControl("txtPhone");
             TextBox txtMaKhau = (TextBox)GridView1.FooterRow.FindControl("txtPassword");
-            DropDownList ddlRole = (DropDownList)GridView1.FooterRow.FindControl("ddlRole");
+            DropDownList ddlRole = (DropDownList)GridView1.FooterRow.FindControl("DropDownList1");
+            FileUpload fuAvt = (FileUpload)GridView1.FooterRow.FindControl("fuAvatar");
+
+            string fileName = null;
+            if (fuAvt.HasFile)
+            {
+                string ext = Path.GetExtension(fuAvt.FileName).ToLower();
+                if (ext == ".jpg" || ext == ".jpeg" || ext == ".png")
+                {
+                    fileName = Guid.NewGuid() + ext;
+                    string path = Server.MapPath("~/ImageUsers/") + fileName;
+                    fuAvt.SaveAs(path);
+                }
+                else
+                {
+                    Response.Write("<script>alert('Chỉ chấp nhận JPG/PNG');</script>");
+                    return;
+                }
+            }
 
 
             string tenND = txtHoTen.Text.Trim();
@@ -137,7 +188,7 @@ namespace Use_Return_App.Admin
             int roleId = int.Parse(ddlRole.SelectedValue);
 
 
-            int kq = SqlHelper.ExecuteNonQuery("INSERT INTO NguoiDung( HoTen, Email, SoDienThoai,MatKhauHash,MaVaiTro) VALUES (N'" + tenND + "', N'"+email+"', N'"+phone+"', N'"+pass+"','"+roleId+"')");
+            int kq = SqlHelper.ExecuteNonQuery("INSERT INTO NguoiDung( HoTen, Email,AnhDaiDien ,SoDienThoai,MatKhauHash,MaVaiTro) VALUES (N'" + tenND + "', N'"+email+"','"+fileName+"', N'"+phone+"', N'"+pass+"','"+roleId+"')");
 
             if (kq > 0)
             {

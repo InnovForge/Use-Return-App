@@ -37,6 +37,19 @@ namespace Use_Return_App
                 phGuest.Visible = true;
                 phUser.Visible = false;
             }
+
         }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            string keyword = txtSearch.Text.Trim();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                // Chuyển hướng đến trang kết quả tìm kiếm
+                Response.Redirect("~/Search.aspx?query=" + Server.UrlEncode(keyword));
+            }
+        }
+
     }
 }

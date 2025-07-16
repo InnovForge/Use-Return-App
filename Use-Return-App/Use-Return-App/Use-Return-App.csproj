@@ -123,7 +123,9 @@
   <ItemGroup>
     <Content Include="404.aspx" />
     <Content Include="About.aspx" />
+    <Content Include="Admin\AdminDanhMuc.aspx" />
     <Content Include="Admin\AdminHome.aspx" />
+    <Content Include="Admin\ChiTietSanPham.aspx" />
     <Content Include="Admin\QuanLyDonHang.aspx" />
     <Content Include="Admin\QuanLyNguoiDung.aspx" />
     <Content Include="Admin\QuanLySanPham.aspx" />
@@ -153,6 +155,8 @@
     <Content Include="DANGNHAP.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="ImageUsers\gay.jpg" />
+    <Content Include="ImageUsers\goku.jpg" />
     <Content Include="ItemDetail.aspx" />
     <Content Include="logout.aspx" />
     <Content Include="PaymentCallback.aspx" />
@@ -162,11 +166,13 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Admin\QuanLyDanhMuc.Master" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.4.3.js" />
     <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
+    <Content Include="Search.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -185,6 +191,13 @@
     <Compile Include="About.aspx.designer.cs">
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\AdminDanhMuc.aspx.cs">
+      <DependentUpon>AdminDanhMuc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AdminDanhMuc.aspx.designer.cs">
+      <DependentUpon>AdminDanhMuc.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\AdminHome.aspx.cs">
       <DependentUpon>AdminHome.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -192,12 +205,26 @@
     <Compile Include="Admin\AdminHome.aspx.designer.cs">
       <DependentUpon>AdminHome.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\ChiTietSanPham.aspx.cs">
+      <DependentUpon>ChiTietSanPham.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ChiTietSanPham.aspx.designer.cs">
+      <DependentUpon>ChiTietSanPham.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Dashboard.Master.cs">
       <DependentUpon>Dashboard.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Admin\Dashboard.Master.designer.cs">
       <DependentUpon>Dashboard.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\QuanLyDanhMuc.Master.cs">
+      <DependentUpon>QuanLyDanhMuc.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\QuanLyDanhMuc.Master.designer.cs">
+      <DependentUpon>QuanLyDanhMuc.Master</DependentUpon>
     </Compile>
     <Compile Include="Admin\QuanLyDonHang.aspx.cs">
       <DependentUpon>QuanLyDonHang.aspx</DependentUpon>
@@ -304,6 +331,13 @@
     <Compile Include="Payments\VNPay\VNPay.cs" />
     <Compile Include="Payments\VNPay\VNPayLibrary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Search.aspx.cs">
+      <DependentUpon>Search.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Search.aspx.designer.cs">
+      <DependentUpon>Search.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SignalR\ChatHub.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
