@@ -13,6 +13,7 @@ namespace Use_Return_App
             //var settings = new FriendlyUrlSettings();
             //settings.AutoRedirectMode = RedirectMode.Off;
             //routes.EnableFriendlyUrls(settings);
+
             routes.MapPageRoute(
             routeName: "thanhtoan",
             routeUrl: "checkout",
@@ -26,8 +27,9 @@ namespace Use_Return_App
             routes.MapPageRoute(
             routeName: "ChiTietDoDung",
             routeUrl: "{slug}",
-            physicalFile: "~/ItemDetail.aspx"  // tên file .aspx nhận
+            physicalFile: "~/ItemDetail.aspx"  
         );
+            routes.Ignore("{resource}.axd/{*pathInfo}");
         }
     }
 }

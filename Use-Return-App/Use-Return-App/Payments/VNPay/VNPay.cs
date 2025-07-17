@@ -17,7 +17,8 @@ namespace Use_Return_App.Payments.VNPay
         public static string CurrCode => ConfigurationManager.AppSettings["Vnpay:CurrCode"];
         public static string Version => ConfigurationManager.AppSettings["Vnpay:Version"];
         public static string Locale => ConfigurationManager.AppSettings["Vnpay:Locale"];
-        public static string ReturnUrl => ConfigurationManager.AppSettings["Vnpay:PaymentBackReturnUrl"];
+        //public static string ReturnUrl => ConfigurationManager.AppSettings["Vnpay:PaymentBackReturnUrl"];
+       public static string ReturnUrl => $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/checkout/paymentcallback/vnpay";
 
         public static string BuildPaymentUrl(OrderInfo order, string bankCode = null, string locale = "vn")
         {

@@ -89,8 +89,10 @@
     </style>
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:ScriptManager ID="ScriptManager2" runat="server" EnablePageMethods="true"></asp:ScriptManager>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server" >
+
+
+
       <div class="container-banner">
                 <div class="swiper bannerSwiper">
                     <div class="swiper-wrapper">
@@ -119,7 +121,7 @@
     </div>
     <div id="loading" style="text-align: center; margin: 1rem; font-weight: bold;">Đang tải...</div>
 
-       <script>
+ <script type="text/javascript">
 
     var swiper = new Swiper(".bannerSwiper", {
         slidesPerView: 1,
