@@ -13,11 +13,14 @@ namespace Use_Return_App
             //var settings = new FriendlyUrlSettings();
             //settings.AutoRedirectMode = RedirectMode.Off;
             //routes.EnableFriendlyUrls(settings);
+            routes.Ignore("{resource}.axd/{*pathInfo}");
 
             routes.MapPageRoute(
             routeName: "thanhtoan",
             routeUrl: "checkout",
             physicalFile: "~/Checkout.aspx");
+
+            routes.MapPageRoute("userChat", "messages/u/{userId}", "~/Chat.aspx");
 
             routes.MapPageRoute(
          routeName: "paymentcallback",
@@ -29,7 +32,7 @@ namespace Use_Return_App
             routeUrl: "{slug}",
             physicalFile: "~/ItemDetail.aspx"  
         );
-            routes.Ignore("{resource}.axd/{*pathInfo}");
+            
         }
     }
 }
