@@ -59,9 +59,13 @@
         <div class="login-container">
             <h2>Đăng nhập</h2>
             <asp:Label ID="lblMessage" runat="server" CssClass="message-label" />
-            <asp:TextBox ID="txtTenDangNhap" runat="server" CssClass="form-control" Placeholder="Tên đăng nhập" />
+           <asp:TextBox ID="txtSoDienThoai" runat="server" CssClass="form-control" Placeholder="Số điện thoại" />
             <asp:TextBox ID="txtMatKhau" runat="server" CssClass="form-control" TextMode="Password" Placeholder="Mật khẩu" />
             <asp:Button ID="btnLogin" runat="server" Text="Đăng nhập" CssClass="btn-primary" OnClick="btnLogin_Click" />
+            <br /><br />
+            <asp:LinkButton ID="lnkDangKy" runat="server" OnClick="lnkDangKy_Click" CssClass="btn btn-link">
+                Chưa có tài khoản? Đăng ký
+            </asp:LinkButton>
         </div>
     </form>
 </body>
