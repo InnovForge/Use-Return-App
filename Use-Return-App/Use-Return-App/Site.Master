@@ -94,7 +94,7 @@
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li><a class="dropdown-item" href="ThongTin.aspx">Thông tin cá nhân</a></li>
-                                            <li><a class="dropdown-item" href="DonHang.aspx">Đơn hàng</a></li>
+                                            <li><a class="dropdown-item" href="lichsu.aspx">Lịch sử thuê</a></li>
                                             <li>
                                                 <hr class="dropdown-divider" />
                                             </li>

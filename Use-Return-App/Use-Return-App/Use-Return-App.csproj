@@ -158,6 +158,7 @@
     <Content Include="ImageUsers\gay.jpg" />
     <Content Include="ImageUsers\goku.jpg" />
     <Content Include="ItemDetail.aspx" />
+    <Content Include="lichsu.aspx" />
     <Content Include="logout.aspx" />
     <Content Include="PaymentCallback.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -305,6 +306,13 @@
     </Compile>
     <Compile Include="ItemDetail.aspx.designer.cs">
       <DependentUpon>ItemDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="lichsu.aspx.cs">
+      <DependentUpon>lichsu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="lichsu.aspx.designer.cs">
+      <DependentUpon>lichsu.aspx</DependentUpon>
     </Compile>
     <Compile Include="logout.aspx.cs">
       <DependentUpon>logout.aspx</DependentUpon>
