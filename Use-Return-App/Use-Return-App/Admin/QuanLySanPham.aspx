@@ -1,7 +1,20 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/QuanLyDanhMuc.Master" AutoEventWireup="true" CodeBehind="QuanLySanPham.aspx.cs" Inherits="Use_Return_App.Admin.QuanLySanPham" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+     <style>
+     .grid-scroll {
+         max-height: 600px; 
+         overflow-y: auto; 
+         overflow-x: auto; 
+         border: 1px solid #999;
+     }
+
+         .grid-scroll table {
+             width: 100%;
+         }
+ </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+        <div class="grid-scroll">
        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
     <Columns>
         <asp:BoundField DataField="MaDanhMuc" HeaderText="Mã Danh Mục" />
@@ -18,4 +31,5 @@
         </asp:TemplateField>
     </Columns>
 </asp:GridView>
+            </div>
 </asp:Content>
