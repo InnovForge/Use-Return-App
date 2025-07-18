@@ -8,8 +8,8 @@ public static class SqlHelper
 {
     private static string GetConnectionString()
     {
-        string dbFile = HttpContext.Current.Server.MapPath("~/App_Data/Database.mdf");
-        return $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={dbFile};Integrated Security=True;Connect Timeout=30;";
+     //   string dbFile = HttpContext.Current.Server.MapPath("~/App_Data/Database.mdf");
+        return $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True;Connect Timeout=30;";
     }
 
     public static void EnsureDatabaseExists()
@@ -143,4 +143,19 @@ public static class SqlHelper
             }
         }
     }
+
+    public static SqlDataReader ExecuteReader(string sql, params SqlParameter[] parameters)
+    {
+        var connection = new SqlConnection(GetConnectionString());
+        var command = new SqlCommand(sql, connection);
+
+        if (parameters != null)
+            command.Parameters.AddRange(parameters);
+
+        connection.Open();
+        // Khi reader bị đóng thì connection cũng sẽ tự đóng
+        return command.ExecuteReader(CommandBehavior.CloseConnection);
+    }
+
+
 }

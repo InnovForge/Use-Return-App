@@ -100,10 +100,10 @@
                            <img src="https://placehold.co/600x400/orange/white?text=ngtuonghy" />
                         </div>
                         <div class="swiper-slide">
-                             <img src="https://placehold.co/600x400/red/white?text=name" />
+                             <img src="https://placehold.co/600x400/red/white?text=Thắng+cá+mập" />
                         </div>
                         <div class="swiper-slide">
-                             <img src="https://placehold.co/600x400/blue/white?text=banner-quảng-cáo" />
+                             <img src="https://placehold.co/600x400/blue/white?text=Nhật+blue" />
                         </div>
                     <%--    <div class="swiper-slide">Slide 4</div>
                         <div class="swiper-slide">Slide 5</div>
@@ -121,7 +121,7 @@
     </div>
     <div id="loading" style="text-align: center; margin: 1rem; font-weight: bold;">Đang tải...</div>
 
- <script type="text/javascript">
+ <script type="text/javascript" >
 
     var swiper = new Swiper(".bannerSwiper", {
         slidesPerView: 1,

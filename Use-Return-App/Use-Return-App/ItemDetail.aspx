@@ -165,10 +165,10 @@
                     <i class="bi bi-telephone"></i>
                     <div>Gọi điện</div>
                 </button>
-                <button class="btn btn-info d-flex gap-2 align-items-center justify-content-center">
+                <a id="lnkMessage" runat="server" class="btn btn-info d-flex gap-2 align-items-center justify-content-center">
                     <i class="bi bi-chat"></i>
                     <div>Nhắn tin</div>
-                </button>
+                </a>
             </div>
             <hr />
             <div class="d-flex gap-2 justify-content-end">

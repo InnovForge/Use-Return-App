@@ -30,8 +30,8 @@
             <asp:ScriptManager ID="ScriptManager2" runat="server" EnablePageMethods="true"></asp:ScriptManager>
         <div>
 
-            <nav class="navbar navbar-expand-lg px-2 sticky-top shadow-sm bg-body" data-bs-theme="light">
-                <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg px-2 sticky-top shadow-sm bg-body z-3" data-bs-theme="light" style="height:60px;">
+                <div class="container-fluid bg-body">
                     <a class="navbar-brand fs-4" runat="server" href="~/">
                         <i class="bi bi-gem"></i>
                     </a>
@@ -69,7 +69,7 @@
                           <a href="/Cart.aspx">
                                 <button  type="button" class="btn position-relative btn-sm">
                 
-                                    <i class="bi bi-bookmark fs-4"></i>
+                                    <i class="bi bi-bookmark fs-5"></i>
                                     <span id="CartBadge" runat="server" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0
     <span class="visually-hidden">unread messages</span>
                                     </span>
@@ -77,7 +77,7 @@
                             </a>
 
 
-                            <div class="d-flex gap-2 py-2">
+                            <div class="d-flex gap-2">
                                 <asp:PlaceHolder ID="phGuest" runat="server" Visible="true">
                                     <div class="d-flex gap-2 py-2">
                                         <asp:HyperLink ID="lnkLogin" runat="server" NavigateUrl="~/DANGNHAP.aspx" CssClass="btn btn-outline-primary btn-sm">Đăng nhập</asp:HyperLink>

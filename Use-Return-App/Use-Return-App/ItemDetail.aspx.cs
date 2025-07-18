@@ -39,6 +39,7 @@ namespace Use_Return_App
                         litMoTa.Text = row["MoTa"].ToString();
                         lblGiaMoiNgay.Text = Convert.ToDecimal(row["GiaMoiNgay"]).ToString("N0", new System.Globalization.CultureInfo("vi-VN") { NumberFormat = { NumberGroupSeparator = "." } }) + " đ";
                         lblTienCoc.Text = Convert.ToDecimal(row["TienCoc"]).ToString("N0", new System.Globalization.CultureInfo("vi-VN") { NumberFormat = { NumberGroupSeparator = "." } }) + " đ";
+                        lnkMessage.HRef = "/messages/u/" + row["MaNguoiSoHuu"];
                         //lblTinhTrang.Text = row["TinhTrang"].ToString();
                         //lblTrangThai.Text = row["TrangThai"].ToString();
                         //lblNgayTao.Text = ((DateTime)row["NgayTao"]).ToString("dd/MM/yyyy");
@@ -82,7 +83,8 @@ namespace Use_Return_App
             nd.HoTen AS TenNguoiSoHuu,
             nd.Email,
             nd.AnhDaiDien,
-            dm.TenDanhMuc
+            dm.TenDanhMuc,
+            dd.MaNguoiSoHuu
         FROM DoDung dd
         JOIN NguoiDung nd ON dd.MaNguoiSoHuu = nd.MaNguoiDung
         JOIN DanhMuc dm ON dd.MaDanhMuc = dm.MaDanhMuc

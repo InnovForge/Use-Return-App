@@ -120,6 +120,22 @@ public static class DbSeeder
                 userCmd.Parameters.AddWithValue("@anhDaiDien", DBNull.Value);
 
                 userCmd.ExecuteNonQuery();
+
+                var userCmd2 = new SqlCommand(@"
+    INSERT INTO NguoiDung 
+        (MaVaiTro, HoTen, Email, SoDienThoai, MatKhauHash, AnhDaiDien)
+    VALUES 
+        (@maVaiTro, @hoTen, @email, @soDienThoai, @matKhauHash, @anhDaiDien)", connection);
+
+                userCmd2.Parameters.AddWithValue("@maVaiTro", 2);
+                userCmd2.Parameters.AddWithValue("@hoTen", "user1");
+                userCmd2.Parameters.AddWithValue("@email", "user1@example.com");
+                userCmd2.Parameters.AddWithValue("@soDienThoai", "0987654321");
+                userCmd2.Parameters.AddWithValue("@matKhauHash", BCrypt.Net.BCrypt.HashPassword("user123")); // Hoặc biến hash nếu có
+                userCmd2.Parameters.AddWithValue("@anhDaiDien", DBNull.Value);
+
+                userCmd2.ExecuteNonQuery();
+
             }
 
             var danhMucCmd = new SqlCommand(@"

@@ -84,6 +84,25 @@ CREATE TABLE ThanhToan (
     GhiChu            NVARCHAR(255) NULL
 );
 
+CREATE TABLE Message (
+    MessageId       UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY,
+    SenderId        UNIQUEIDENTIFIER NOT NULL REFERENCES NguoiDung(MaNguoiDung),
+    ReceiverId      UNIQUEIDENTIFIER NOT NULL REFERENCES NguoiDung(MaNguoiDung) ON DELETE CASCADE,
+    Content         NVARCHAR(MAX) NOT NULL,
+    SentTime        DATETIME DEFAULT GETDATE(),
+    IsRead          BIT DEFAULT 0
+);
+
+CREATE TABLE Attachment (
+    AttachmentId     UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY,
+    MessageId        UNIQUEIDENTIFIER NOT NULL REFERENCES Message(MessageId) ON DELETE CASCADE,
+    FileType         NVARCHAR(50),
+    FileUrl          NVARCHAR(1000),
+    FileName         NVARCHAR(255),
+    UploadedAt       DATETIME DEFAULT GETDATE()
+);
+
+
 
 --CREATE TABLE GiaoDich (
 --    MaGiaoDich        UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY,

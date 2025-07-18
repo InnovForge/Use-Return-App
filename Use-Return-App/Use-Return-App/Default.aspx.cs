@@ -21,7 +21,7 @@ namespace Use_Return_App
         [WebMethod]
         public static List<Card> LoadCards(int page)
         {
-            int pageSize = 10;
+            int pageSize = 12;
             int offset = page * pageSize;
 
             string sql = @"
