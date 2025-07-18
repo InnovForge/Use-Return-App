@@ -159,6 +159,7 @@
     <Content Include="ImageUsers\gay.jpg" />
     <Content Include="ImageUsers\goku.jpg" />
     <Content Include="ItemDetail.aspx" />
+    <Content Include="lichsu.aspx" />
     <Content Include="logout.aspx" />
     <Content Include="PaymentCallback.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -174,6 +175,7 @@
     <Content Include="Scripts\jquery.signalR-2.4.3.js" />
     <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
     <Content Include="Search.aspx" />
+    <Content Include="ThongTin.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -313,6 +315,13 @@
     <Compile Include="ItemDetail.aspx.designer.cs">
       <DependentUpon>ItemDetail.aspx</DependentUpon>
     </Compile>
+    <Compile Include="lichsu.aspx.cs">
+      <DependentUpon>lichsu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="lichsu.aspx.designer.cs">
+      <DependentUpon>lichsu.aspx</DependentUpon>
+    </Compile>
     <Compile Include="logout.aspx.cs">
       <DependentUpon>logout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -360,6 +369,13 @@
     </Compile>
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
+    </Compile>
+    <Compile Include="ThongTin.aspx.cs">
+      <DependentUpon>ThongTin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ThongTin.aspx.designer.cs">
+      <DependentUpon>ThongTin.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>

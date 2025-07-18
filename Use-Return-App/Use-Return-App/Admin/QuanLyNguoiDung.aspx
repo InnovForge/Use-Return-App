@@ -104,7 +104,7 @@
                         <asp:DropDownList ID="ddlRole" runat="server"
                             SelectedValue='<%# Bind("MaVaiTro") %>'
                             DataTextField="TenVaiTro"
-                            DataValueField="MaVaiTro" AutoPostBack="True">
+                            DataValueField="MaVaiTro">
                             <asp:ListItem Value="1">Người Dùng</asp:ListItem>
                             <asp:ListItem Value="2">Quản Trị</asp:ListItem>
                         </asp:DropDownList>

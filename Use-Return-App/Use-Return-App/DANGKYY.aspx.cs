@@ -26,7 +26,7 @@ namespace Use_Return_App
             string matKhau = txtPassword.Text.Trim();
             string xacNhan = txtConfirmPassword.Text.Trim();
             string soDienThoai = txtPhone.Text.Trim();
-            int maVaiTro = int.Parse(ddlVaiTro.SelectedValue);
+            int maVaiTro = 1; // Người dùng mặc định
 
             if (string.IsNullOrEmpty(hoTen))
             {
@@ -58,12 +58,6 @@ namespace Use_Return_App
             if (string.IsNullOrEmpty(soDienThoai))
             {
                 lblMessage.Text = "Vui lòng nhập số điện thoại.";
-                return;
-            }
-
-            if (maVaiTro == 0)
-            {
-                lblMessage.Text = "Vui lòng chọn vai trò.";
                 return;
             }
 

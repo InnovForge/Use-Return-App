@@ -64,11 +64,6 @@
         <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" TextMode="Password" Placeholder="Mật khẩu" />
         <asp:TextBox ID="txtConfirmPassword" runat="server" CssClass="form-control" TextMode="Password" Placeholder="Xác nhận mật khẩu" />
         <asp:TextBox ID="txtPhone" runat="server" CssClass="form-control" Placeholder="Số điện thoại" />
-        <asp:DropDownList ID="ddlVaiTro" runat="server" CssClass="form-control">
-            <asp:ListItem Text="-- Chọn vai trò --" Value="0" />
-            <asp:ListItem Text="Người dùng" Value="1" />
-            <asp:ListItem Text="Quản trị" Value="2" />
-        </asp:DropDownList>
         <asp:Button ID="btnRegister" runat="server" Text="Đăng ký" CssClass="btn-primary" OnClick="btnRegister_Click" />
     </div>
 </form>

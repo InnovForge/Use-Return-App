@@ -20,12 +20,61 @@ namespace Use_Return_App.Admin
                 LoadDoDung();
             }
         }
+
+        public Guid Temp
+        {
+            get { return ViewState["Temp"] != null ? (Guid)ViewState["Temp"] : Guid.Empty; }
+            set { ViewState["Temp"] = value; }
+        }
+
         public void LoadDoDung()
         {
-            string maSP = Context.Items["MaDoDung"].ToString();
+            Guid maSP = Guid.Parse(Context.Items["MaDoDung"].ToString());
+            Temp = maSP;
             String sql = "SELECT * FROM DoDung WHERE MaDoDung = '" + maSP + "'";
             this.GridView1.DataSource = SqlHelper.ExecuteDataTable(sql);
             this.GridView1.DataBind();
+        }
+        public void LoadDoDungEdit()
+        {
+            String sql = "SELECT * FROM DoDung WHERE MaDoDung = '" + Temp + "'";
+            this.GridView1.DataSource = SqlHelper.ExecuteDataTable(sql);
+            this.GridView1.DataBind();
+        }
+
+        protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            GridView1.EditIndex = -1; // Đặt lại chế độ chỉnh sửa
+           LoadDoDungEdit();
+        }
+
+        protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            string madm = e.Values["MaDoDung"].ToString();
+
+            int kq = SqlHelper.ExecuteNonQuery("DELETE FROM DoDung WHERE MaDoDung = '" + madm + "'");
+            if (kq > 0)
+            {
+                Response.Write("<script>alert('Xóa thành công');</script>");
+                //this.GridView1.DataSource = SqlHelper.ExecuteDataTable(sql);
+                //this.GridView1.DataBind();
+                LoadDoDungEdit();
+            }
+            else
+            {
+                Response.Write("<script>alert('Xóa thất bại');</script>");
+            }
+        }
+
+        protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridView1.EditIndex = e.NewEditIndex;
+             LoadDoDungEdit();
+        }
+
+        protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+
         }
     }
 }

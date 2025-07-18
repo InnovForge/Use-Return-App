@@ -32,7 +32,8 @@ namespace Use_Return_App.Admin
         {
             if (e.CommandName == "XemChiTiet")
             {
-                string maSanPham = e.CommandArgument.ToString();
+                Guid maSanPham = Guid.Parse(e.CommandArgument.ToString());
+
                 Context.Items["MaDoDung"] = maSanPham;
                 Server.Transfer("ChiTietSanPham.aspx");
                 //   Response.Redirect("~/Pages/XemChiTiet.aspx");

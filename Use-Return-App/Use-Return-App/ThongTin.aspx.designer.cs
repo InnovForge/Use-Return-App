@@ -10,60 +10,60 @@
 namespace Use_Return_App {
     
     
-    public partial class DANGNHAP {
+    public partial class ThongTin {
         
         /// <summary>
-        /// form1 control.
+        /// imgAvatar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Image imgAvatar;
         
         /// <summary>
-        /// lblMessage control.
+        /// lblHoTen control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMessage;
+        protected global::System.Web.UI.WebControls.Label lblHoTen;
         
         /// <summary>
-        /// txtSoDienThoai control.
+        /// lblEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSoDienThoai;
+        protected global::System.Web.UI.WebControls.Label lblEmail;
         
         /// <summary>
-        /// txtMatKhau control.
+        /// lblSoDienThoai control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMatKhau;
+        protected global::System.Web.UI.WebControls.Label lblSoDienThoai;
         
         /// <summary>
-        /// btnLogin control.
+        /// lblNgayTao control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLogin;
+        protected global::System.Web.UI.WebControls.Label lblNgayTao;
         
         /// <summary>
-        /// lnkDangKy control.
+        /// lblTrangThai control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkDangKy;
+        protected global::System.Web.UI.WebControls.Label lblTrangThai;
     }
 }

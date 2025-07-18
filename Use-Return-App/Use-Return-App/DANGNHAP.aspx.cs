@@ -8,22 +8,16 @@ namespace Use_Return_App
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                txtTenDangNhap.Attributes["autocomplete"] = "off";
-                txtMatKhau.Attributes["autocomplete"] = "new-password";
-            }
         }
-
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             try
             {
-                string tenDangNhap = txtTenDangNhap.Text.Trim();
+                string soDienThoai = txtSoDienThoai.Text.Trim();
                 string password = txtMatKhau.Text.Trim();
 
-                string sql = "SELECT MaNguoiDung, HoTen, MatKhauHash FROM NguoiDung WHERE HoTen = @username AND DangHoatDong = 1";
-                var table = SqlHelper.ExecuteDataTable(sql, new SqlParameter("@username", tenDangNhap));
+                string sql = "SELECT MaNguoiDung, HoTen, MatKhauHash FROM NguoiDung WHERE SoDienThoai = @sdt AND DangHoatDong = 1";
+                var table = SqlHelper.ExecuteDataTable(sql, new SqlParameter("@sdt", soDienThoai));
 
                 if (table.Rows.Count > 0)
                 {
@@ -39,12 +33,16 @@ namespace Use_Return_App
                     }
                 }
 
-                lblMessage.Text = "Tên đăng nhập hoặc mật khẩu không đúng.";
+                lblMessage.Text = "Số ddienj thoại hoặc mật khẩu không đúng.";
             }
             catch (Exception ex)
             {
                 lblMessage.Text = "Lỗi hệ thống: " + ex.Message;
             }
+        }
+        protected void lnkDangKy_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("DANGKYY.aspx");
         }
     }
 }
