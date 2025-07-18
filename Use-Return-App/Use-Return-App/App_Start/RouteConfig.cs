@@ -21,6 +21,7 @@ namespace Use_Return_App
             physicalFile: "~/Checkout.aspx");
 
             routes.MapPageRoute("userChat", "messages/u/{userId}", "~/Chat.aspx");
+            routes.MapPageRoute("chat", "messages", "~/Chat.aspx");
 
             routes.MapPageRoute(
          routeName: "paymentcallback",

@@ -105,6 +105,9 @@
                         <div class="swiper-slide">
                              <img src="https://placehold.co/600x400/blue/white?text=Nhật+blue" />
                         </div>
+                         <div class="swiper-slide">
+                             <img src="https://placehold.co/600x400/green/white?text=banner+quảng+cáo" />
+                        </div>
                     <%--    <div class="swiper-slide">Slide 4</div>
                         <div class="swiper-slide">Slide 5</div>
                         <div class="swiper-slide">Slide 6</div>

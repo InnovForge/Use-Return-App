@@ -23,19 +23,20 @@ namespace Use_Return_App
                     Response.Redirect("~/DANGNHAP.aspx");
                 }
 
-               string userId = Page.RouteData.Values["userId"] as string;
+                Guid user = Guid.Parse(Session["userId"].ToString());
+                var dt = GetConversationList(user);
 
-                if (!string.IsNullOrEmpty(userId))
+
+                rptConversations.DataSource = dt;
+                rptConversations.DataBind();
+
+                string userSenderId = Page.RouteData.Values["userId"] as string;
+
+                if (!string.IsNullOrEmpty(userSenderId))
                 {
                    
-                    LoadUserInfo(userId);
-                    Guid user = Guid.Parse(Session["userId"].ToString());
-                    var dt = GetConversationList(user);
-
-             
-                    rptConversations.DataSource = dt;
-                    rptConversations.DataBind();
-                }
+                    LoadUserInfo(userSenderId);
+              }
             }
         }
         private void LoadUserInfo(string userId)
@@ -56,9 +57,9 @@ namespace Use_Return_App
                     bool dangOnline = Convert.ToBoolean(reader["DangHoatDong"]);
 
                     // Gán ra HTML
-                    TenNguoiDung.InnerText = hoTen;
-                    AvatarNguoiDung.Src = anh;
-                    TrangThai.InnerText = dangOnline ? "Đang hoạt động" : "Hoạt động trước đó";
+                    userName.InnerText = hoTen;
+                    userAvatar.Src = anh;
+                    userStatus.InnerText = dangOnline ? "Đang hoạt động" : "Hoạt động trước đó";
                     ToUserAvatar = anh;
                 }
             }

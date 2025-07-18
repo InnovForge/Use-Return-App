@@ -22,30 +22,30 @@ namespace Use_Return_App {
         protected global::System.Web.UI.WebControls.Repeater rptConversations;
         
         /// <summary>
-        /// AvatarNguoiDung control.
+        /// userAvatar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage AvatarNguoiDung;
+        protected global::System.Web.UI.HtmlControls.HtmlImage userAvatar;
         
         /// <summary>
-        /// TenNguoiDung control.
+        /// userName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TenNguoiDung;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl userName;
         
         /// <summary>
-        /// TrangThai control.
+        /// userStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TrangThai;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl userStatus;
     }
 }
