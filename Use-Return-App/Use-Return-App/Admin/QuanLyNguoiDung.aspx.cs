@@ -88,7 +88,7 @@ namespace Use_Return_App.Admin
             TextBox txtEmail = (TextBox)row.FindControl("EditEmail");
             TextBox txtSoDienThoai = (TextBox)row.FindControl("EditPhone");
       //      TextBox txtMaKhau = (TextBox)GridView1.FooterRow.FindControl("EditPass");
-            DropDownList ddlRole = (DropDownList)GridView1.FooterRow.FindControl("ddlRole");
+            DropDownList ddlRole = (DropDownList)row.FindControl("ddlRole");
             FileUpload fuAvatar = (FileUpload)row.FindControl("fuAvatarEdit");
             HiddenField hfOld = (HiddenField)row.FindControl("hfOldAvatar");
             string oldFileName = hfOld.Value;     // ảnh hiện tại trong DB
