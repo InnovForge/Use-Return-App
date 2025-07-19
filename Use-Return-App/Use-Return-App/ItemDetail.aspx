@@ -161,10 +161,10 @@
                 </div>
             </div>--%>
             <div class="d-flex gap-2 align-items-center justify-content-start mt-2">
-                <button class="btn btn-warning d-flex gap-2 align-items-center justify-content-center">
+                <a href="#" id="callBtn" class="btn btn-warning">
                     <i class="bi bi-telephone"></i>
-                    <div>Gọi điện</div>
-                </button>
+                    <span id="phoneText"><%= SoDienThoaiAn %></span>
+                </a>
                 <a id="lnkMessage" runat="server" class="btn btn-info d-flex gap-2 align-items-center justify-content-center">
                     <i class="bi bi-chat"></i>
                     <div>Nhắn tin</div>
@@ -191,6 +191,22 @@
 
     </div>
     <script>
+
+        const fullPhoneNumber = '<%= SoDienThoai %>'; // Số thật
+        let isRevealed = false;
+
+        document.getElementById("callBtn").addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const phoneText = document.getElementById("phoneText");
+
+            if (!isRevealed) {
+                phoneText.textContent = fullPhoneNumber;
+                isRevealed = true;
+            } else {
+                window.location.href = 'tel:' + fullPhoneNumber;
+            }
+        });
 
         function addToCart(productId) {
             PageMethods.AddToCart(productId, function (newTotal) {
