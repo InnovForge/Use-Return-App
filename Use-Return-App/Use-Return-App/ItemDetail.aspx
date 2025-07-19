@@ -90,11 +90,11 @@
         <div class="container-swiper">
             <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
                 <div class="swiper-wrapper">
-                    <asp:Repeater ID="rptMainImages" runat="server">
+                    <asp:Repeater ID="rptMainImages" runat="server" OnItemDataBound="rptMainImages_ItemDataBound">
                         <ItemTemplate>
-                            <div class="swiper-slide">
-                                <img src='<%# ResolveUrl("~/ImageDoDung/" + Eval("DuongDanAnh")) %>'/>
-                            </div>
+                              <div class="swiper-slide">
+                               <img id="imgMain" runat="server" />
+                               </div>
                         </ItemTemplate>
                     </asp:Repeater>
                 </div>
@@ -103,11 +103,11 @@
             </div>
             <div thumbsslider="" class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                    <asp:Repeater ID="rptThumbImages" runat="server">
+                    <asp:Repeater ID="rptThumbImages" runat="server" OnItemDataBound="rptMainImages_ItemDataBound">
                         <ItemTemplate>
-                            <div class="swiper-slide">
-                                <img src='<%# ResolveUrl("~/ImageDoDung/" + Eval("DuongDanAnh")) %>' />
-                            </div>
+                              <div class="swiper-slide">
+                             <img id="imgMain" runat="server" />
+                             </div>
                         </ItemTemplate>
                     </asp:Repeater>
                 </div>
