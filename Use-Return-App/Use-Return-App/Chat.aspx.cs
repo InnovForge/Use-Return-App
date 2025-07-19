@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Humanizer;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
@@ -34,18 +36,24 @@ namespace Use_Return_App
 
                 if (!string.IsNullOrEmpty(userSenderId))
                 {
-                   
+                    chatArea.Visible = true;
                     LoadUserInfo(userSenderId);
-              }
+                }
+                else
+                {
+                    Qc.Visible = true;
+                }
+
+
             }
         }
+
         private void LoadUserInfo(string userId)
         {
-            string sql = @"SELECT HoTen, AnhDaiDien, DangHoatDong, NgayTao
+            string sql = @"SELECT HoTen, AnhDaiDien, LanCuoiOnline, TrangThai , NgayTao
                    FROM NguoiDung
                    WHERE MaNguoiDung = @id";
 
-            using (var conn = new SqlConnection(/* your connection string */))
             using (var reader = SqlHelper.ExecuteReader(sql, new SqlParameter("@id", userId)))
             {
                 if (reader.Read())
@@ -54,57 +62,106 @@ namespace Use_Return_App
                     string anh = string.IsNullOrEmpty(reader["AnhDaiDien"]?.ToString())
                         ? "https://placehold.co/600x400/green/white?text=avatar"
                         : reader["AnhDaiDien"].ToString();
-                    bool dangOnline = Convert.ToBoolean(reader["DangHoatDong"]);
+
+                    bool dangOnline = Convert.ToBoolean(reader["TrangThai"]);
+                    var lanCuoiOnline = reader["LanCuoiOnline"] as DateTime?;
 
                     // Gán ra HTML
                     userName.InnerText = hoTen;
                     userAvatar.Src = anh;
-                    userStatus.InnerText = dangOnline ? "Đang hoạt động" : "Hoạt động trước đó";
-                    ToUserAvatar = anh;
+                    if (dangOnline)
+                    {
+                        userStatus.InnerText = "Đang hoạt động";
+                    }
+                    else if (lanCuoiOnline.HasValue)
+                    {
+                        userStatus.InnerText = lanCuoiOnline.Value.Humanize(false, DateTime.Now, new CultureInfo("vi"));
+                    }
+                    else
+                    {
+                        userStatus.InnerText = "Không rõ";
+                    }
+              
+
+
+                     ToUserAvatar = anh;
                 }
             }
         }
 
-     
+
 
         public static DataTable GetConversationList(Guid currentUserId)
         {
             string sql = @"
-        WITH AllConversations AS (
-            SELECT 
-                MessageId,
-                SentTime,
-                Content,
-                SenderId,
-                ReceiverId,
-                CASE 
-                    WHEN SenderId = @UserId THEN ReceiverId
-                    ELSE SenderId
-                END AS OtherUserId
-            FROM Message
-            WHERE SenderId = @UserId OR ReceiverId = @UserId
-        ),
-        LatestMessages AS (
-            SELECT *,
-                   ROW_NUMBER() OVER (PARTITION BY OtherUserId ORDER BY SentTime DESC) AS rn
-            FROM AllConversations
-        )
+    WITH AllConversations AS (
         SELECT 
-            u.MaNguoiDung AS UserId,
-            u.HoTen,
-            u.AnhDaiDien,
-            m.Content AS LastMessage,
-            m.SentTime AS LastTime
-        FROM LatestMessages m
-        JOIN NguoiDung u ON u.MaNguoiDung = m.OtherUserId
-        WHERE m.rn = 1
-        ORDER BY m.SentTime DESC;
+            MessageId,
+            SentTime,
+            Content,
+            SenderId,
+            ReceiverId,
+            CASE 
+                WHEN SenderId = @UserId THEN ReceiverId
+                ELSE SenderId
+            END AS OtherUserId
+        FROM Message
+        WHERE SenderId = @UserId OR ReceiverId = @UserId
+    ),
+    LatestMessages AS (
+        SELECT *,
+               ROW_NUMBER() OVER (PARTITION BY OtherUserId ORDER BY SentTime DESC) AS rn
+        FROM AllConversations
+    ),
+    UnreadCounts AS (
+        SELECT 
+            SenderId AS OtherUserId,
+            COUNT(*) AS UnreadCount
+        FROM Message
+        WHERE ReceiverId = @UserId AND IsRead = 0
+        GROUP BY SenderId
+    )
+    SELECT 
+        u.MaNguoiDung AS UserId,
+        u.HoTen,
+        u.AnhDaiDien,
+        u.TrangThai,
+        m.Content AS LastMessage,
+        m.SentTime AS LastTime,
+        ISNULL(uc.UnreadCount, 0) AS UnreadCount
+    FROM LatestMessages m
+    JOIN NguoiDung u ON u.MaNguoiDung = m.OtherUserId
+    LEFT JOIN UnreadCounts uc ON uc.OtherUserId = m.OtherUserId
+    WHERE m.rn = 1
+    ORDER BY m.SentTime DESC;
     ";
 
             return SqlHelper.ExecuteDataTable(sql, new SqlParameter("@UserId", currentUserId));
         }
 
-        [WebMethod]
+        public string HumanizeTime(object date)
+        {
+            if (date == null || date == DBNull.Value) return "";
+            var dt = (DateTime)date;
+
+            return dt.Humanize(false, DateTime.Now, new CultureInfo("vi"))
+                     .Replace("cách đây ", "")
+                     .Replace("một", "1")
+                     .Replace("hai", "2")
+                     .Replace("ba", "3")
+                     .Replace("bốn", "4")
+                     .Replace("năm", "5")
+                     .Replace("sáu", "6")
+                     .Replace("bảy", "7")
+                     .Replace("tám", "8")
+                     .Replace("chín", "9")
+                     .Replace("mười", "10");
+        }
+    
+
+
+
+    [WebMethod]
         public static List<MessageDto> LoadMessages(Guid currentUser, Guid otherUser, int skip, int take)
         {
             return GetMessagesBetweenUsers(currentUser, otherUser, skip, take);
@@ -169,6 +226,20 @@ namespace Use_Return_App
 
             return result.Values.OrderBy(m => m.SentTime).ToList(); // sắp lại theo thời gian tăng
         }
+
+        [WebMethod]
+        public static void MarkMessagesAsRead(Guid currentUserId, Guid chatPartnerId)
+        {
+            string sql = @"
+        UPDATE Message
+        SET IsRead = 1
+        WHERE SenderId = @PartnerId AND ReceiverId = @CurrentId AND IsRead = 0";
+
+            SqlHelper.ExecuteNonQuery(sql,
+                new SqlParameter("@PartnerId", chatPartnerId),
+                new SqlParameter("@CurrentId", currentUserId));
+        }
+
 
 
         public class MessageDto

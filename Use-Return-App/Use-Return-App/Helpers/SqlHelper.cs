@@ -157,5 +157,21 @@ public static class SqlHelper
         return command.ExecuteReader(CommandBehavior.CloseConnection);
     }
 
+    public static void UpdateUserOnlineStatus(Guid userId, bool isOnline)
+    {
+        string sql = @"UPDATE NguoiDung 
+                   SET TrangThai = @TrangThai, LanCuoiOnline = @LanCuoiOnline 
+                   WHERE MaNguoiDung = @UserId";
+
+        SqlParameter[] parameters = new[]
+        {
+        new SqlParameter("@TrangThai", isOnline),
+        new SqlParameter("@LanCuoiOnline", DateTime.Now),
+        new SqlParameter("@UserId", userId)
+    };
+
+        ExecuteNonQuery(sql, parameters);
+    }
+
 
 }
