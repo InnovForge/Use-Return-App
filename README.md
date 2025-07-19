@@ -2,7 +2,7 @@
 Ứng dụng sử dụng [Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/) kết hợp với ASP.NET Web Forms (Framework).
 
 ## Tài khoản mặc định:
-- **Tên đăng nhập:** `admin`  
+- **Số điện thoại đăng nhập:** `0123456789`  
 - **Mật khẩu:** `admin123`
 
 ##  Tài khoản VNPay test
