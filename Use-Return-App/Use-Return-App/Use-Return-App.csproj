@@ -132,6 +132,7 @@
     <Content Include="Admin\ThongKe.aspx" />
     <Content Include="Assets\iconCash.png" />
     <Content Include="Assets\IconVNPay.png" />
+    <Content Include="Assets\message.mp3" />
     <Content Include="Cart.aspx" />
     <Content Include="Chat.aspx" />
     <Content Include="Checkout.aspx" />

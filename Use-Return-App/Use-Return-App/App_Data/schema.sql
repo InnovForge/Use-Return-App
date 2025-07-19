@@ -22,6 +22,8 @@ CREATE TABLE NguoiDung (
     MatKhauHash       NVARCHAR(256) NOT NULL,
     AnhDaiDien        NVARCHAR(255),
     DangHoatDong      BIT DEFAULT 1,
+	LanCuoiOnline     DATETIME,
+	TrangThai         BIT DEFAULT 0,
     NgayTao           DATETIME DEFAULT GETDATE()
 );
 

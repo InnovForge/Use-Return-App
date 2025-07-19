@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -29,6 +30,9 @@ namespace Use_Return_App
             }
             if (Session["UserID"] != null)
             {
+
+                Guid user = Guid.Parse(Session["userId"].ToString());
+                UpdateUnreadBadge(user);
                 phGuest.Visible = false;
                 phUser.Visible = true;
             }
@@ -39,6 +43,17 @@ namespace Use_Return_App
             }
 
         }
+        public void UpdateUnreadBadge(Guid currentUserId)
+        {
+            int unreadSenderCount = SqlHelper.ExecuteScalar<int>(
+                "SELECT COUNT(DISTINCT SenderId) FROM Message WHERE ReceiverId = @ReceiverId AND IsRead = 0",
+                new SqlParameter("@ReceiverId", currentUserId)
+            );
+
+            Span1.InnerText = unreadSenderCount > 99 ? "99+" : unreadSenderCount.ToString();
+            Span1.Visible = unreadSenderCount > 0;
+        }
+
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {

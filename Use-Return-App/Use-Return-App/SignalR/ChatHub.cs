@@ -20,6 +20,7 @@ namespace Use_Return_App.SignalR
             if (!string.IsNullOrEmpty(userId))
             {
                 ConnectedUsers[userId] = Context.ConnectionId;
+                SqlHelper.UpdateUserOnlineStatus(Guid.Parse(userId), true);
             }
             return base.OnConnected();
         }
@@ -30,6 +31,7 @@ namespace Use_Return_App.SignalR
             if (userId != null)
             {
                 ConnectedUsers.TryRemove(userId, out _);
+                SqlHelper.UpdateUserOnlineStatus(Guid.Parse(userId), false); 
             }
             return base.OnDisconnected(stopCalled);
         }

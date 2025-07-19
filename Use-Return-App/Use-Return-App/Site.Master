@@ -20,6 +20,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
+    <script src="/Scripts/jquery-1.6.4.min.js"></script>
+    <script src="/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="/signalr/hubs"></script>
+
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 
@@ -93,8 +97,11 @@
 
                                 <asp:PlaceHolder ID="phUser" runat="server" Visible="false">
                                     <div class="dropdown">
-                                        <button class="btn btn-outline-primary dropdown-toggle gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="bi bi-person-circle"></i><%= Session["HoTen"] %>
+                                        <button class="btn dropdown-toggle d-flex gap-2 justify-content-center align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <div style="width: 30px; height: 30px">
+                                                <img class="w-100 h-100 object-fit-cover rounded-circle" src="<%= Session["AnhDaiDien"] %>" />
+                                            </div>
+                                            <span><%= Session["HoTen"] %></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li><a class="dropdown-item" href="ThongTin.aspx">Thông tin cá nhân</a></li>
@@ -120,7 +127,82 @@
             </div>
 
         </div>
+
     </form>
 </body>
+<div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer" style="z-index: 1080">
+    <audio id="messageSound" preload="auto">
+        <source src="/Assets/message.mp3" type="audio/mpeg">
+        <!-- Nếu cần, có thể thêm định dạng khác như ogg -->
+    </audio>
+</div>
+
 </html>
 
+<script>
+    const UserId = '<%= Session["UserID"] %>';
+    var chatHub;
+    $(function () {
+        if (!UserId) return;
+
+        $.connection.hub.qs = { userId: UserId };
+
+        chatHub = $.connection.chatHub;
+        window.chatHub = chatHub
+
+        chatHub.client.receiveMessage = function ({ userId, userName, avatar, message }) {
+            console.log("Tin nhắn mới từ", userName);
+
+
+
+            if (typeof onGlobalMessageReceived === "function") {
+                onGlobalMessageReceived({ userId, userName, avatar, message });
+            } else {
+                const audio = document.getElementById("messageSound");
+                if (audio) audio.play().catch(err => console.warn("Không thể phát âm thanh:", err));
+                showToastMessage({ userId, userName, avatar, message });
+            }
+
+
+
+        };
+
+        $.connection.hub.start().done(function () {
+            console.log("SignalR connected");
+        });
+    });
+
+    function showToastMessage({ userId, userName, avatar, message }) {
+        const toastId = `toast_${userId}_${Date.now()}`;
+        const chatUrl = `/messages/u/${userId}`;
+        const toastHtml = `
+    <a href="${chatUrl}" class="text-reset text-decoration-none">
+        <div id="${toastId}" class="toast align-items-center text-bg-light border-0 shadow-lg p-1 bg-body rounded" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex align-items-start justify-content-between">
+                <div class="toast-body">
+                    <div class="d-flex align-items-center gap-2">
+                        <div style="width: 40px; height: 40px">
+                            <img class="w-100 h-100 object-fit-cover rounded-circle" src="${avatar}" />
+                        </div>
+                        <div style="min-width: 0">
+                            <strong class="me-1">${userName}</strong><span> đã nhắn tin cho bạn</span><br>
+                            <small class='text-nowrap text-truncate d-block' style="max-width: 220px;">${message}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>`;
+
+        $('#toastContainer').append(toastHtml);
+
+        const toastElement = document.getElementById(toastId);
+        const bsToast = new bootstrap.Toast(toastElement, { delay: 5000 });
+        bsToast.show();
+
+        toastElement.addEventListener('hidden.bs.toast', () => {
+            toastElement.closest('a').remove();
+        });
+    }
+
+</script>
