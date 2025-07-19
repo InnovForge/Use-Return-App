@@ -161,10 +161,17 @@
                 }
 
                 cards.forEach(card => {
+                    let imageUrl = "ImageDoDung/no-image.jpg";
+
+                    if (card.DuongDanAnh) {
+                        imageUrl = (card.DuongDanAnh.startsWith("http://") || card.DuongDanAnh.startsWith("https://"))
+                            ? card.DuongDanAnh
+                            : `/ImageDoDung/${card.DuongDanAnh}`;
+                    }
                     container.insertAdjacentHTML("beforeend", `
 <a class="text-decoration-none text-reset" href="${card.LinkItemDetail}" >
                         <div class="card-item card position-relative d-flex flex-cloumn">
-                            <img src="${card.DuongDanAnh}" class="card-img-top lazy-img" alt="${card.TieuDe}" />
+                            <img src="${imageUrl}" class="card-img-top lazy-img" alt="${card.TieuDe}" />
                             <div class="card-body item p-2">
 
                                 <h5 class="card-title item">${card.TieuDe}</h5>
@@ -205,6 +212,6 @@
         window.onload = loadMore;
 
 
-    </script>
+ </script>
 
 </asp:Content>

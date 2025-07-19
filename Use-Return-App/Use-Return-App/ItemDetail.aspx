@@ -93,7 +93,7 @@
                     <asp:Repeater ID="rptMainImages" runat="server">
                         <ItemTemplate>
                             <div class="swiper-slide">
-                                <img src='<%# Eval("DuongDanAnh") %>' />
+                                <img src='<%# ResolveUrl("~/ImageDoDung/" + Eval("DuongDanAnh")) %>'/>
                             </div>
                         </ItemTemplate>
                     </asp:Repeater>
@@ -106,7 +106,7 @@
                     <asp:Repeater ID="rptThumbImages" runat="server">
                         <ItemTemplate>
                             <div class="swiper-slide">
-                                <img src='<%# Eval("DuongDanAnh") %>' />
+                                <img src='<%# ResolveUrl("~/ImageDoDung/" + Eval("DuongDanAnh")) %>' />
                             </div>
                         </ItemTemplate>
                     </asp:Repeater>

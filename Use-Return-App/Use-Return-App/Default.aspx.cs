@@ -25,16 +25,23 @@ namespace Use_Return_App
             int offset = page * pageSize;
 
             string sql = @"
-        SELECT dd.MaDoDung, dd.TieuDe, dd.MoTa, dd.GiaMoiNgay, dd.NgayTao, ha.DuongDanAnh
-        FROM DoDung dd
-        LEFT JOIN (
-            SELECT MaDoDung, DuongDanAnh
-            FROM HinhAnhDoDung
-            WHERE ThuTuHienThi = 0
-        ) ha ON dd.MaDoDung = ha.MaDoDung
-        ORDER BY dd.NgayTao DESC
-        OFFSET @offset ROWS
-        FETCH NEXT @pageSize ROWS ONLY;";
+                SELECT 
+                dd.MaDoDung, 
+                dd.TieuDe, 
+                dd.MoTa, 
+                dd.GiaMoiNgay, 
+                dd.NgayTao, 
+                ha.DuongDanAnh
+            FROM DoDung dd
+            OUTER APPLY (
+                SELECT TOP 1 DuongDanAnh
+                FROM HinhAnhDoDung
+                WHERE HinhAnhDoDung.MaDoDung = dd.MaDoDung
+                ORDER BY ThuTuHienThi ASC
+            ) ha
+            ORDER BY dd.NgayTao DESC
+            OFFSET @offset ROWS
+            FETCH NEXT @pageSize ROWS ONLY;";
 
             DataTable table = SqlHelper.ExecuteDataTable(sql,
                 new SqlParameter("@offset", offset),
@@ -64,7 +71,7 @@ namespace Use_Return_App
             return list;
         }
 
- 
+
     }
 
 

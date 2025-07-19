@@ -39,11 +39,11 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Hình Ảnh">
                     <ItemTemplate>
-                        <asp:Repeater ID="rptImages" runat="server" DataSource='<%# GetImages(Eval("MaDoDung").ToString()) %>'>
+                        <asp:Repeater ID="rptImages" runat="server" DataSource='<%# GetImages(Eval("MaDoDung").ToString()) %>' OnItemCommand="rptImages_ItemCommand">
                             <ItemTemplate>
                                 <asp:Image ID="Image1" runat="server"
-                                    Height="150px"
-                                    Width="130px"
+                                    Height="80px"
+                                    Width="80px"
                                     ImageUrl='<%# ResolveUrl("~/ImageDoDung/" + Eval("DuongDanAnh")) %>' />
                                 <asp:CheckBox ID="chkDelete" runat="server" Text="Xóa" />
                                 <asp:HiddenField ID="hfImageId" runat="server" Value='<%# Eval("MaHinh") %>' />

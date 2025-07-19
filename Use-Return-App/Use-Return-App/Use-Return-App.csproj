@@ -157,6 +157,7 @@
     <Content Include="DANGNHAP.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="ImageDoDung\no-image.jpg" />
     <Content Include="ImageUsers\gay.jpg" />
     <Content Include="ImageUsers\goku.jpg" />
     <Content Include="ItemDetail.aspx" />
@@ -423,7 +424,6 @@
   <ItemGroup>
     <Folder Include="API\" />
     <Folder Include="App_Data\" />
-    <Folder Include="ImageDoDung\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

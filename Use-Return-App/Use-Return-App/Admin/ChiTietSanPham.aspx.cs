@@ -121,7 +121,7 @@ namespace Use_Return_App.Admin
 
                     if (!string.IsNullOrEmpty(path))
                     {
-                        string fullPath = Server.MapPath("~/" + path);
+                        string fullPath = Server.MapPath("~/ImageDoDung" + path);
                         if (File.Exists(fullPath))
                         {
                             File.Delete(fullPath);
@@ -147,7 +147,14 @@ namespace Use_Return_App.Admin
                 foreach (HttpPostedFile file in fuNewImages.PostedFiles)
                 {
                     string fileName = Path.GetFileName(file.FileName);
-                    string savePath = Server.MapPath("~/ImageDoDung/" + fileName);
+                    string folderPath = Server.MapPath("~/ImageDoDung/");
+
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
+
+                    string savePath = Path.Combine(folderPath, fileName);
                     file.SaveAs(savePath);
 
                     string insertSql = @"
@@ -156,7 +163,7 @@ namespace Use_Return_App.Admin
                     SqlHelper.ExecuteNonQuery(insertSql,
                         new SqlParameter("@MaHinh", Guid.NewGuid()),
                         new SqlParameter("@MaDoDung", maDoDungValue),
-                        new SqlParameter("@Path", "ImageDoDung/" + fileName)
+                        new SqlParameter("@Path", fileName)
                     );
                 }
             }
@@ -252,6 +259,11 @@ namespace Use_Return_App.Admin
                 Response.Write("<script>alert('Thêm thất bại');</script>");
 
             }
+
+        }
+
+        protected void rptImages_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
 
         }
     }
