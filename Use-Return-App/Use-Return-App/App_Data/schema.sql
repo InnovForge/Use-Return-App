@@ -32,7 +32,6 @@ CREATE TABLE NguoiDung (
 CREATE TABLE DoDung (
     MaDoDung          UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY,
     MaNguoiSoHuu      UNIQUEIDENTIFIER NOT NULL REFERENCES NguoiDung(MaNguoiDung) ON DELETE CASCADE,
-    MaNguoiSoHuu      UNIQUEIDENTIFIER REFERENCES NguoiDung(MaNguoiDung) ON DELETE CASCADE,
     MaDanhMuc         INT NOT NULL REFERENCES DanhMuc(MaDanhMuc),
     TieuDe            NVARCHAR(150) NOT NULL,
     MoTa              NVARCHAR(MAX),

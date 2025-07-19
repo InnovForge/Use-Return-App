@@ -211,9 +211,10 @@ namespace Use_Return_App.Admin
             decimal tienCoc = decimal.Parse(txtTienCoc.Text.Trim());
             string maDanhMuc = Session["MaDanhMuc"].ToString();
 
-            string sql = "INSERT INTO DoDung (TieuDe, MoTa, GiaMoiNgay, SoLuong,TienCoc, TrangThai,MaDanhMuc) VALUES (@TieuDe, @MoTa, @GiaMoiNgay, @SoLuong,@TienCoc, @TrangThai,@MaDanhMuc)";
+            string sql = "INSERT INTO DoDung (MaNguoiSoHuu ,TieuDe, MoTa, GiaMoiNgay, SoLuong,TienCoc, TrangThai,MaDanhMuc) VALUES (@MaNguoiSoHuu ,@TieuDe, @MoTa, @GiaMoiNgay, @SoLuong,@TienCoc, @TrangThai,@MaDanhMuc)";
             SqlParameter[] parameters = new SqlParameter[]
             {
+                new SqlParameter("@MaNguoiSoHuu", "8ead7e11-07e3-401b-b36d-1daebc4ef028"),
                 new SqlParameter("@TieuDe", tieuDe),
                 new SqlParameter("@MoTa", moTa),
                 new SqlParameter("@GiaMoiNgay", giaMoiNgay),
