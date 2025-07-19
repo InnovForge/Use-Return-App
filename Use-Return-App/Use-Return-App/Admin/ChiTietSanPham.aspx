@@ -39,12 +39,9 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Hình Ảnh">
                     <ItemTemplate>
-                        <asp:Repeater ID="rptImages" runat="server" DataSource='<%# GetImages(Eval("MaDoDung").ToString()) %>' OnItemCommand="rptImages_ItemCommand">
+                        <asp:Repeater ID="rptImages" runat="server" DataSource='<%# GetImages(Eval("MaDoDung").ToString()) %>' OnItemDataBound="rptImages_ItemDataBound" OnItemCommand="rptImages_ItemCommand">
                             <ItemTemplate>
-                                <asp:Image ID="Image1" runat="server"
-                                    Height="80px"
-                                    Width="80px"
-                                    ImageUrl='<%# ResolveUrl("~/ImageDoDung/" + Eval("DuongDanAnh")) %>' />
+                                <asp:Image ID="Image1" runat="server" Height="80px" Width="80px" />
                                 <asp:CheckBox ID="chkDelete" runat="server" Text="Xóa" />
                                 <asp:HiddenField ID="hfImageId" runat="server" Value='<%# Eval("MaHinh") %>' />
                             </ItemTemplate>

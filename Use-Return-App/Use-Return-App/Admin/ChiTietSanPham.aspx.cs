@@ -92,6 +92,25 @@ namespace Use_Return_App.Admin
             LoadDoDung();
         }
 
+        protected void rptImages_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                var row = (DataRowView)e.Item.DataItem;
+                string duongDan = row["DuongDanAnh"].ToString();
+
+                var img = (Image)e.Item.FindControl("Image1");
+                if (img != null)
+                {
+                    if (duongDan.StartsWith("http://") || duongDan.StartsWith("https://"))
+                        img.ImageUrl = duongDan;
+                    else
+                        img.ImageUrl = "~/ImageDoDung/" + duongDan;
+                }
+            }
+        }
+
+
         protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
             GridViewRow row = GridView1.Rows[e.RowIndex];
