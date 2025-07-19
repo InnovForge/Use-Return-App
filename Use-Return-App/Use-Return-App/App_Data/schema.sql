@@ -30,13 +30,14 @@ CREATE TABLE NguoiDung (
 CREATE TABLE DoDung (
     MaDoDung          UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY,
     MaNguoiSoHuu      UNIQUEIDENTIFIER NOT NULL REFERENCES NguoiDung(MaNguoiDung) ON DELETE CASCADE,
+    MaNguoiSoHuu      UNIQUEIDENTIFIER REFERENCES NguoiDung(MaNguoiDung) ON DELETE CASCADE,
     MaDanhMuc         INT NOT NULL REFERENCES DanhMuc(MaDanhMuc),
     TieuDe            NVARCHAR(150) NOT NULL,
     MoTa              NVARCHAR(MAX),
     GiaMoiNgay        DECIMAL(12,2) NOT NULL,
     SoLuong           INT DEFAULT 1,
-    TinhTrang         NVARCHAR(255),
 	TienCoc           DECIMAL(12,2) NOT NULL,
+    TinhTrang         NVARCHAR(255),
     TrangThai         NVARCHAR(20) DEFAULT 'Available' CHECK (TrangThai IN ('Available','Unavailable','Deleted')),
     NgayTao           DATETIME DEFAULT GETDATE()
 );

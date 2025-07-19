@@ -13,7 +13,7 @@ namespace Use_Return_App.Admin
         {
             if(!IsPostBack)
             {
-                if (Context.Items["maDanhMuc"] == null)
+                if (Session["MaDanhMuc"] == null)
                 {
                     Response.Redirect("QuanLyDanhMuc.aspx");
                 }
@@ -22,8 +22,8 @@ namespace Use_Return_App.Admin
         }
         public void LoadSanPham()
         {
-            string maDanhMuc = Context.Items["maDanhMuc"].ToString();
-            String sql = "SELECT * FROM DoDung WHERE MaDanhMuc = '" + maDanhMuc + "'";
+            string ma = Session["MaDanhMuc"].ToString();
+            String sql = "SELECT * FROM DoDung WHERE MaDanhMuc = '" + ma + "'";
             this.GridView1.DataSource = SqlHelper.ExecuteDataTable(sql);
             this.GridView1.DataBind();
         }
@@ -32,10 +32,10 @@ namespace Use_Return_App.Admin
         {
             if (e.CommandName == "XemChiTiet")
             {
-                Guid maSanPham = Guid.Parse(e.CommandArgument.ToString());
+                Guid maDoDung = Guid.Parse(e.CommandArgument.ToString());
 
-                Context.Items["MaDoDung"] = maSanPham;
-                Server.Transfer("ChiTietSanPham.aspx");
+                Session["MaDoDung"] = maDoDung;
+                Server.Transfer("~/Admin/ChiTietSanPham.aspx");
                 //   Response.Redirect("~/Pages/XemChiTiet.aspx");
             }
         }

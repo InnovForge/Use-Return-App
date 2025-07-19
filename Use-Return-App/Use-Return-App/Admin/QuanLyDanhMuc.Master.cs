@@ -29,8 +29,9 @@ namespace Use_Return_App.Admin
             if (e.CommandName == "ChonDanhMuc")
             {
                 string maDanhMuc = e.CommandArgument.ToString();
-                Context.Items["maDanhMuc"] = maDanhMuc;
-                Server.Transfer("QuanLySanPham.aspx");
+                Session["MaDanhMuc"] = maDanhMuc;
+                Server.Transfer("~/Admin/QuanLySanPham.aspx");
+
             }
         }
     }
