@@ -79,7 +79,8 @@ $"<span id='unread_{Eval("UserId")}' class='badge bg-danger rounded-circle d-fle
                 </div>
 
                 <!-- Chat Messages -->
-                <div id="messageContainer" class="flex-grow-1 overflow-y-auto p-2 d-flex flex-column flex-column-reverse gap-2"></div>
+                <div id="messageContainer" class="flex-grow-1 overflow-y-auto p-2 d-flex flex-column gap-2"></div>
+
 
                 <!-- Message Input -->
                 <div class="input-group p-2 align-items-end">
@@ -122,7 +123,7 @@ $"<span id='unread_{Eval("UserId")}' class='badge bg-danger rounded-circle d-fle
 
             if (userId === currentUserId || userId === chatPartnerId) {
                 PageMethods.MarkMessagesAsRead(currentUserId, chatPartnerId);
-                $('#messageContainer').prepend(messageHtml);
+                $('#messageContainer').append(messageHtml);
             }
 
             if (isIncoming) {
@@ -148,37 +149,58 @@ $"<span id='unread_{Eval("UserId")}' class='badge bg-danger rounded-circle d-fle
 
         //       $.connection.hub.qs = { 'userId': currentUserId };
 
+        $(function () {
+            const chatHub = $.connection.chatHub;
 
-        $('#sendMessageBtn').click(() => {
-            const message = $('#messageInput').val();
-            if (!message.trim()) return;
+            function sendMessage() {
+                const message = $('#messageInput').val();
+                if (!message.trim()) return;
 
-            chatHub.server.sendToUser(chatPartnerId, currentUserId, message);
-            $('#messageInput').val('');
+                chatHub.server.sendToUser(chatPartnerId, currentUserId, message);
+                $('#messageInput').val('');
 
+                const container = document.getElementById("messageContainer");
+                setTimeout(function () {
+                    container.scrollTop = container.scrollHeight;
+                }, 100);
+            }
 
-            const container = document.getElementById("messageContainer");
-            setTimeout(() => {
-                container.scrollTop = container.scrollHeight;
-            }, 100);
+            $('#sendMessageBtn').bind('click', function () {
+                sendMessage();
+            });
+
+            $('#messageInput').bind('keydown', function (e) {
+                if (e.keyCode === 13 && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
         });
 
 
 
         let skipMessages = 0;
-        const messagesBatchSize = 20;
+        const messagesBatchSize = 15;
         let isLoadingMessages = false;
+
+        let isAllMessagesLoaded = false;
 
         PageMethods.set_path("/Chat.aspx");
 
-        function loadMessages() {
+        function loadMessages(isLoadOld = true) {
             if (isLoadingMessages) return;
             isLoadingMessages = true;
 
-            const previousScrollHeight = document.getElementById("messageContainer").scrollHeight;
+            const container = document.getElementById("messageContainer");
+            const previousScrollHeight = container.scrollHeight;
 
             PageMethods.LoadMessages(currentUserId, chatPartnerId, skipMessages, messagesBatchSize, function (messages) {
-                const container = document.getElementById("messageContainer");
+                if (!messages || messages.length === 0) {
+                    isLoadingMessages = false;
+                    isAllMessagesLoaded = true;
+                    return;
+                }
+
                 messages.forEach(msg => {
                     const isMine = msg.SenderId === currentUserId;
                     const messageDiv = document.createElement("div");
@@ -190,32 +212,46 @@ $"<span id='unread_{Eval("UserId")}' class='badge bg-danger rounded-circle d-fle
                     messageDiv.innerHTML = isMine
                         ? `<div class="bg-primary text-white rounded p-2">${msg.Content}</div>`
                         : `<div style="width: 28px; height: 28px">
-                               <img class="w-100 h-100 object-fit-cover rounded-circle" src="<%= ToUserAvatar %>" />
-                           </div>
-                           <div class="bg-light rounded p-2">${msg.Content}</div>`;
+                       <img class="w-100 h-100 object-fit-cover rounded-circle" src="<%= ToUserAvatar %>" />
+                   </div>
+                   <div class="bg-light rounded p-2">${msg.Content}</div>`;
 
-                    container.prepend(messageDiv);
+                    if (isLoadOld) {
+                        container.prepend(messageDiv);
+                    } else {
+                        container.appendChild(messageDiv);
+                    }
                 });
 
-                container.scrollTop = container.scrollHeight - previousScrollHeight;
+                if (isLoadOld) {
+                    const newHeight = container.scrollHeight;
+                    container.scrollTop = newHeight - previousScrollHeight;
+                } else {
+                    container.scrollTop = container.scrollHeight;
+                }
+
+                if (messages.length < messagesBatchSize) {
+                    isAllMessagesLoaded = true;
+                }
                 skipMessages += messages.length;
                 isLoadingMessages = false;
             });
         }
 
-        //document.addEventListener("DOMContentLoaded", function () {
-        //    const conversationLinks = document.querySelectorAll("#conversationsList a");
+        document.getElementById("messageContainer").addEventListener("scroll", function () {
+            const container = this;
+            if (container.scrollTop === 0 && !isLoadingMessages) {
+                const previousScrollHeight = container.scrollHeight;
 
-        //    conversationLinks.forEach(link => {
-        //        link.addEventListener("click", function () {
-        //            const userId = this.id;
-        //            const badge = document.getElementById(`unread_${userId}`);
-        //            if (badge) {
-        //                badge.style.display = "none";
-        //            }
-        //        });
-        //    });
-        //});
+                loadMessages();
+
+                setTimeout(() => {
+                    const newScrollHeight = container.scrollHeight;
+                    container.scrollTop = newScrollHeight - previousScrollHeight;
+                }, 100);
+            }
+        });
+
 
 
         window.onload = function () {
@@ -223,14 +259,15 @@ $"<span id='unread_{Eval("UserId")}' class='badge bg-danger rounded-circle d-fle
             const regex = /^\/messages\/u\/[a-fA-F0-9-]+$/;
 
             if (regex.test(path)) {
-                loadMessages();
+                loadMessages(false);
                 PageMethods.MarkMessagesAsRead(currentUserId, chatPartnerId);
                 const badge = document.getElementById(`unread_${chatPartnerId}`);
                 if (badge) badge.style.display = "none";
 
                 const activeConversation = document.getElementById(chatPartnerId);
                 if (activeConversation) activeConversation.classList.add("bg-primary-subtle");
-                // Cuộn xuống cuối sau khi tải
+
+
                 setTimeout(() => {
                     const container = document.getElementById("messageContainer");
                     container.scrollTop = container.scrollHeight;

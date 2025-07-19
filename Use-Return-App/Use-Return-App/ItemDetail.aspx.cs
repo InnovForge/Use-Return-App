@@ -14,6 +14,17 @@ namespace Use_Return_App
 {
     public partial class Item : System.Web.UI.Page
     {
+        protected string SoDienThoai { get; set; }
+        protected string SoDienThoaiAn
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(SoDienThoai) || SoDienThoai.Length < 3)
+                    return SoDienThoai;
+
+                return new string('*', SoDienThoai.Length - 3) + SoDienThoai.Substring(SoDienThoai.Length - 3);
+            }
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -40,6 +51,7 @@ namespace Use_Return_App
                         lblGiaMoiNgay.Text = Convert.ToDecimal(row["GiaMoiNgay"]).ToString("N0", new System.Globalization.CultureInfo("vi-VN") { NumberFormat = { NumberGroupSeparator = "." } }) + " đ";
                         lblTienCoc.Text = Convert.ToDecimal(row["TienCoc"]).ToString("N0", new System.Globalization.CultureInfo("vi-VN") { NumberFormat = { NumberGroupSeparator = "." } }) + " đ";
                         lnkMessage.HRef = "/messages/u/" + row["MaNguoiSoHuu"];
+                        SoDienThoai = row["SoDienThoai"].ToString();
                         //lblTinhTrang.Text = row["TinhTrang"].ToString();
                         //lblTrangThai.Text = row["TrangThai"].ToString();
                         //lblNgayTao.Text = ((DateTime)row["NgayTao"]).ToString("dd/MM/yyyy");
@@ -84,7 +96,8 @@ namespace Use_Return_App
             nd.Email,
             nd.AnhDaiDien,
             dm.TenDanhMuc,
-            dd.MaNguoiSoHuu
+            dd.MaNguoiSoHuu,
+            nd.SoDienThoai
         FROM DoDung dd
         JOIN NguoiDung nd ON dd.MaNguoiSoHuu = nd.MaNguoiDung
         JOIN DanhMuc dm ON dd.MaDanhMuc = dm.MaDanhMuc
