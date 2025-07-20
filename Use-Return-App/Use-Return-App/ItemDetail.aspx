@@ -171,6 +171,26 @@
                 </a>
             </div>
             <hr />
+         
+<%--<div class="comment ms-0">
+  <div class="bg-light px-3 py-2 rounded">Nguyễn A: Bình luận gốc</div>
+
+ 
+  <div class="comment ms-4 mt-2">
+    <div class="bg-white px-3 py-2 border rounded">Bình B: Trả lời 1</div>
+
+  
+    <div class="comment ms-4 mt-2">
+      <div class="bg-white px-3 py-2 border rounded">Cường C: Trả lời của Bình B</div>
+
+
+      <div class="comment ms-4 mt-2">
+        <div class="bg-white px-3 py-2 border rounded">Duy D: Trả lời của Cường C</div>
+      </div>
+    </div>
+  </div>
+</div>--%>
+
             <div class="d-flex gap-2 justify-content-end">
                 <button onclick="addToCart('P001')" class="btn btn-outline-primary  btn-lg" type="button">
                     <i class="bi bi-bookmark-plus"></i>
