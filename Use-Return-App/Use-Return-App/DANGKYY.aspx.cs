@@ -55,9 +55,19 @@ namespace Use_Return_App
                 lblMessage.Text = "Mật khẩu xác nhận không khớp.";
                 return;
             }
+            if (matKhau.Length < 6)
+            {
+                lblMessage.Text = "Mật khẩu phải từ 6 ký tự trở lên.";
+                return;
+            }
             if (string.IsNullOrEmpty(soDienThoai))
             {
                 lblMessage.Text = "Vui lòng nhập số điện thoại.";
+                return;
+            }
+            if (!Regex.IsMatch(soDienThoai, @"^\d{10}$"))
+            {
+                lblMessage.Text = "Số điện thoại phải gồm đúng 10 chữ số.";
                 return;
             }
 

@@ -23,13 +23,7 @@ namespace Use_Return_App
         private void LoadLichSuThue(string maNguoiDung)
         {
             string sql = @"
-                SELECT 
-                    dd.TieuDe, 
-                    pt.NgayBatDau, 
-                    pt.NgayKetThuc, 
-                    DATEDIFF(DAY, pt.NgayBatDau, pt.NgayKetThuc) AS SoNgay, 
-                    pt.TongTien, 
-                    pt.TrangThai
+                SELECT dd.TieuDe, pt.NgayBatDau, pt.NgayKetThuc, DATEDIFF(DAY, pt.NgayBatDau, pt.NgayKetThuc) AS SoNgay,  pt.TongTien, pt.TrangThai
                 FROM PhieuThue pt
                 INNER JOIN DoDung dd ON pt.MaDoDung = dd.MaDoDung
                 WHERE pt.MaNguoiThue = @id
