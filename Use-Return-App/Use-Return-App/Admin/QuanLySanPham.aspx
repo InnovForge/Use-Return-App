@@ -20,11 +20,9 @@
         <asp:BoundField DataField="MaDanhMuc" HeaderText="Mã Danh Mục" />
         <asp:BoundField DataField="MaDoDung" HeaderText="Mã Đồ Dùng" />
         <asp:BoundField DataField="TieuDe" HeaderText="Tiêu Đề" />
-        <asp:BoundField DataField="GiaMoiNgay" HeaderText="Gía Mỗi Ngày" />
+        <asp:BoundField DataField="GiaMoiNgay" HeaderText="Giá Mỗi Ngày" />
         <asp:TemplateField HeaderText="Chi Tiết">
-            <EditItemTemplate>
-                <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
-            </EditItemTemplate>
+            
             <ItemTemplate>
                 <asp:Button ID="ButtonXemChiTiet" runat="server" CommandName="XemChiTiet" CommandArgument='<%# Eval("MaDoDung") %>' Text="Xem Chi Tiết" />
             </ItemTemplate>

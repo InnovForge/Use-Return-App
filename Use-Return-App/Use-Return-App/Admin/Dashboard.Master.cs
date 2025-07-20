@@ -11,7 +11,13 @@ namespace Use_Return_App.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                if (Session["UserID"] == null || Session["MaVaiTro"] == null || Session["MaVaiTro"].ToString() != "2")
+                {
+                    Response.Redirect("Login.aspx");
+                }
+            }
         }
 
         protected void lnkUsers_Click(object sender, EventArgs e)
@@ -27,12 +33,18 @@ namespace Use_Return_App.Admin
 
         protected void lnkOrders_Click(object sender, EventArgs e)
         {
-            Server.Transfer("QuanLyDonHang.aspx");
+            Server.Transfer("QuanLyPhieuThue.aspx");
         }
 
         protected void lnkReports_Click(object sender, EventArgs e)
         {
             Server.Transfer("ThongKe.aspx");
+
+        }
+
+        protected void LinkInfor_Click(object sender, EventArgs e)
+        {
+            Server.Transfer("ThongTinAdmin.aspx");
 
         }
     }
