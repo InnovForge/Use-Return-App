@@ -13,6 +13,10 @@ namespace Use_Return_App.Admin
         {
             if(!IsPostBack)
             {
+                if (Session["UserID"] == null || Session["MaVaiTro"] == null || Session["MaVaiTro"].ToString() != "2")
+                {
+                    Response.Redirect("Login.aspx");
+                }
                 LoadDanhMuc();
             }
 
@@ -33,6 +37,12 @@ namespace Use_Return_App.Admin
                 Server.Transfer("~/Admin/QuanLySanPham.aspx");
 
             }
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            Server.Transfer("AdminHome.aspx");
+
         }
     }
 }

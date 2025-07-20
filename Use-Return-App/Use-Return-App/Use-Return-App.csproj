@@ -125,11 +125,15 @@
     <Content Include="About.aspx" />
     <Content Include="Admin\AdminDanhMuc.aspx" />
     <Content Include="Admin\AdminHome.aspx" />
+    <Content Include="Admin\ChiTietPhieuThue.aspx" />
     <Content Include="Admin\ChiTietSanPham.aspx" />
-    <Content Include="Admin\QuanLyDonHang.aspx" />
+    <Content Include="Admin\EditThongTinAdmin.aspx" />
+    <Content Include="Admin\Login.aspx" />
+    <Content Include="Admin\QuanLyPhieuThue.aspx" />
     <Content Include="Admin\QuanLyNguoiDung.aspx" />
     <Content Include="Admin\QuanLySanPham.aspx" />
     <Content Include="Admin\ThongKe.aspx" />
+    <Content Include="Admin\ThongTinAdmin.aspx" />
     <Content Include="Assets\iconCash.png" />
     <Content Include="Assets\IconVNPay.png" />
     <Content Include="Assets\message.mp3" />
@@ -209,6 +213,13 @@
     <Compile Include="Admin\AdminHome.aspx.designer.cs">
       <DependentUpon>AdminHome.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\ChiTietPhieuThue.aspx.cs">
+      <DependentUpon>ChiTietPhieuThue.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ChiTietPhieuThue.aspx.designer.cs">
+      <DependentUpon>ChiTietPhieuThue.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\ChiTietSanPham.aspx.cs">
       <DependentUpon>ChiTietSanPham.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -223,6 +234,20 @@
     <Compile Include="Admin\Dashboard.Master.designer.cs">
       <DependentUpon>Dashboard.Master</DependentUpon>
     </Compile>
+    <Compile Include="Admin\EditThongTinAdmin.aspx.cs">
+      <DependentUpon>EditThongTinAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\EditThongTinAdmin.aspx.designer.cs">
+      <DependentUpon>EditThongTinAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\QuanLyDanhMuc.Master.cs">
       <DependentUpon>QuanLyDanhMuc.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -230,12 +255,12 @@
     <Compile Include="Admin\QuanLyDanhMuc.Master.designer.cs">
       <DependentUpon>QuanLyDanhMuc.Master</DependentUpon>
     </Compile>
-    <Compile Include="Admin\QuanLyDonHang.aspx.cs">
-      <DependentUpon>QuanLyDonHang.aspx</DependentUpon>
+    <Compile Include="Admin\QuanLyPhieuThue.aspx.cs">
+      <DependentUpon>QuanLyPhieuThue.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\QuanLyDonHang.aspx.designer.cs">
-      <DependentUpon>QuanLyDonHang.aspx</DependentUpon>
+    <Compile Include="Admin\QuanLyPhieuThue.aspx.designer.cs">
+      <DependentUpon>QuanLyPhieuThue.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\QuanLyNguoiDung.aspx.cs">
       <DependentUpon>QuanLyNguoiDung.aspx</DependentUpon>
@@ -257,6 +282,13 @@
     </Compile>
     <Compile Include="Admin\ThongKe.aspx.designer.cs">
       <DependentUpon>ThongKe.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ThongTinAdmin.aspx.cs">
+      <DependentUpon>ThongTinAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ThongTinAdmin.aspx.designer.cs">
+      <DependentUpon>ThongTinAdmin.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />

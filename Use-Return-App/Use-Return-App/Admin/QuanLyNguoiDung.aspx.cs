@@ -30,6 +30,10 @@ namespace Use_Return_App.Admin
         {
             if (!IsPostBack)
             {
+                if (Session["UserID"] == null || Session["MaVaiTro"] == null || Session["MaVaiTro"].ToString() != "2")
+                {
+                    Response.Redirect("Login.aspx");
+                }
                 LoadUsers();
             }
         }
@@ -98,6 +102,12 @@ namespace Use_Return_App.Admin
             {
                 string fileName = Path.GetFileName(fuAvatar.FileName);
                 string folder = Server.MapPath("~/ImageUsers/");
+
+                if (!Directory.Exists(folder))
+                {
+                    Directory.CreateDirectory(folder);
+                }
+
                 string path = Path.Combine(folder, fileName);
                 int counter = 1;
                 string name = Path.GetFileNameWithoutExtension(fileName);
@@ -119,6 +129,7 @@ namespace Use_Return_App.Admin
                     if (File.Exists(oldPath)) File.Delete(oldPath);
                 }
             }
+
 
 
             string tenND = txtHoTen.Text.Trim();
