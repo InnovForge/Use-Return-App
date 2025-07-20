@@ -22,7 +22,7 @@ namespace Use_Return_App
 
         private void LoadDanhSachDoDung()
         {
-            string connStr = ConfigurationManager.ConnectionStrings["YourConnectionStringName"].ConnectionString;
+            string connStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(connStr))
             {
@@ -42,7 +42,7 @@ namespace Use_Return_App
                 Guid maNguoiDung = Guid.Parse(Session["MaNguoiDung"].ToString());
                 Guid maDoDung = Guid.Parse(e.CommandArgument.ToString());
 
-                string connStr = ConfigurationManager.ConnectionStrings["YourConnectionStringName"].ConnectionString;
+                string connStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
                 using (SqlConnection conn = new SqlConnection(connStr))
                 {

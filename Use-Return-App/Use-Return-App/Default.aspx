@@ -184,8 +184,7 @@
 </div>
 
 <div class="d-flex justify-content-end gap-2 position-absolute" style="top: .4rem; left: .4rem;">
-                                <button onclick="event.stopPropagation(); event.preventDefault();" type="button" class="btn btn-light btn-sm">  <i class="bi bi-bookmark-plus"></i> </button>       
-                                
+                                <button onclick="event.stopPropagation(); event.preventDefault();" type="button" class="btn btn-light btn-sm">  <i class="bi bi-bookmark-plus"></i> </button>                    
 </div>
                             </div>
 
