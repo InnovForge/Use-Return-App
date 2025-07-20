@@ -27,7 +27,7 @@ namespace Use_Return_App
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                string query = "SELECT TieuDe, MoTa, GiaMoiNgay, SoLuong, TinhTrang, TrangThai, NgayTao FROM DoDung WHERE TieuDe LIKE @keyword AND TrangThai = 'Available'";
+                string query = "SELECT MaDoDung, TieuDe, MoTa, GiaMoiNgay, SoLuong, TinhTrang, TrangThai, NgayTao FROM DoDung WHERE TieuDe LIKE @keyword AND TrangThai = 'Available'";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@keyword", "%" + keyword + "%");
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
