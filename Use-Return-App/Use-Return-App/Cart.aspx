@@ -17,17 +17,37 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-     <div>
-            <h2>Danh sách đồ dùng đã lưu</h2>
+    <div class="container">
+        <h2>Danh sách đồ dùng đã lưu</h2>
+        
+        <!-- Hiển thị thông tin debug -->
+        <div id="debugContainer" runat="server" class="alert alert-info mb-3"></div>
+        
+        <asp:Label ID="lblEmptyCart" runat="server" 
+            CssClass="alert alert-info" 
+            Visible="false" />
+            
+        <div class="row">
             <asp:Repeater ID="rptCart" runat="server">
                 <ItemTemplate>
-                    <div class="item-card">
-                        <div class="item-title"><%# Eval("TieuDe") %></div>
-                        <div>Mô tả: <%# Eval("MoTa") %></div>
-                        <div>Giá mỗi ngày: <%# Eval("GiaMoiNgay") %> VND</div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card item-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><%# Eval("TieuDe") %></h5>
+                                <p class="card-text"><%# Eval("MoTa") %></p>
+                                <p class="text-price">
+                                    <%# Eval("GiaMoiNgay", "{0:N0}") %> VND/ngày
+                                </p>
+<asp:Button runat="server" 
+    Text="Xóa khỏi giỏ" 
+    CssClass="btn btn-danger"
+    CommandArgument='<%# Eval("MaDoDung") %>' 
+    OnClick="btnRemove_Click" />
+                            </div>
+                        </div>
                     </div>
                 </ItemTemplate>
             </asp:Repeater>
-            <div class="clear"></div>
         </div>
+    </div>
 </asp:Content>
