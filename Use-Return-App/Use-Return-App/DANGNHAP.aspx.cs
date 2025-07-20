@@ -37,7 +37,7 @@ namespace Use_Return_App
                     }
                 }
 
-                lblMessage.Text = "Số ddienj thoại hoặc mật khẩu không đúng.";
+                lblMessage.Text = "Số điện thoại hoặc mật khẩu không đúng.";
             }
             catch (Exception ex)
             {

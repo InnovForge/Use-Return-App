@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static Humanizer.In;
 
 namespace Use_Return_App.Admin
 {
@@ -11,7 +12,10 @@ namespace Use_Return_App.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Session["UserID"] == null || Session["MaVaiTro"] == null || Session["MaVaiTro"].ToString() != "2")
+            {
+                Response.Redirect("Login.aspx");
+            }
         }
     }
 }

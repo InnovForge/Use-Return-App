@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -10,22 +10,10 @@ using System.Web.UI.WebControls;
 
 namespace Use_Return_App.Admin
 {
-    public partial class QuanLyNguoiDung : System.Web.UI.Page
+    public partial class EditThongTinAdmin : System.Web.UI.Page
     {
-        const string sql = @"
-             SELECT  u.MaNguoiDung,
-                     u.HoTen,
-                     u.AnhDaiDien,
-                     u.Email,
-                     u.MatKhauHash,
-                     u.SoDienThoai,
-                     u.NgayTao,
-                     u.DangHoatDong,
-                     v.TenVaiTro,
-                     u.MaVaiTro 
-        FROM    NguoiDung  u
-        JOIN    VaiTro     v ON u.MaVaiTro = v.MaVaiTro
-        WHERE   u.MaVaiTro = 1";
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -40,8 +28,14 @@ namespace Use_Return_App.Admin
 
         public void LoadUsers()
         {
-           
-            GridView1.DataSource = SqlHelper.ExecuteDataTable(sql);
+            Guid id = Guid.Parse(Session["UserID"].ToString());
+            string sql = "SELECT * FROM NguoiDung Where MaNguoiDung = @id";
+            SqlParameter[] parameters = new SqlParameter[]
+           {
+              new SqlParameter("@id", id)
+           };
+
+            GridView1.DataSource = SqlHelper.ExecuteDataTable(sql, parameters);
             GridView1.DataBind();
         }
 
@@ -67,8 +61,7 @@ namespace Use_Return_App.Admin
             if (kq > 0)
             {
                 Response.Write("<script>alert('Xóa thành công');</script>");
-                this.GridView1.DataSource = SqlHelper.ExecuteDataTable(sql);
-                this.GridView1.DataBind();
+                LoadUsers();
             }
             else
             {
@@ -79,8 +72,9 @@ namespace Use_Return_App.Admin
         protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
         {
             GridView1.EditIndex = e.NewEditIndex;
-            this.GridView1.DataSource = SqlHelper.ExecuteDataTable(sql);
-            this.GridView1.DataBind();
+            //this.GridView1.DataSource = SqlHelper.ExecuteDataTable(sql);
+            //this.GridView1.DataBind();
+            LoadUsers();
         }
 
         protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
@@ -91,7 +85,7 @@ namespace Use_Return_App.Admin
             TextBox txtHoTen = (TextBox)row.FindControl("EditHoTen"); ;
             TextBox txtEmail = (TextBox)row.FindControl("EditEmail");
             TextBox txtSoDienThoai = (TextBox)row.FindControl("EditPhone");
-      //      TextBox txtMaKhau = (TextBox)GridView1.FooterRow.FindControl("EditPass");
+            //      TextBox txtMaKhau = (TextBox)GridView1.FooterRow.FindControl("EditPass");
             DropDownList ddlRole = (DropDownList)row.FindControl("ddlRole");
             FileUpload fuAvatar = (FileUpload)row.FindControl("fuAvatarEdit");
             HiddenField hfOld = (HiddenField)row.FindControl("hfOldAvatar");
@@ -135,18 +129,16 @@ namespace Use_Return_App.Admin
             string tenND = txtHoTen.Text.Trim();
             string email = txtEmail.Text.Trim();
             string phone = txtSoDienThoai.Text.Trim();
-         //   string pass = txtMaKhau.Text.Trim();
-            int roleId = int.Parse(ddlRole.SelectedValue);
+            //   string pass = txtMaKhau.Text.Trim();
 
-            string sql = "UPDATE NguoiDung SET HoTen = N'" + tenND + "', Email = N'"+ email + "',AnhDaiDien = '"+(object)newFileName+"', SoDienThoai = '"+ phone + "',MaVaiTro = '"+roleId+"'  WHERE MaNguoiDung = '" + maND + "'";
+            string sql = "UPDATE NguoiDung SET HoTen = N'" + tenND + "', Email = N'" + email + "',AnhDaiDien = '" + (object)newFileName + "', SoDienThoai = '" + phone + "'  WHERE MaNguoiDung = '" + maND + "'";
 
             int kq = SqlHelper.ExecuteNonQuery(sql);
             if (kq > 0)
             {
                 Response.Write("<script>alert('Cập nhật thành công');</script>");
                 GridView1.EditIndex = -1; // Đặt lại chế độ chỉnh sửa
-                this.GridView1.DataSource = SqlHelper.ExecuteDataTable(sql);
-                this.GridView1.DataBind();
+                LoadUsers();
             }
             else
             {
@@ -161,8 +153,8 @@ namespace Use_Return_App.Admin
         protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
             GridView1.EditIndex = -1; // Đặt lại chế độ chỉnh sửa
-            this.GridView1.DataSource = SqlHelper.ExecuteDataTable(sql);
-            this.GridView1.DataBind();
+            LoadUsers();
+
         }
 
         protected void Button1_Click(object sender, EventArgs e)
@@ -196,16 +188,15 @@ namespace Use_Return_App.Admin
             string email = txtEmail.Text.Trim();
             string phone = txtSoDienThoai.Text.Trim();
             string pass = txtMaKhau.Text.Trim();
-            int roleId = int.Parse(ddlRole.SelectedValue);
 
 
-            int kq = SqlHelper.ExecuteNonQuery("INSERT INTO NguoiDung( HoTen, Email,AnhDaiDien ,SoDienThoai,MatKhauHash,MaVaiTro) VALUES (N'" + tenND + "', N'"+email+"','"+fileName+"', N'"+phone+"', N'"+pass+"','"+roleId+"')");
+            int kq = SqlHelper.ExecuteNonQuery("INSERT INTO NguoiDung( HoTen, Email,AnhDaiDien ,SoDienThoai,MatKhauHash) VALUES (N'" + tenND + "', N'" + email + "','" + fileName + "', N'" + phone + "', N'" + pass + "')");
 
             if (kq > 0)
             {
                 Response.Write("<script>alert('Thêm thành công');</script>");
-                this.GridView1.DataSource = SqlHelper.ExecuteDataTable(sql);
-                this.GridView1.DataBind();
+                LoadUsers();
+
             }
             else
             {
