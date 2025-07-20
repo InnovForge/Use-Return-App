@@ -43,14 +43,20 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse d-lg-flex justify-content-between" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" id="liHome" runat="server" href="~/">Trang chủ</a>
-                            </li>
+                       <ul class="navbar-nav">
+    <li class="nav-item">
+        <a class="nav-link" id="liHome" runat="server" href="~/">Trang chủ</a>
+    </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" id="liAbout" runat="server" href="~/About.aspx">About</a>
-                            </li>
+    <li class="nav-item">
+        <a class="nav-link" id="liAbout" runat="server" href="~/About.aspx">About</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="~/YeuThich.aspx">Đã lưu</a>
+    </li>
+</ul>
+
 
                             <%--  <li class="nav-item">
                                 <a class="nav-link" href="#">Pricing</a>
