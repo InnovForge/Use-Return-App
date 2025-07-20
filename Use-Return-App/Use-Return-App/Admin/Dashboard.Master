@@ -26,7 +26,7 @@
                     </div>
                     <div>
                         <asp:LinkButton ID="lnkUsers" CssClass="btn btn-link d-block mb-2 " runat="server" OnClick="lnkUsers_Click">Quản lý người dùng</asp:LinkButton>
-                        <asp:LinkButton ID="lnkProducts" CssClass="btn btn-link d-block mb-2" runat="server" OnClick="lnkProducts_Click">Quản lý DanhMuc</asp:LinkButton>
+                        <asp:LinkButton ID="lnkProducts" CssClass="btn btn-link d-block mb-2" runat="server" OnClick="lnkProducts_Click">Quản lý danh Mục</asp:LinkButton>
                         <asp:LinkButton ID="lnkOrders" CssClass="btn btn-link d-block mb-2" runat="server" OnClick="lnkOrders_Click">Quản lý đơn hàng</asp:LinkButton>
                         <asp:LinkButton ID="lnkReports" CssClass="btn btn-link d-block" runat="server" OnClick="lnkReports_Click">Xem thống kê</asp:LinkButton>
                     </div>

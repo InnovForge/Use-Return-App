@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Services;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Use_Return_App.Helpers;
 
@@ -73,6 +74,30 @@ namespace Use_Return_App
          
             }
         }
+
+        protected void rptMainImages_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                var row = (DataRowView)e.Item.DataItem;
+                string duongDan = row["DuongDanAnh"].ToString();
+
+                var img = (HtmlImage)e.Item.FindControl("imgMain");
+                if (img != null)
+                {
+                    if (duongDan.StartsWith("http://") || duongDan.StartsWith("https://"))
+                    {
+                        img.Src = duongDan; 
+                    }
+                    else
+                    {
+                        img.Src = "/ImageDoDung/" + duongDan;
+                    }
+                }
+            }
+        }
+
+
         private DataTable getImages(Guid maDoDung)
         {
             string sql = "SELECT DuongDanAnh FROM HinhAnhDoDung WHERE MaDoDung = @id ORDER BY ThuTuHienThi";
@@ -176,4 +201,10 @@ namespace Use_Return_App
         }
 
     }
+    public class HinhAnhDoDung
+    {
+        public string DuongDanAnh { get; set; }
+        public string TieuDe { get; set; }
+    }
+
 }
