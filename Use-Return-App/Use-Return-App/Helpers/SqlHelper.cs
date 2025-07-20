@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
@@ -6,14 +7,27 @@ using System.Web;
 
 public static class SqlHelper
 {
-    private static string GetConnectionString()
+    /// <summary>
+    /// Trả về SqlConnection dựa vào connection string trong Web.config.
+    /// </summary>
+    public static SqlConnection GetConnection()
     {
-     //   string dbFile = HttpContext.Current.Server.MapPath("~/App_Data/Database.mdf");
-        return $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True;Connect Timeout=30;";
+        string env = ConfigurationManager.AppSettings["Environment"];
+        string connName = env == "Production" ? "ProductionConnection" : "DefaultConnection";
+        string connStr = ConfigurationManager.ConnectionStrings[connName].ConnectionString;
+        return new SqlConnection(connStr);
     }
 
+    /// <summary>
+    /// Đảm bảo file cơ sở dữ liệu tồn tại trong App_Data. Nếu chưa có thì chạy DbSeeder.
+    /// </summary>
     public static void EnsureDatabaseExists()
     {
+        // Chỉ chạy trong môi trường Development
+        string environment = ConfigurationManager.AppSettings["Environment"];
+        if (!string.Equals(environment, "Development", StringComparison.OrdinalIgnoreCase))
+            return;
+
         string folderPath = HttpContext.Current.Server.MapPath("~/App_Data");
         string dbPath = Path.Combine(folderPath, "Database.mdf");
 
@@ -24,42 +38,27 @@ public static class SqlHelper
         {
             DbSeeder.Run();
             DbSeeder.SeedData(dbPath);
-          //  ExecuteScriptFromFile(dbPath, Path.Combine(folderPath, "schema.sql"));
         }
     }
 
-    //private static void CreateDatabase(string dbPath)
-    //{
-    //    string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Integrated Security=True";
-    //    string dbName = Path.GetFileNameWithoutExtension(dbPath);
-
-    //    using (var connection = new SqlConnection(connectionString))
-    //    {
-    //        connection.Open();
-    //        string cmdText = $@"CREATE DATABASE [{dbName}] ON (NAME = N'{dbName}', FILENAME = '{dbPath}') LOG ON (NAME = N'{dbName}_log', FILENAME = '{dbPath.Replace(".mdf", "_log.ldf")}')";
-    //        using (var command = new SqlCommand(cmdText, connection))
-    //        {
-    //            command.ExecuteNonQuery();
-    //        }
-    //    }
-    //}
-
-    private static void ExecuteScriptFromFile(string dbPath, string scriptFilePath)
+    /// <summary>
+    /// Thực thi script SQL từ file .sql.
+    /// </summary>
+    private static void ExecuteScriptFromFile(string scriptFilePath)
     {
         if (!File.Exists(scriptFilePath))
-            throw new FileNotFoundException("File schema.sql not exists", scriptFilePath);
+            throw new FileNotFoundException("File schema.sql không tồn tại", scriptFilePath);
 
         string script = File.ReadAllText(scriptFilePath);
-        string connStr = GetConnectionString();
 
-        using (var connection = new SqlConnection(connStr))
+        using (var connection = GetConnection())
         {
             connection.Open();
             var commands = script.Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var cmd in commands)
             {
-                var trimmedCmd = cmd.Trim();
+                string trimmedCmd = cmd.Trim();
                 if (!string.IsNullOrWhiteSpace(trimmedCmd))
                 {
                     using (var command = new SqlCommand(trimmedCmd, connection))
@@ -72,19 +71,16 @@ public static class SqlHelper
     }
 
     /// <summary>
-    /// Thực thi câu lệnh SQL không trả về dữ liệu (INSERT, UPDATE, DELETE, CREATE,...).
+    /// Thực thi câu lệnh INSERT, UPDATE, DELETE,...
     /// </summary>
-    /// <param name="sql">Chuỗi SQL</param>
-    /// <param name="parameters">Danh sách tham số (tuỳ chọn)</param>
-    /// <returns>Số dòng bị ảnh hưởng</returns>
     public static int ExecuteNonQuery(string sql, params SqlParameter[] parameters)
     {
-        using (var connection = new SqlConnection(GetConnectionString()))
+        using (var connection = GetConnection())
         {
             connection.Open();
             using (var command = new SqlCommand(sql, connection))
             {
-                if (parameters != null)
+                if (parameters?.Length > 0)
                     command.Parameters.AddRange(parameters);
 
                 return command.ExecuteNonQuery();
@@ -93,20 +89,16 @@ public static class SqlHelper
     }
 
     /// <summary>
-    /// Thực thi câu lệnh SQL và trả về một giá trị đơn (ví dụ: SELECT COUNT(*)).
+    /// Thực thi SELECT COUNT, MAX,... trả về 1 giá trị đơn.
     /// </summary>
-    /// <typeparam name="T">Kiểu dữ liệu trả về</typeparam>
-    /// <param name="sql">Chuỗi SQL</param>
-    /// <param name="parameters">Danh sách tham số (tuỳ chọn)</param>
-    /// <returns>Giá trị đơn (hoặc mặc định nếu không có)</returns>
     public static T ExecuteScalar<T>(string sql, params SqlParameter[] parameters)
     {
-        using (var connection = new SqlConnection(GetConnectionString()))
+        using (var connection = GetConnection())
         {
             connection.Open();
             using (var command = new SqlCommand(sql, connection))
             {
-                if (parameters != null)
+                if (parameters?.Length > 0)
                     command.Parameters.AddRange(parameters);
 
                 object result = command.ExecuteScalar();
@@ -118,20 +110,16 @@ public static class SqlHelper
     }
 
     /// <summary>
-    /// Thực thi truy vấn SELECT và trả về kết quả dưới dạng DataTable.
-    /// Thích hợp để binding cho GridView, export,...
+    /// Thực thi SELECT và trả về DataTable.
     /// </summary>
-    /// <param name="sql">Chuỗi SQL SELECT</param>
-    /// <param name="parameters">Danh sách tham số (tuỳ chọn)</param>
-    /// <returns>DataTable chứa dữ liệu</returns>
     public static DataTable ExecuteDataTable(string sql, params SqlParameter[] parameters)
     {
-        using (var connection = new SqlConnection(GetConnectionString()))
+        using (var connection = GetConnection())
         {
             connection.Open();
             using (var command = new SqlCommand(sql, connection))
             {
-                if (parameters != null)
+                if (parameters?.Length > 0)
                     command.Parameters.AddRange(parameters);
 
                 using (var adapter = new SqlDataAdapter(command))
@@ -144,34 +132,38 @@ public static class SqlHelper
         }
     }
 
+    /// <summary>
+    /// Thực thi SELECT và trả về SqlDataReader (chú ý: cần dùng using hoặc đọc xong phải Close).
+    /// </summary>
     public static SqlDataReader ExecuteReader(string sql, params SqlParameter[] parameters)
     {
-        var connection = new SqlConnection(GetConnectionString());
+        var connection = GetConnection();
         var command = new SqlCommand(sql, connection);
 
-        if (parameters != null)
+        if (parameters?.Length > 0)
             command.Parameters.AddRange(parameters);
 
         connection.Open();
-        // Khi reader bị đóng thì connection cũng sẽ tự đóng
-        return command.ExecuteReader(CommandBehavior.CloseConnection);
+        return command.ExecuteReader(CommandBehavior.CloseConnection); // tự close connection khi reader bị dispose
     }
 
+    /// <summary>
+    /// Cập nhật trạng thái online của người dùng.
+    /// </summary>
     public static void UpdateUserOnlineStatus(Guid userId, bool isOnline)
     {
-        string sql = @"UPDATE NguoiDung 
-                   SET TrangThai = @TrangThai, LanCuoiOnline = @LanCuoiOnline 
-                   WHERE MaNguoiDung = @UserId";
+        string sql = @"
+            UPDATE NguoiDung 
+            SET TrangThai = @TrangThai, LanCuoiOnline = @LanCuoiOnline 
+            WHERE MaNguoiDung = @UserId";
 
         SqlParameter[] parameters = new[]
         {
-        new SqlParameter("@TrangThai", isOnline),
-        new SqlParameter("@LanCuoiOnline", DateTime.Now),
-        new SqlParameter("@UserId", userId)
-    };
+            new SqlParameter("@TrangThai", isOnline),
+            new SqlParameter("@LanCuoiOnline", DateTime.Now),
+            new SqlParameter("@UserId", userId)
+        };
 
         ExecuteNonQuery(sql, parameters);
     }
-
-
 }

@@ -19,7 +19,7 @@ namespace Use_Return_App
         protected void Application_Start(object sender, EventArgs e)
         {
           RouteConfig.RegisterRoutes(RouteTable.Routes);
-      //DbSeeder.Run();
+
           SqlHelper.EnsureDatabaseExists();
 
             //string hashed = BCrypt.Net.BCrypt.HashPassword("123456");
