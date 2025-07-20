@@ -32,8 +32,15 @@ namespace Use_Return_App.Admin
             lblEmail.Text = row["Email"].ToString();
             lblPhone.Text = row["SoDienThoai"].ToString();
             lblCreatedDate.Text = row["NgayTao"].ToString();
-            imgAvatar.ImageUrl = "~/ImageUsers/" + row["AnhDaiDien"].ToString();
-
+            string duongDan = row["AnhDaiDien"].ToString();
+            if (duongDan.StartsWith("http://") || duongDan.StartsWith("https://"))
+            {
+                imgAvatar.ImageUrl = duongDan;  
+            }
+            else
+            {
+                imgAvatar.ImageUrl = "~/ImageUsers/" + row["AnhDaiDien"].ToString();
+            }
         }
 
 
