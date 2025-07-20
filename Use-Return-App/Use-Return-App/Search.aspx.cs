@@ -24,7 +24,7 @@ namespace Use_Return_App
         }
         private void LoadKetQua(string keyword)
         {
-            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["database"].ConnectionString;
+            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 string query = "SELECT TieuDe, MoTa, GiaMoiNgay, SoLuong, TinhTrang, TrangThai, NgayTao FROM DoDung WHERE TieuDe LIKE @keyword AND TrangThai = 'Available'";
