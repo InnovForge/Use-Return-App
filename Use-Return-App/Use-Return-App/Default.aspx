@@ -184,8 +184,10 @@
 </div>
 
 <div class="d-flex justify-content-end gap-2 position-absolute" style="top: .4rem; left: .4rem;">
-                                <button onclick="event.stopPropagation(); event.preventDefault();" type="button" class="btn btn-light btn-sm">  <i class="bi bi-bookmark-plus"></i> </button>       
-                                
+                               <button onclick="event.stopPropagation(); event.preventDefault(); addToCart('${card.MaDoDung}', this);" type="button"
+          class="btn ${card.IsInCart ? 'btn-primary' : 'btn-light'} btn-sm">
+          <i class="bi ${card.IsInCart ? 'bi-bookmark-check' : 'bi-bookmark-plus'}"></i>
+        </button>              
 </div>
                             </div>
 
@@ -211,6 +213,38 @@
 
         window.onload = loadMore;
 
+     
+        PageMethods.set_path("/Default.aspx");
+
+      function addToCart(productId, btn) {
+    PageMethods.AddToCart(productId, function (newTotal) {
+    
+        const badge = document.getElementById("CartBadge");
+        if (badge) badge.innerText = newTotal > 99 ? "99+" : newTotal;
+
+    
+        const icon = btn.querySelector("i");
+        const isBookmarked = btn.classList.contains("btn-primary");
+
+        if (isBookmarked) {
+   
+            btn.classList.remove("btn-primary");
+            btn.classList.add("btn-light");
+
+            icon.classList.remove("bi-bookmark-check");
+            icon.classList.add("bi-bookmark-plus");
+        } else {
+      
+            btn.classList.remove("btn-light");
+            btn.classList.add("btn-primary");
+
+            icon.classList.remove("bi-bookmark-plus");
+            icon.classList.add("bi-bookmark-check");
+        }
+    }, function (err) {
+        console.error("Lỗi thêm vào giỏ:", err.get_message());
+    });
+}
 
  </script>
 

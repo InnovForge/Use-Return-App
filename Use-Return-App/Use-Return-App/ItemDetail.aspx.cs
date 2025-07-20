@@ -10,6 +10,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Use_Return_App.Helpers;
+using Use_Return_App.Helpers.Use_Return_App.Helpers;
 
 namespace Use_Return_App
 {
@@ -26,6 +27,14 @@ namespace Use_Return_App
                 return new string('*', SoDienThoai.Length - 3) + SoDienThoai.Substring(SoDienThoai.Length - 3);
             }
         }
+        protected string MaDoDung { get; set; }
+        protected bool isInCart { get; set; }
+        public static bool IsInCartT(Guid maDoDung)
+        {
+            var cart = CookieCartHelper.LoadCartFromCookie(HttpContext.Current.Request);
+            return cart.Any(x => x.ProductId == maDoDung.ToString());
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -53,6 +62,10 @@ namespace Use_Return_App
                         lblTienCoc.Text = Convert.ToDecimal(row["TienCoc"]).ToString("N0", new System.Globalization.CultureInfo("vi-VN") { NumberFormat = { NumberGroupSeparator = "." } }) + " đ";
                         lnkMessage.HRef = "/messages/u/" + row["MaNguoiSoHuu"];
                         SoDienThoai = row["SoDienThoai"].ToString();
+                        MaDoDung = row["MaDoDung"].ToString();
+                      
+                        isInCart = IsInCartT(Guid.Parse(MaDoDung));
+                     
                         //lblTinhTrang.Text = row["TinhTrang"].ToString();
                         //lblTrangThai.Text = row["TrangThai"].ToString();
                         //lblNgayTao.Text = ((DateTime)row["NgayTao"]).ToString("dd/MM/yyyy");
@@ -146,62 +159,58 @@ namespace Use_Return_App
             }
         }
 
-        protected void btnAddToCart_onClick(object sender, EventArgs e)
-        {
-            var cart = CookieCartHelper.LoadCartFromCookie(Request);
-            var random = new Random();
-            var newItem = new CartItem
-            {
-                ProductId = "P00_" + random.Next(1000, 9999),
-                ProductName = "Sản phẩm A",
-                Quantity = 1,
-                Price = 100000
-            };
+        //protected void btnAddToCart_onClick(object sender, EventArgs e)
+        //{
+        //    var cart = CookieCartHelper.LoadCartFromCookie(Request);
+        //    var random = new Random();
+        //    var newItem = new CartItem
+        //    {
+        //        ProductId = "P00_" + random.Next(1000, 9999),
+        //        ProductName = "Sản phẩm A",
+        //        Quantity = 1,
+        //        Price = 100000
+        //    };
 
-            var existing = cart.FirstOrDefault(x => x.ProductId == newItem.ProductId);
-            if (existing != null)
-            {
-                existing.Quantity += newItem.Quantity;
-            }
-            else
-            {
-                cart.Add(newItem);
-            }
+        //    var existing = cart.FirstOrDefault(x => x.ProductId == newItem.ProductId);
+        //    if (existing != null)
+        //    {
+        //        existing.Quantity += newItem.Quantity;
+        //    }
+        //  }
 
-            CookieCartHelper.SaveCartToCookie(cart, Response);
-        }
+        //        else
+        //    {
+        //        cart.Add(newItem);
+        //  CookieCartHelper.SaveCartToCookie(cart, Response);
+        //}
 
         [WebMethod]
         public static int AddToCart(string productId)
         {
-            productId = new Random().Next(1000, 9999).ToString();
             var context = HttpContext.Current;
-
             var cart = CookieCartHelper.LoadCartFromCookie(context.Request);
-         
+
             var existing = cart.FirstOrDefault(x => x.ProductId == productId);
             if (existing != null)
             {
-                existing.Quantity += 1;
+                cart.Remove(existing);
             }
             else
             {
                 cart.Add(new CartItem
                 {
                     ProductId = productId,
-                    ProductName = "Tên sản phẩm demo",
-                    Quantity = 1,
-                    Price = 100000
+                    Quantity = 1
                 });
             }
 
             CookieCartHelper.SaveCartToCookie(cart, context.Response);
-
             return cart.Count;
         }
+        }
 
-    }
-    public class HinhAnhDoDung
+
+        public class HinhAnhDoDung
     {
         public string DuongDanAnh { get; set; }
         public string TieuDe { get; set; }

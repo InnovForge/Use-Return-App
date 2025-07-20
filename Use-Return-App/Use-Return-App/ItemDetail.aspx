@@ -85,6 +85,7 @@
     <%--<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" />--%>
 
     <!-- Swiper -->
+
     <div class="d-flex w-100">
 
         <div class="container-swiper">
@@ -92,9 +93,9 @@
                 <div class="swiper-wrapper">
                     <asp:Repeater ID="rptMainImages" runat="server" OnItemDataBound="rptMainImages_ItemDataBound">
                         <ItemTemplate>
-                              <div class="swiper-slide">
-                               <img id="imgMain" runat="server" />
-                               </div>
+                            <div class="swiper-slide">
+                                <img id="imgMain" runat="server" />
+                            </div>
                         </ItemTemplate>
                     </asp:Repeater>
                 </div>
@@ -105,9 +106,9 @@
                 <div class="swiper-wrapper">
                     <asp:Repeater ID="rptThumbImages" runat="server" OnItemDataBound="rptMainImages_ItemDataBound">
                         <ItemTemplate>
-                              <div class="swiper-slide">
-                             <img id="imgMain" runat="server" />
-                             </div>
+                            <div class="swiper-slide">
+                                <img id="imgMain" runat="server" />
+                            </div>
                         </ItemTemplate>
                     </asp:Repeater>
                 </div>
@@ -171,8 +172,8 @@
                 </a>
             </div>
             <hr />
-         
-<%--<div class="comment ms-0">
+
+            <%--<div class="comment ms-0">
   <div class="bg-light px-3 py-2 rounded">Nguyễn A: Bình luận gốc</div>
 
  
@@ -192,8 +193,8 @@
 </div>--%>
 
             <div class="d-flex gap-2 justify-content-end">
-                <button onclick="addToCart('P001')" class="btn btn-outline-primary  btn-lg" type="button">
-                    <i class="bi bi-bookmark-plus"></i>
+                <button id="btnBook" onclick='addToCart("<%= MaDoDung %>")' class="btn <%=(bool)isInCart ? "btn-primary" : "btn-outline-primary" %> btn-lg" type="button">
+                    <i class="bi <%=(bool)isInCart ? "bi-bookmark-check" : "bi-bookmark-plus" %>"></i>
                 </button>
 
                 <asp:LinkButton
@@ -228,9 +229,34 @@
             }
         });
 
+        PageMethods.set_path("/itemDetail.aspx");
+
         function addToCart(productId) {
             PageMethods.AddToCart(productId, function (newTotal) {
                 document.getElementById("CartBadge").innerText = newTotal > 99 ? "99+" : newTotal;
+
+                const btn = document.querySelector(`button[onclick*="${productId}"]`);
+                if (!btn) return;
+
+                const icon = btn.querySelector("i");
+
+                const isInCart = btn.classList.contains("btn-primary");
+
+                if (isInCart) {
+
+                    btn.classList.remove("btn-primary");
+                    btn.classList.add("btn-outline-primary");
+
+                    icon.classList.remove("bi-bookmark-check");
+                    icon.classList.add("bi-bookmark-plus");
+                } else {
+
+                    btn.classList.remove("btn-outline-primary");
+                    btn.classList.add("btn-primary");
+
+                    icon.classList.remove("bi-bookmark-plus");
+                    icon.classList.add("bi-bookmark-check");
+                }
             });
         }
 
