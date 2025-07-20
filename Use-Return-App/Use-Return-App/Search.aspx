@@ -50,7 +50,11 @@
         <ItemTemplate>
             <div class="dodung-card">
                 <div class="dodung-info">
-                    <div class="dodung-title"><%# Eval("TieuDe") %></div>
+                    <div class="dodung-title">
+                        <a href='<%# "Item.aspx?itid=" + Eval("MaDoDung") %>'>
+                            <%# Eval("TieuDe") %>
+                        </a>
+                    </div>
                     <div class="dodung-meta mb-1"><%# Eval("MoTa") %></div>
 
                     <div class="dodung-meta mb-1">
