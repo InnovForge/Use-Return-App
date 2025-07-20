@@ -51,32 +51,25 @@ CREATE TABLE HinhAnhDoDung (
 );
 
 CREATE TABLE PhieuThue (
-    MaPhieuThue       UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY,
-    MaDoDung          UNIQUEIDENTIFIER NOT NULL REFERENCES DoDung(MaDoDung),
-    MaNguoiThue       UNIQUEIDENTIFIER NOT NULL REFERENCES NguoiDung(MaNguoiDung),
-    NgayBatDau        DATE NOT NULL,
-    NgayKetThuc       DATE NOT NULL,
-    SoNgay            AS (DATEDIFF(day, NgayBatDau, NgayKetThuc) + 1) PERSISTED,
-    
-    TongTien          DECIMAL(12,2) NOT NULL,
-    TienCoc           DECIMAL(12,2) NOT NULL,
-
-    TrangThai         NVARCHAR(20) DEFAULT 'Pending' 
-        CHECK (TrangThai IN ('Pending','Confirmed','PickedUp','Returned','Cancelled','Expired')),
-
-    ThoiGianHetHan    DATETIME NULL, 
-    NgayTao           DATETIME DEFAULT GETDATE()
+    MaPhieuThue     UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    MaNguoiThue     UNIQUEIDENTIFIER NOT NULL REFERENCES NguoiDung(MaNguoiDung),
+    NgayBatDau      DATE NOT NULL,
+    NgayKetThuc     DATE NOT NULL,
+    SoNgay          AS (DATEDIFF(day, NgayBatDau, NgayKetThuc) + 1) PERSISTED,
+    TongTien        DECIMAL(12,2) NOT NULL,
+    TienCoc         DECIMAL(12,2) NOT NULL,
+    TrangThai       NVARCHAR(20) DEFAULT 'Pending' 
+                    CHECK (TrangThai IN ('Pending','Confirmed','PickedUp','Returned','Cancelled','Expired')),
+    ThoiGianHetHan  DATETIME NULL,
+    NgayTao         DATETIME DEFAULT GETDATE()
 );
 
 CREATE TABLE ChiTietPhieuThue (
-    MaChiTiet UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-    MaPhieuThue UNIQUEIDENTIFIER NOT NULL,
-    MaDoDung UNIQUEIDENTIFIER NOT NULL,
-    SoLuong INT NOT NULL,
-    GiaThue FLOAT NOT NULL,
-
-    FOREIGN KEY (MaPhieuThue) REFERENCES PhieuThue(MaPhieuThue),
-    FOREIGN KEY (MaDoDung) REFERENCES DoDung(MaDoDung)
+    MaChiTiet       UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    MaPhieuThue     UNIQUEIDENTIFIER NOT NULL REFERENCES PhieuThue(MaPhieuThue),
+    MaDoDung        UNIQUEIDENTIFIER NOT NULL REFERENCES DoDung(MaDoDung),
+    SoLuong         INT NOT NULL CHECK (SoLuong > 0),
+    GiaThue         DECIMAL(12,2) NOT NULL CHECK (GiaThue >= 0)
 );
 
 
