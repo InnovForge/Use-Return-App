@@ -37,12 +37,21 @@ namespace Use_Return_App.Admin
                 Server.Transfer("~/Admin/QuanLySanPham.aspx");
 
             }
+           
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
             Server.Transfer("AdminHome.aspx");
 
+        }
+
+        protected void LinkButton2_Command(object sender, CommandEventArgs e)
+        {
+              if (e.CommandName == "ThemDanhMuc")
+            {
+                Server.Transfer("~/Admin/CRUDDanhMuc.aspx");
+            }
         }
     }
 }

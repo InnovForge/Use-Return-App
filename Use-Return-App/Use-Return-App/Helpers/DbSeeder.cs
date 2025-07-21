@@ -205,7 +205,38 @@ public static class DbSeeder
                 }
             }
 
+            string[] danhMucs = { "Điện tử", "Sách" };
+            foreach (string tenDanhMuc in danhMucs)
+            {
+                var getDmCmd = new SqlCommand("SELECT MaDanhMuc FROM DanhMuc WHERE TenDanhMuc = @ten", connection);
+                getDmCmd.Parameters.AddWithValue("@ten", tenDanhMuc);
+                int maDanhMucCurrent = (int)getDmCmd.ExecuteScalar();
 
+                decimal gia = faker.Random.Decimal(10000, 500000);
+                decimal tienCoc = gia * faker.Random.Decimal(7m, 10m);
+                Guid maDoDung = Guid.NewGuid();
+
+                insertDoDungCmd.Parameters.Clear();
+                insertDoDungCmd.Parameters.AddWithValue("@id", maDoDung);
+                insertDoDungCmd.Parameters.AddWithValue("@nguoiSoHuu", Guid.Parse("8ead7e11-07e3-401b-b36d-1daebc4ef028"));
+                insertDoDungCmd.Parameters.AddWithValue("@danhMuc", maDanhMucCurrent);
+                insertDoDungCmd.Parameters.AddWithValue("@tieuDe", faker.Commerce.ProductName());
+                insertDoDungCmd.Parameters.AddWithValue("@moTa", faker.Commerce.ProductDescription());
+                insertDoDungCmd.Parameters.AddWithValue("@giaMoiNgay", gia);
+                insertDoDungCmd.Parameters.AddWithValue("@soLuong", faker.Random.Int(1, 5));
+                insertDoDungCmd.Parameters.AddWithValue("@tinhTrang", faker.PickRandom("Mới", "Đã qua sử dụng", "Cũ"));
+                insertDoDungCmd.Parameters.AddWithValue("@trangThai", "Available");
+                insertDoDungCmd.Parameters.AddWithValue("@tienCoc", tienCoc);
+
+                var insertedId = (Guid)insertDoDungCmd.ExecuteScalar();
+
+                insertAnhCmd.Parameters.Clear();
+                insertAnhCmd.Parameters.AddWithValue("@maHinh", Guid.NewGuid());
+                insertAnhCmd.Parameters.AddWithValue("@maDoDung", insertedId);
+                insertAnhCmd.Parameters.AddWithValue("@duongDan", faker.Image.PicsumUrl(600, 400));
+                insertAnhCmd.Parameters.AddWithValue("@thuTu", 0);
+                insertAnhCmd.ExecuteNonQuery();
+            }
 
         }
     }

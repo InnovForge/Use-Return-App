@@ -22,7 +22,7 @@ namespace Use_Return_App
 
         private void LoadThongTinNguoiDung(string maNguoiDung)
         {
-            string sql = "SELECT HoTen, Email, SoDienThoai, NgayTao, DangHoatDong FROM NguoiDung WHERE MaNguoiDung = @id";
+            string sql = "SELECT HoTen, Email, SoDienThoai, NgayTao, DangHoatDong, AnhDaiDien FROM NguoiDung WHERE MaNguoiDung = @id";
             DataTable dt = SqlHelper.ExecuteDataTable(sql, new SqlParameter("@id", maNguoiDung));
 
             if (dt.Rows.Count > 0)
@@ -32,6 +32,8 @@ namespace Use_Return_App
                 lblHoTen.Text = row["HoTen"].ToString();
                 lblEmail.Text = row["Email"].ToString();
                 lblSoDienThoai.Text = row["SoDienThoai"].ToString();
+                string avatarFile = row["AnhDaiDien"].ToString();
+                imgAvatar.ImageUrl = "~/ImageUsers/goku.jpg";
 
                 if (DateTime.TryParse(row["NgayTao"].ToString(), out DateTime ngayTao))
                 {

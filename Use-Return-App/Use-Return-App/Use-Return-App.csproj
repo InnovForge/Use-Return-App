@@ -125,6 +125,7 @@
     <Content Include="Admin\AdminHome.aspx" />
     <Content Include="Admin\ChiTietPhieuThue.aspx" />
     <Content Include="Admin\ChiTietSanPham.aspx" />
+    <Content Include="Admin\CRUDDanhMuc.aspx" />
     <Content Include="Admin\EditThongTinAdmin.aspx" />
     <Content Include="Admin\Login.aspx" />
     <Content Include="Admin\QuanLyPhieuThue.aspx" />
@@ -224,6 +225,13 @@
     </Compile>
     <Compile Include="Admin\ChiTietSanPham.aspx.designer.cs">
       <DependentUpon>ChiTietSanPham.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\CRUDDanhMuc.aspx.cs">
+      <DependentUpon>CRUDDanhMuc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\CRUDDanhMuc.aspx.designer.cs">
+      <DependentUpon>CRUDDanhMuc.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Dashboard.Master.cs">
       <DependentUpon>Dashboard.Master</DependentUpon>
