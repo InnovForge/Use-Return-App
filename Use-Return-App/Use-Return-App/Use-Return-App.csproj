@@ -158,7 +158,6 @@
     <Content Include="Content\styles.css" />
     <Content Include="DANGKYY.aspx" />
     <Content Include="DANGNHAP.aspx" />
-    <Content Include="DanhSachDoDung.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="ImageDoDung\no-image.jpg" />
@@ -173,7 +172,6 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Admin\QuanLyDanhMuc.Master" />
-    <Content Include="YeuThich.aspx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
@@ -335,13 +333,6 @@
     <Compile Include="DANGNHAP.aspx.designer.cs">
       <DependentUpon>DANGNHAP.aspx</DependentUpon>
     </Compile>
-    <Compile Include="DanhSachDoDung.aspx.cs">
-      <DependentUpon>DanhSachDoDung.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="DanhSachDoDung.aspx.designer.cs">
-      <DependentUpon>DanhSachDoDung.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -431,12 +422,6 @@
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="YeuThich.aspx.cs">
-      <DependentUpon>YeuThich.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="YeuThich.aspx.designer.cs">
-      <DependentUpon>YeuThich.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
