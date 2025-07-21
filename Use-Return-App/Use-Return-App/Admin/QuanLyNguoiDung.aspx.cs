@@ -30,7 +30,7 @@ namespace Use_Return_App.Admin
         {
             if (!IsPostBack)
             {
-                if (Session["MaVaiTro"].ToString() != "2")
+                if (Session["MaVaiTro"] == null || Session["MaVaiTro"].ToString() != "2")
                 {
                     Response.Redirect("Login.aspx");
                 }
