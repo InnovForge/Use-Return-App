@@ -42,6 +42,15 @@ namespace Use_Return_App.Admin
         protected global::System.Web.UI.WebControls.DataList DataList1;
 
         /// <summary>
+        /// LinkButton2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton LinkButton2;
+
+        /// <summary>
         /// Button1 control.
         /// </summary>
         /// <remarks>
