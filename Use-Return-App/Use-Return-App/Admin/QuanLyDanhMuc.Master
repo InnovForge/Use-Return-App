@@ -103,8 +103,13 @@
                                             CommandArgument='<%# Eval("MaDanhMuc") %>' 
                                             CssClass="menu-link"
                                             Text='<%# Eval("TenDanhMuc") %>' />
+                       
                         </ItemTemplate>
                     </asp:DataList>
+                      <asp:LinkButton ID="LinkButton2" runat="server" 
+                   CommandName="ThemDanhMuc" 
+                   CssClass="menu-link"
+                   Text="Thêm Danh Mục" OnCommand="LinkButton2_Command" />
                 </div>
                 <asp:Button ID="Button1" runat="server" Text="⟵ Quay về Dashboard"
                             CssClass="dashboard-btn"
