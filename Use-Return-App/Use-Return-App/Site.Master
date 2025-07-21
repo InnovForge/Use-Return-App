@@ -52,9 +52,9 @@
         <a class="nav-link" id="liAbout" runat="server" href="~/About.aspx">About</a>
     </li>
 
-    <li class="nav-item">
+   <%-- <li class="nav-item">
         <a class="nav-link" href="~/YeuThich.aspx">Đã lưu</a>
-    </li>
+    </li>--%>
 </ul>
 
 
